@@ -13,7 +13,7 @@ return array(
 	|
 	*/
 
-	'debug' => false,
+	'debug' => true,
 
 	/*
 	|--------------------------------------------------------------------------
@@ -78,10 +78,21 @@ return array(
 	|
 	*/
 
-	'key' => 'YourSecretKey!!!',
+	'key' => 'iG6yyTx9Oz60vJRQmmBcwnTIM7TtcZEv',
 
 	'cipher' => MCRYPT_RIJNDAEL_128,
 
+	/*
+	|--------------------------------------------------------------------------
+	| Titulo original de la pagina
+	|--------------------------------------------------------------------------
+	|
+	| Se usa el titulo para todas las paginas, en el layout por defecto.
+	|
+	*/
+	
+	'titulo_pagina' => 'Tienda',
+	
 	/*
 	|--------------------------------------------------------------------------
 	| Autoloaded Service Providers
