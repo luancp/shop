@@ -11,7 +11,8 @@
 |
 */
 
-Route::get('/', function()
-{
-	return View::make('hello');
-});
+Route::get('/', array('as' => 'principal', 'uses' => 'MainController@principal'));
+Route::get('principal/', array('as' => 'principal', 'uses' => 'MainController@principal'));
+
+Route::get('login/', array('as' => 'login', 'uses' => 'MainController@login'));
+
