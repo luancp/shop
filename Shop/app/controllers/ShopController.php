@@ -49,8 +49,10 @@ class ShopController extends BaseController {
 	//para mostrar el perfil del usuario
 	public function mostrarPerfil()
 	{
+		$usuario = Auth::user();
 		return View::make('shop.perfil')
-			->with('title', 'Perfil de Usuario');
+			->with('title', 'Perfil de Usuario')
+			->with('usuario', $usuario);
 	}
 
 }

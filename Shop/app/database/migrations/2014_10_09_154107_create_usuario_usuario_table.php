@@ -21,6 +21,9 @@ class CreateUsuarioUsuarioTable extends Migration {
             $table->string('nombres', 200);
             $table->string('apellidos', 200);
             $table->string('email', 100);
+            $table->enum('genero', array('H', 'M', 'I'))->nullable();
+            $table->string('ubicacion', 100)->nullable();
+            $table->string('imagen', 100)->nullable();
             $table->string('remember_token', 100);
             $table->boolean('es_admin')->default('0');
             $table->enum('estado', array('A', 'I', 'S')); //activo, inactivo, suspendido
