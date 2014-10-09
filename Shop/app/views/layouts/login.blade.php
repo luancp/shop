@@ -16,7 +16,6 @@
 
     <!-- Custom styles for this template -->
     {{ HTML::style('css/login.css'); }}
-
    
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -29,13 +28,13 @@
 
     <div class="container">
 
-      <form class="form-signin" role="form">
+      <form class="form-signin" role="form" method="post" action="{{ URL::route('login_user') }}">
       	<div class="text-center"><p>{{ HTML::image('img/logo.min.png') }}</p></div>
       	@if(Session::has('error_login'))
       	<div class="alert alert-danger">Usuario o Clave incorrectos.</div>
       	@endif
-        <input type="username" class="form-control" placeholder="Usuario" required autofocus>
-        <input type="password" class="form-control" placeholder="Contrase&ntilde;a" required>
+        <input type="text" name="usuario" class="form-control" placeholder="Usuario" required autofocus />
+        <input type="password" name="password" class="form-control" placeholder="Contrase&ntilde;a" required />
 
         <button class="btn btn-success btn-block" type="submit">Ingresar</button>
       </form>

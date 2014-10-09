@@ -6,6 +6,11 @@ html, body{
 	background-color: #f0f0f0;
 }
 
+/*mensajes*/
+.close {
+	font-size: 21px!important;
+}
+
 /*header*/
 .navbar-brand{
 	background-image: url('/img/logo.min.png');
@@ -21,7 +26,12 @@ html, body{
 	background-color: #E74C3C;
 	color: white;
 }
-
+ul.navbar-right li.dropdown > a{
+	padding: 20px;
+}
+ul.navbar-right li > form{
+	margin-top: 13px;
+}
 /*search*/
 .form-rounded{
 	-webkit-border-radius: 15px;
@@ -35,4 +45,20 @@ html, body{
 	color: #fff;
 	background-color: #288088;
 	border-color: #33918e;
+}
+a.list-group-item.active>.badge, .nav-pills>.active>a>.badge {
+	color: #288088;
+	background-color: #fff;
+}
+
+/*content*/
+.bg-white{
+	background-color: white;
+	-webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    border:1px solid #ddd;
+}
+hr{
+	margin: 0;
 }

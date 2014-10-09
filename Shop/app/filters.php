@@ -54,6 +54,14 @@ Route::filter('auth.basic', function()
 	return Auth::basic();
 });
 
+Route::filter('admin', function()
+{
+	if(!Session::get('usuario')->es_admin){
+		Session::flash('error_mensaje', 'No tiene autorización para ingresar al menú');
+		return Redirect::route('principal');
+	}
+});
+
 /*
 |--------------------------------------------------------------------------
 | Guest Filter
