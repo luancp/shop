@@ -30,8 +30,10 @@
     <div class="container">
 
       <form class="form-signin" role="form">
-      	<div class="text-center">{{ HTML::image('img/logo.min.png') }}</div>
-      	@if
+      	<div class="text-center"><p>{{ HTML::image('img/logo.min.png') }}</p></div>
+      	@if(Session::has('error_login'))
+      	<div class="alert alert-danger">Usuario o Clave incorrectos.</div>
+      	@endif
         <input type="username" class="form-control" placeholder="Usuario" required autofocus>
         <input type="password" class="form-control" placeholder="Contrase&ntilde;a" required>
 

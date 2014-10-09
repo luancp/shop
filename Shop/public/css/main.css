@@ -7,6 +7,13 @@ html, body{
 }
 
 /*header*/
+.navbar-brand{
+	background-image: url('/img/logo.min.png');
+	background-repeat: no-repeat;
+	background-size: 100%;
+	width: 125px;
+	height: 55px;
+}
 .badge-cart{
 	position: relative;
 	top: -15px;

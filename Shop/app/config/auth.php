@@ -28,7 +28,7 @@ return array(
 	|
 	*/
 
-	'model' => 'User',
+	'model' => 'Usuario',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -41,7 +41,7 @@ return array(
 	|
 	*/
 
-	'table' => 'users',
+	'table' => 'usuario',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -60,7 +60,7 @@ return array(
 
 	'reminder' => array(
 
-		'email' => 'emails.auth.reminder',
+		'email' => 'emails.auth.reminder',//template del email con el token
 
 		'table' => 'password_reminders',
 

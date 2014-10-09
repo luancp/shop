@@ -43,7 +43,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="{{ URL::route('principal') }}">{{ HTML::image('img/logo.min.png', array('height'=>'45')) }}</a>
+          <a class="navbar-brand" href="{{ URL::route('principal') }}"></a>
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
@@ -68,7 +68,7 @@
 		          </form>
 			  </li>
 			  <li class="">
-			  	<a class="text-primary" href="">Ingresar</a>
+			  	<a class="text-primary" href="{{ URL::route('login') }}">Ingresar</a>
 			  </li>
 			  <li class="">
 			  	<a class="text-primary" href="">Registrarse</a>
