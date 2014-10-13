@@ -12,9 +12,9 @@
 */
 
 Route::get('/', array('as' => 'principal', 'uses' => 'ShopController@principal'));
-Route::get('login/', array('as' => 'login', 'uses' => 'ShopController@showLogin'));
-Route::post('login_user/', array('as' => 'login_user', 'uses' => 'ShopController@login'));
-Route::get('logout/', array('as' => 'logout', 'uses' => 'ShopController@logout'));
+Route::get('login/', array('as' => 'login', 'uses' => 'MainController@showLogin'));
+Route::post('login_user/', array('as' => 'login_user', 'uses' => 'MainController@login'));
+Route::get('logout/', array('as' => 'logout', 'uses' => 'MainController@logout'));
 
 //registro de usuarios
 Route::get('registro/', array('as' => 'registrar', 'uses' => 'ShopController@showRegistro'));
@@ -24,10 +24,16 @@ Route::post('registro_usuario/', array('as' => 'usuario_registrar', 'uses' => 'S
 Route::group(array('before' => 'auth'), function(){
 	//para el carrito de compras
 	Route::get('carrito/', array('as' => 'carrito', 'uses' => 'ShopController@carrito'));
-	
+
 	//para las paginas del perfil
-	Route::get('perfil/', array('as' => 'perfil', 'uses' => 'ShopController@mostrarPerfil'));
-	Route::post('perfil/update/', array('as' => 'perfil_update', 'uses' => 'ShopController@actualizarPerfil'));
+	Route::get('perfil/', array('as' => 'perfil', 'uses' => 'AjustesController@mostrarPerfil'));
+	Route::post('perfil/update/', array('as' => 'perfil_actualizar', 'uses' => 'AjustesController@actualizarPerfil'));
+	//para las paginas de cuenta	
+	Route::get('cuenta/', array('as' => 'cuenta', 'uses' => 'AjustesController@mostrarCuenta'));
+	Route::get('cuenta/update/', array('as' => 'cuenta_actualizar', 'uses' => 'AjustesController@actualizarCuenta'));
+	//para las paginas de contrasenia	
+	Route::get('password/', array('as' => 'contrasenia', 'uses' => 'AjustesController@mostrarContrasenia'));
+	Route::get('password/update/', array('as' => 'contrasenia_actualizar', 'uses' => 'AjustesController@actualizarContrasenia'));
 });
 
 //urls con seguridad

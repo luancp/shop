@@ -27,7 +27,7 @@ html, body{
 	color: white;
 }
 ul.navbar-right li.dropdown > a{
-	padding: 20px;
+	/*padding: 20px;*/
 }
 ul.navbar-right li > form{
 	margin-top: 13px;

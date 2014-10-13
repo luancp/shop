@@ -85,6 +85,7 @@
 				  		@if(Session::get('usuario')->es_admin == '1')
 		                	<li><a href=""><i class="fa fa-gear"></i>&nbsp;&nbsp;Administraci&oacute;n</a></li>
 		                 @endif
+		                <li><a href="{{ URL::route('perfil') }}"><i class="fa fa-dollar"></i>&nbsp;&nbsp;Mis Ordenes</a></li>
 		                <li><a href="{{ URL::route('perfil') }}"><i class="fa fa-user"></i>&nbsp;&nbsp;Perfil</a></li>
 		                <li class="divider"></li>
 		                <li class=""><a href="{{ URL::route('logout') }}"><i class="fa fa-power-off"></i>&nbsp;&nbsp;Logout</a></li>
@@ -103,14 +104,28 @@
     		<div class="col-sm-12">
     			<div class="alert alert-danger alert-dismissible" role="alert">
     				<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true" style="font-size: 18px;">&times;</span><span class="sr-only">Close</span></button>
-    				<strong><i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;Error</strong>&nbsp;{{ Session::get('error_mensaje') }}
+    				<strong><i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;Error,</strong>&nbsp;{{ Session::get('error_mensaje') }}
+    			</div>
+	    	</div>
+    	</div>
+    	@endif
+    	@if(Session::has('success_mensaje'))
+    	<div class="row">
+    		<div class="col-sm-12">
+    			<div class="alert alert-success alert-dismissible" role="alert">
+    				<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true" style="font-size: 18px;">&times;</span><span class="sr-only">Close</span></button>
+    				<strong><i class="fa fa-check-circle"></i>&nbsp;&nbsp;Exito,</strong>&nbsp;{{ Session::get('success_mensaje') }}
     			</div>
 	    	</div>
     	</div>
     	@endif
     	<div class="row">
 		  	<div class="col-md-3 col-sm-3">
-				@yield('sidebar')
+				<ul class="list-group">
+				  <a class="list-group-item @if($module == 'perfil') active @endif" href="{{ URL::route('perfil') }}">Perfil<span class="fa fa-chevron-right pull-right"></span></a>
+				  <a class="list-group-item @if($module == 'cuenta') active @endif" href="{{ URL::route('cuenta') }}">Cuenta<span class="fa fa-chevron-right pull-right"></span></a>
+				  <a class="list-group-item @if($module == 'contrasenia') active @endif" href="{{ URL::route('contrasenia') }}">Contrase&ntilde;a<span class="fa fa-chevron-right pull-right"></span></a>
+				</ul>
 			</div>
 			<div class="col-md-9 col-sm-9">
 				@yield('content')

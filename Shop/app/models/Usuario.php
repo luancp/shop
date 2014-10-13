@@ -51,5 +51,20 @@ class Usuario extends Eloquent implements UserInterface, RemindableInterface {
             return 'Suspendido';
         }
     }
+	
+	public static function validarPerfil($inputs){
+		$rules = array(
+            'nombres' => 'required',
+            'apellidos' => 'required',
+            'cedula' => 'required|numeric|unique:usuario_usuario,cedula',
+        );
+        $data = array(
+            'nombres' => $inputs['nombres'],
+            'apellidos' => $inputs['apellidos'],
+            'cedula' => $inputs['cedula'],
+        );
+        $v = Validator::make($data, $rules);
+        return $v;
+	}
 
 }
