@@ -36,10 +36,14 @@ Route::group(array('before' => 'auth'), function(){
 	Route::get('password/update/', array('as' => 'contrasenia_actualizar', 'uses' => 'AjustesController@actualizarContrasenia'));
 });
 
-//urls con seguridad
+//urls con seguridad - para el admin
 Route::group(array('before' => 'auth|admin'), function(){
 	//para el admin
 	Route::get('admin/', array('as' => 'admin', 'uses' => 'AdminController@index'));
-	Route::get('admin/productos/', array('as' => 'admin_productos', 'uses' => 'AdminController@productos'));
+	Route::get('admin/productos/', array('as' => 'productos', 'uses' => 'AdminController@productos'));
+	Route::get('admin/categorias/', array('as' => 'categorias', 'uses' => 'AdminController@categorias'));
+	Route::get('admin/usuarios/', array('as' => 'usuarios', 'uses' => 'AdminController@usuarios'));
+	Route::get('admin/ajustes/', array('as' => 'ajustes', 'uses' => 'AdminController@ajustes'));
+	
 });
 

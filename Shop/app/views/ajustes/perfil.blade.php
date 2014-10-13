@@ -8,7 +8,16 @@
 	<div class="col-sm-12 col-md-12 bg-white">
 	    <h4>Perfil</h4>
 	    <hr /><br />
-	    <form class="form-horizontal" role="form" method="post" action="{{ URL::route('perfil_actualizar') }}">
+    	@if ($errors->has())
+		<div class="alert alert-danger">
+			<ul>
+			@foreach ($errors->all('<li class="text-danger">:message</li>') as $error)
+				{{ $error }}		
+			@endforeach
+			</ul>
+	    </div>
+		@endif
+	    <form class="form-horizontal" role="form" method="post" action="{{ URL::route('perfil_actualizar') }}" enctype="multipart/form-data">
 		  	<div class="form-group">
 				<label class="col-sm-2 control-label">Foto<br><small>Tam.(150x150)</small></label>
 				<div class="col-sm-6">
@@ -23,11 +32,11 @@
 					  </div>
 					  <div>
 					    <span class="btn btn-info btn-file">
-					    	<span class="fileinput-new">Select image</span>
-					    	<span class="fileinput-exists">Change</span>
+					    	<span class="fileinput-new">Seleccionar Imagen</span>
+					    	<span class="fileinput-exists">Cambiar</span>
 					    	<input type="file" name="imagen">
 					    </span>
-					    <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+					    <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Quitar</a>
 					  </div>
 					</div>
 				</div>
@@ -35,19 +44,19 @@
 		  	<div class="form-group">
 				<label class="col-sm-2 control-label">Nombres</label>
 				<div class="col-sm-6">
-			  		<input class="form-control" type="text" name="nombres" value="{{ Input::old('nombres')?Input::old('nombres'):$usuario->nombres  }}" />
+			  		<input class="form-control" type="text" name="nombres" value="{{ Input::old('nombres')?Input::old('nombres'):$usuario->nombres }}" />
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-2 control-label">Apellidos</label>
 				<div class="col-sm-6">
-			  		<input class="form-control" type="text" name="apellidos" value="{{ $usuario->apellidos }}" />
+			  		<input class="form-control" type="text" name="apellidos" value="{{ Input::old('apellidos')?Input::old('apellidos'):$usuario->apellidos }}" />
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-2 control-label">C&eacute;dula/RUC</label>
 				<div class="col-sm-3">
-			  		<input class="form-control" type="text" name="cedula" value="{{ $usuario->cedula }}" required />
+			  		<input class="form-control" type="text" name="cedula" value="{{ Input::old('cedula')?Input::old('cedula'):$usuario->cedula }}" required />
 				</div>
 			</div>
 			<div class="form-group">
@@ -59,7 +68,7 @@
 							'H' => 'Hombre',
 							'M' => 'Mujer',
 							'I' => 'Indefinido'
-							), $usuario->genero, array('class'=>'form-control', 'id'=>'genero'))
+							), Input::old('genero')?Input::old('genero'):$usuario->genero, array('class'=>'form-control', 'id'=>'genero'))
 					}}
 				</div>
 			</div>

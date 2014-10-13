@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <link rel="icon" href="img/favicon.ico">
 
-    <title>Tienda en L&iacute;nea - Admin -{{ $title or '' }}</title>
+    <title>{{ Config::get('app.titulo_pagina') }} - Admin {{ $title or '' }}</title>
 
     <!-- Bootstrap core CSS -->
     {{ HTML::style('http://fonts.googleapis.com/css?family=Open+Sans'); }}
@@ -16,6 +16,7 @@
     <!-- Custom styles for this template -->
     {{ HTML::style('css/sticky-footer-navbar.css'); }}
     {{ HTML::style('css/bootstrap.min.css'); }}
+    {{ HTML::style('css/navbar.css'); }}
     {{ HTML::style('css/font-awesome.min.css'); }}
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -42,7 +43,8 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="{{ URL::route('principal') }}"><i class="fa fa-paypal fa-2x"></i>aper Sum</a>
+          <a class="navbar-brand" href="{{ URL::route('principal') }}"></a>
+          <a class="navbar-toggle collapsed" style="margin-bottom:0;margin-right:2px;padding:4px;color:white;border:0;" href=""><i class="fa fa-shopping-cart fa-2x"></i><span class="badge badge-cart">0</span></a>
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
@@ -66,15 +68,30 @@
 		            </div>
 		          </form>
 			  </li>
+			  <li class="hidden-xs">
+	         	<a href=""><i class="fa fa-shopping-cart fa-2x"></i><span class="badge badge-cart">0</span></a>
+	          </li>
+			  @if(!Session::has('usuario'))
 			  <li class="">
-			  	<a class="text-primary" href="">Ingresar</a>
+			  	<a class="text-primary" href="{{ URL::route('login') }}">Ingresar</a>
 			  </li>
 			  <li class="">
 			  	<a class="text-primary" href="">Registrarse</a>
 			  </li>
-			  <li class="">
-	         	<a href=""><i class="fa fa-shopping-cart fa-2x"></i><span class="badge badge-cart">0</span></a>
-	          </li>
+			  @else
+			  	<li class="dropdown">
+				  	<a class="dropdown-toggle" data-toggle="dropdown" href=""><img class="img-circle" style="width:27px;" src="{{ Session::get('imagen_usuario') }}" />&nbsp;&nbsp;{{ Session::get('usuario')->usuario }}&nbsp;<i class="fa fa-chevron-down"></i></a>
+				  	<ul class="dropdown-menu" role="menu">
+				  		@if(Session::get('usuario')->es_admin == '1')
+		                	<li><a href="{{ URL::route('admin') }}"><i class="fa fa-gear"></i>&nbsp;&nbsp;Administraci&oacute;n</a></li>
+		                 @endif
+		                <li><a href="{{ URL::route('perfil') }}"><i class="fa fa-dollar"></i>&nbsp;&nbsp;Mis Ordenes</a></li>
+		                <li><a href="{{ URL::route('perfil') }}"><i class="fa fa-user"></i>&nbsp;&nbsp;Perfil</a></li>
+		                <li class="divider"></li>
+		                <li class=""><a href="{{ URL::route('logout') }}"><i class="fa fa-power-off"></i>&nbsp;&nbsp;Logout</a></li>
+	              	</ul>
+				</li>
+			  @endif
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -82,9 +99,34 @@
 
     <!-- Begin page content -->
     <div class="container">
+    	@if(Session::has('error_mensaje'))
+    	<div class="row">
+    		<div class="col-sm-12">
+    			<div class="alert alert-danger alert-dismissible" role="alert">
+    				<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true" style="font-size: 18px;">&times;</span><span class="sr-only">Close</span></button>
+    				<strong><i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;Error,</strong>&nbsp;{{ Session::get('error_mensaje') }}
+    			</div>
+	    	</div>
+    	</div>
+    	@endif
+    	@if(Session::has('success_mensaje'))
+    	<div class="row">
+    		<div class="col-sm-12">
+    			<div class="alert alert-success alert-dismissible" role="alert">
+    				<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true" style="font-size: 18px;">&times;</span><span class="sr-only">Close</span></button>
+    				<strong><i class="fa fa-check-circle"></i>&nbsp;&nbsp;Exito,</strong>&nbsp;{{ Session::get('success_mensaje') }}
+    			</div>
+	    	</div>
+    	</div>
+    	@endif
     	<div class="row">
 		  	<div class="col-md-3 col-sm-3">
-				@yield('sidebar')
+				<ul class="list-group">
+				  <a class="list-group-item @if($module == 'productos') active @endif" href="{{ URL::route('productos') }}">Productos</a>
+				  <a class="list-group-item @if($module == 'categorias') active @endif" href="{{ URL::route('categorias') }}">Categorias</a>
+				  <a class="list-group-item @if($module == 'usuarios') active @endif" href="{{ URL::route('usuarios') }}">Usuarios</a>
+				  <a class="list-group-item @if($module == 'ajustes') active @endif" href="{{ URL::route('ajustes') }}">Ajustes</a>
+				</ul>
 			</div>
 			<div class="col-md-9 col-sm-9">
 				@yield('content')

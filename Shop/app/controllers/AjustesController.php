@@ -25,13 +25,31 @@ class AjustesController extends BaseController {
 			$usuario->genero = Input::get('genero');
 			$usuario->ubicacion = Input::get('ubicacion');
 			if(Input::hasFile('imagen')){
+				$file = Input::file('imagen');
+				$imagen = $usuario->usuario.'.'.$file->getClientOriginalExtension();
+				$directorio = public_path().'/img/avatars/';
+				//verifica la imagen
+				if(File::exists($directorio.$usuario->imagen)){
+					File::delete($directorio.$usuario->imagen);
+				}
 				
+				//guarda la imagen
+				$image = Image::make($file);
+				$image->fit(140, 140);
+				$image->save($directorio.$imagen);
+				
+				//setea la iamgen al usuario
+				$usuario->imagen = $imagen;
+				Session::put('imagen_usuario', URL::asset('/img/avatars/'.$imagen));
+			}else{
+				$usuario->imagen = '';
 			}
 			$usuario->save();
 		}else{
 			Session::flash('error_mensaje', 'Se ha producido un error.');
 			$response = Redirect::route('perfil')
 				->withErrors($validator)
+				->with('messages', $validator->messages())
 				->withInput();
 			return $response;
 		}		

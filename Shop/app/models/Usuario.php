@@ -53,10 +53,11 @@ class Usuario extends Eloquent implements UserInterface, RemindableInterface {
     }
 	
 	public static function validarPerfil($inputs){
+		$id = Auth::user()->id;
 		$rules = array(
             'nombres' => 'required',
             'apellidos' => 'required',
-            'cedula' => 'required|numeric|unique:usuario_usuario,cedula',
+            'cedula' => 'required|numeric|unique:usuario_usuario,cedula,'.$id,
         );
         $data = array(
             'nombres' => $inputs['nombres'],
