@@ -80,7 +80,7 @@
 			  </li>
 			  @else
 			  	<li class="dropdown">
-				  	<a class="dropdown-toggle" data-toggle="dropdown" href=""><img class="img-circle" style="width:27px;" src="{{ Session::get('imagen_usuario') }}" />&nbsp;&nbsp;{{ Session::get('usuario')->usuario }}&nbsp;<i class="fa fa-chevron-down"></i></a>
+				  	<a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;"><img class="img-circle" style="width:27px;" src="{{ Session::get('imagen_usuario') }}" />&nbsp;&nbsp;{{ Session::get('usuario')->usuario }}&nbsp;<i class="fa fa-chevron-down"></i></a>
 				  	<ul class="dropdown-menu" role="menu">
 				  		@if(Session::get('usuario')->es_admin == '1')
 		                	<li><a href="{{ URL::route('admin') }}"><i class="fa fa-gear"></i>&nbsp;&nbsp;Administraci&oacute;n</a></li>
