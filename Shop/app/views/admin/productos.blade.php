@@ -6,46 +6,25 @@
 
 @section('content')
 	<div class="col-sm-12 col-md-12 bg-white">
-	    <h4>Productos</h4>
+	    <h4>
+	    	<i class="fa fa-shopping-cart"></i>&nbsp;Productos
+	    	<form class="form-inline pull-right" role="form" action="{{ URL::route('admin_sincronizacion') }}" method="post">
+	    		<button id="btn-sincronizar" class="btn btn-info btn-xs" type="submit">
+	    			<i class="fa fa-refresh"></i>&nbsp;Sincronizar
+	    		</button>
+	    	</form>
+	    </h4>
 	    <hr /><br />
-    	<div class="table-responsive">
-		    <table class="table table-hover">
-		      <thead>
-		        <tr>
-		          <th>#</th>
-		          <th>First Name</th>
-		          <th>Last Name</th>
-		          <th>Username</th>
-		        </tr>
-		      </thead>
-		      <tbody>
-		        <tr>
-		          <td>1</td>
-		          <td>Mark</td>
-		          <td>Otto</td>
-		          <td>@mdo</td>
-		        </tr>
-		        <tr>
-		          <td>2</td>
-		          <td>Jacob</td>
-		          <td>Thornton</td>
-		          <td>@fat</td>
-		        </tr>
-		        <tr>
-		          <td>3</td>
-		          <td colspan="2">Larry the Bird</td>
-		          <td>@twitter</td>
-		        </tr>
-		      </tbody>
-		    </table>
-		  </div>
+    	{{ $productos }}
   	</div>
 @endsection
 
 @section('js-footer')
 <script type="text/javascript">
 	$(function(){
-		
+		$("#btn-sincronizar").click(function(){
+			$(this).find('i').addClass('fa-spin');
+		});
 	});
 </script>
 @endsection

@@ -5,7 +5,7 @@ class AdminController extends BaseController {
 
 	public function index()
 	{
-		return View::make('admin.index')
+		return Redirect::route('admin_productos')
 			->with('module', 'productos')
 			->with('title', 'Productos');
 	}
@@ -14,7 +14,35 @@ class AdminController extends BaseController {
 	{
 		return View::make('admin.productos')
 			->with('module', 'productos')
-			->with('title', 'Productos');
+			->with('title', 'Productos')
+			->with('productos', "gg");
+	}
+	public function sincronizacion()
+	{
+		// Get cURL resource
+		$curl = curl_init();
+		// Set some options - we are passing in a useragent too here
+		curl_setopt_array($curl, array(
+		    CURLOPT_RETURNTRANSFER => 1,
+		    CURLOPT_URL => 'http://testcontifico.com:8000/api/producto/',
+		    CURLOPT_POST => 1,
+		    CURLOPT_POSTFIELDS => array(
+		        'api_key' => 'PkSQJaidTstfiyPYsdGMhW50OQLrU40CDom7E02ptIU',
+		        'api_token' => 'bd224dec-d59d-4595-9a89-4ecce9594993'
+		    )
+		));
+		// Send the request & save response to $resp
+		$resp = curl_exec($curl);
+		// Close request to clear up some resources		
+		curl_close($curl);
+		
+		//procesar json
+		Producto::procesar(json_decode($resp));
+		
+		return Redirect::route('admin_productos')
+			->with('module', 'productos')
+			->with('title', 'Productos')
+			->with('productos', "asdjashdjashdjhasjdhajsdhasjdhjashdja");
 	}
 
 	public function categorias()
