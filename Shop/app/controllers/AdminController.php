@@ -36,6 +36,7 @@ class AdminController extends BaseController {
 		// Close request to clear up some resources		
 		curl_close($curl);
 		
+		dd($resp);
 		//procesar json
 		Producto::procesar(json_decode($resp));
 		
