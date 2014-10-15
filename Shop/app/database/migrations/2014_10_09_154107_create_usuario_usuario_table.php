@@ -22,7 +22,7 @@ class CreateUsuarioUsuarioTable extends Migration {
             $table->string('apellidos', 200);
             $table->string('cedula', 13)->default('');
             $table->string('email', 100);
-            $table->enum('genero', array('H', 'M', 'I'))->nullable();
+            $table->enum('genero', array('H', 'M', 'I', '-'))->nullable();
             $table->string('ubicacion', 100)->nullable();
             $table->string('imagen', 100)->nullable();
             $table->string('remember_token', 100);

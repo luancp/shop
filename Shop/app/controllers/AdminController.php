@@ -3,22 +3,20 @@
 class AdminController extends BaseController {
 
 
-	public function index()
-	{
+	public function index(){
 		return Redirect::route('admin_productos')
 			->with('module', 'productos')
 			->with('title', 'Productos');
 	}
 
-	public function productos()
-	{
+	public function productos(){
+		$productos = Producto::paginate(30);
 		return View::make('admin.productos')
 			->with('module', 'productos')
 			->with('title', 'Productos')
-			->with('productos', "gg");
+			->with('productos', $productos);
 	}
-	public function sincronizacion()
-	{
+	public function sincronizacion(){
 		// Get cURL resource
 		$curl = curl_init();
 		// Set some options - we are passing in a useragent too here
@@ -36,32 +34,34 @@ class AdminController extends BaseController {
 		// Close request to clear up some resources		
 		curl_close($curl);
 		
-		dd($resp);
-		//procesar json
-		Producto::procesar(json_decode($resp));
-		
+		if($resp){
+			//procesar json
+			Producto::procesar(json_decode($resp));
+			Session::flash('success_mensaje', 'Se han importado los productos exitosamente.');
+		}else{
+			Session::flash('error_mensaje', 'Se ha producido un error de conexion.');
+		}
 		return Redirect::route('admin_productos')
 			->with('module', 'productos')
 			->with('title', 'Productos')
 			->with('productos', "asdjashdjashdjhasjdhajsdhasjdhjashdja");
 	}
 
-	public function categorias()
-	{
+	public function categorias(){
+		$categorias = Categoria::paginate(30);
 		return View::make('admin.categorias')
 			->with('module', 'categorias')
-			->with('title', 'Categorias');
+			->with('title', 'Categorias')
+			->with('categorias', $categorias);
 	}
 
-	public function usuarios()
-	{
+	public function usuarios(){
 		return View::make('admin.usuarios')
 			->with('module', 'usuarios')
 			->with('title', 'Usuarios');
 	}
 
-	public function ajustes()
-	{
+	public function ajustes(){
 		return View::make('admin.ajustes')
 			->with('module', 'ajustes')
 			->with('title', 'Ajustes');

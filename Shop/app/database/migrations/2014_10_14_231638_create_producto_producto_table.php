@@ -19,6 +19,7 @@ class CreateProductoProductoTable extends Migration {
             $table->string('descripcion', 300);
             $table->string('codigo', 50);
             $table->string('tipo_producto', 3);
+            $table->string('imagen', 100)->nullable();
             $table->integer('stock');
             $table->integer('contifico_id');
             $table->integer('categoria_id')->unsigned();
