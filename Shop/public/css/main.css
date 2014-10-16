@@ -3,11 +3,11 @@
 	font-size: 13px;
 }
 html, body{
-	background-color: #f0f0f0;
+	/*background-color: #f0f0f0;*/
 }
 
 /*mensajes*/
-.close {
+.close, button.close > span {
 	font-size: 21px!important;
 }
 
@@ -19,6 +19,17 @@ html, body{
 	width: 125px;
 	height: 55px;
 }
+/*colores del nuevo menu*/
+.dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus {
+	color: #FFFFFF;
+	text-decoration: none;
+	background-color: #33918e;
+}
+.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:hover, .navbar-default .navbar-nav>.open>a:focus {
+	color: #FFFFFF;
+	background-color: #33918e;
+}
+/*fin colores del nuevo menu*/
 .badge-cart{
 	position: relative;
 	top: -15px;

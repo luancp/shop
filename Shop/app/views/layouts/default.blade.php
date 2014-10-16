@@ -16,7 +16,7 @@
     <!-- Custom styles for this template -->
     {{ HTML::style('css/sticky-footer-navbar.css'); }}
     {{ HTML::style('css/bootstrap.min.css'); }}
-    {{ HTML::style('css/navbar.css'); }}
+    
     {{ HTML::style('css/font-awesome.min.css'); }}
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->

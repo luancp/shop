@@ -10,7 +10,7 @@ class AdminController extends BaseController {
 	}
 
 	public function productos(){
-		$productos = Producto::paginate(30);
+		$productos = Producto::paginate(20);
 		return View::make('admin.productos')
 			->with('module', 'productos')
 			->with('title', 'Productos')
