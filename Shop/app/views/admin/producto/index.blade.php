@@ -2,17 +2,16 @@
 
 @section('css-header')
 <style type="text/css">
-	.img-options{
-		position: absolute;
-		top: 50%;
-		padding: 12px;
-		background-color: black;
-		opacity: 0.4;
+	.thumbnail{
+		margin-bottom: 10px;
 	}
-	
-	.img-options a{
-		font-size: 18px;
-		color: white;
+	.titulo-producto{
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+	}
+	.thumbnail{
+		cursor: pointer;
 	}
 </style>
 @endsection
@@ -31,26 +30,22 @@
     	
 	    @foreach($productos as $p)
 	    <div class="row">
-    		<div class="col-md-3 col-sm-4 col-xs-5">
+    		<div class="col-md-3 col-sm-4 col-xs-6">
 				<div>
     			@if($p->imagen)
-    					{{ HTML::image('img/productos/'.$p->imagen, '', array('class' => 'img-rounded', 'width' => '100%')) }}
+    				{{ HTML::image('img/productos/thumb_'.$p->imagen, '', array('class' => 'thumbnail', 'width' => '100%', 'data-title' => $p->nombre, 'data-src' => URL::asset("img/productos/$p->imagen"))) }}
     			@else
-    				{{ HTML::image('img/productos/default.png', '', array('class' => 'img-rounded', 'width' => '100%')) }}
+    				{{ HTML::image('img/productos/default.png', '', array('class' => 'thumbnail', 'width' => '100%', 'data-title' => $p->nombre)) }}
     			@endif
-    				<div class="img-options">
-		    			<a href="#"><i class="fa fa-edit"></i></a>
-		    			<a href="#"><i class="fa fa-search"></i></a>
-		    		</div>
 				</div>
     		</div>
-    		<div class="col-md-8 col-sm-8 col-xs-7">
+    		<div class="col-md-9 col-sm-8 col-xs-6">
     			<div>
-	    			<p><strong class="producto-titulo">{{ $p->nombre }}</strong></p>
-	    			<p class="producto-descripcion">{{ $p->descripcion }}</p>
+	    			<p class="titulo-producto"><a href="{{ URL::route('admin_producto_consultar', $p->id) }}"><strong>{{ $p->nombre }}</strong></a></p>
+	    			<p class="descripcion-producto">{{ $p->descripcion }}</p>
 	    		</div>
     		</div>
-		</div><br />
+		</div>
 	  	@endforeach	  	
 	  	<div class="text-center">
 	  		{{ $productos->links() }}
@@ -61,7 +56,10 @@
   <div class="modal-dialog">
     <div class="modal-content">
     	<div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    		<h4 style="margin:0;">
+    			<span id="img-title"></span>
+    			<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>	
+    		</h4>	        
 	    </div>
 	    <div class="modal-body text-center">
 	      <img id="img-modal" src="" width="100%" />
@@ -79,10 +77,14 @@
 			$(this).find('span.text-sincronizar').text('Sincronizando...');
 		});
 		
-		$('.img-rounded').click(function(){
-			var sr=$(this).attr('src'); 
-            $('#img-modal').attr('src',sr);
-            $('#myModal').modal('show');
+		$('.thumbnail').click(function(){
+			var sr=$(this).attr('data-src');
+			if(sr){
+				var title=$(this).attr('data-title');
+	            $('#img-modal').attr('src',sr);
+	            $('#img-title').text(title);
+	            $('#myModal').modal('show');
+           }
 		});
 	});
 </script>

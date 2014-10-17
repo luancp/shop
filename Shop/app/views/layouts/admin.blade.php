@@ -24,7 +24,8 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-    {{ HTML::style('css/main.css') }}
+    {{ HTML::style('css/admin.css') }}
+    {{ HTML::style('css/navbar.green.css') }}
 
     <!-- css header -->
     @yield('css-header')
@@ -44,7 +45,6 @@
             <span class="icon-bar"></span>
           </button>
           <a class="navbar-brand" href="{{ URL::route('principal') }}"></a>
-          <a class="navbar-toggle collapsed" style="margin-bottom:0;margin-right:2px;padding:4px;color:white;border:0;" href=""><i class="fa fa-shopping-cart fa-2x"></i><span class="badge badge-cart">0</span></a>
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
@@ -61,16 +61,6 @@
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-			  <li class="">
-		          <form class="navbar-form text-center" role="form">
-		            <div class="form-group">
-		              <input type="search" placeholder="Buscar..." class="form-control form-rounded"/>
-		            </div>
-		          </form>
-			  </li>
-			  <li class="hidden-xs">
-	         	<a href=""><i class="fa fa-shopping-cart fa-2x"></i><span class="badge badge-cart">0</span></a>
-	          </li>
 			  @if(!Session::has('usuario'))
 			  <li class="">
 			  	<a class="text-primary" href="{{ URL::route('login') }}">Ingresar</a>

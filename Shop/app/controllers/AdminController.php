@@ -11,11 +11,54 @@ class AdminController extends BaseController {
 
 	public function productos(){
 		$productos = Producto::paginate(20);
-		return View::make('admin.productos')
+		return View::make('admin.producto.index')
 			->with('module', 'productos')
 			->with('title', 'Productos')
 			->with('productos', $productos);
 	}
+
+	public function productoConsultar($id){
+		$producto = Producto::findOrFail($id);
+		return View::make('admin.producto.consultar')
+			->with('module', 'productos')
+			->with('title', 'Producto')
+			->with('producto', $producto);
+	}
+	
+	public function productoActualizar(){
+		$id = Input::get('id');
+		
+		if(Input::hasFile('imagen')){
+			$producto = Producto::findOrFail($id);
+			
+			$file = Input::file('imagen');
+			$imagen = $producto->id.'.'.$file->getClientOriginalExtension();
+			$imagen_thumb = 'thumb_'.$producto->id.'.'.$file->getClientOriginalExtension();
+			$directorio = public_path().'/img/productos/';
+			//verifica la imagen
+			if(File::exists($directorio.$producto->imagen)){
+				File::delete($directorio.$producto->imagen);
+			}
+			
+			//guarda la imagen
+			$image = Image::make($file);
+			$image->fit(420, 520);
+			$image->save($directorio.$imagen);
+			//thumbnail
+			$image = Image::make($file);
+			$image->fit(180, 140);
+			$image->save($directorio.$imagen_thumb);
+			
+			//setea la iamgen al usuario
+			$producto->imagen = $imagen;
+			$producto->save();
+		}
+		
+		return Redirect::route('admin_producto_consultar', $producto->id)
+			->with('module', 'productos')
+			->with('title', 'Producto');
+	}
+	
 	public function sincronizacion(){
 		// Get cURL resource
 		$curl = curl_init();
@@ -49,14 +92,14 @@ class AdminController extends BaseController {
 
 	public function categorias(){
 		$categorias = Categoria::paginate(30);
-		return View::make('admin.categorias')
+		return View::make('admin.categoria.index')
 			->with('module', 'categorias')
 			->with('title', 'Categorias')
 			->with('categorias', $categorias);
 	}
 
 	public function usuarios(){
-		return View::make('admin.usuarios')
+		return View::make('admin.usuario.index')
 			->with('module', 'usuarios')
 			->with('title', 'Usuarios');
 	}

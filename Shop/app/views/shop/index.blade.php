@@ -5,13 +5,13 @@
 @endsection
 
 @section('sidebar')
-	<ul class="list-group">
-	  <a class="list-group-item" href=""><span class="badge">14</span>Categoria</a>
-	  <a class="list-group-item" href=""><span class="badge">3</span>Categoria 2</a>
-	  <a class="list-group-item active" href=""><span class="badge">0</span>Categoria 3</a>
-	  <a class="list-group-item" href=""><span class="badge">5</span>Categoria 4</a>
-	  <a class="list-group-item" href=""><span class="badge">30</span>Categoria 5</a>
-	</ul>
+<ul class="list-group">
+  <a class="list-group-item" href=""><span class="badge">14</span>Categoria</a>
+  <a class="list-group-item" href=""><span class="badge">3</span>Categoria 2</a>
+  <a class="list-group-item active" href=""><span class="badge">0</span>Categoria 3</a>
+  <a class="list-group-item" href=""><span class="badge">5</span>Categoria 4</a>
+  <a class="list-group-item" href=""><span class="badge">30</span>Categoria 5</a>
+</ul>
 @endsection
 
 @section('content')

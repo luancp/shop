@@ -44,7 +44,7 @@
             <span class="icon-bar"></span>
           </button>
           <a class="navbar-brand" href="{{ URL::route('principal') }}"></a>
-          <a class="navbar-toggle collapsed" style="margin-bottom:0;margin-right:2px;padding:4px;color:white;border:0;" href=""><i class="fa fa-shopping-cart fa-2x"></i><span class="badge badge-cart">0</span></a>
+          <a class="navbar-toggle collapsed cart-movil" href=""><i class="fa fa-shopping-cart fa-2x"></i><span class="badge badge-cart">0</span></a>
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
