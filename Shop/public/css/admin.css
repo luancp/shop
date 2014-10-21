@@ -82,3 +82,8 @@ a.list-group-item.active>.badge, .nav-pills>.active>a>.badge {
 hr{
 	margin: 0;
 }
+
+/*contenido usuarios*/
+.text-mini{
+	font-size:12px;
+}
