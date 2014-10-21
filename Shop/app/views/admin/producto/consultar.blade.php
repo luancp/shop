@@ -20,7 +20,7 @@
 	    	<i class="fa fa-shopping-cart"></i>&nbsp;&nbsp;Producto
 	    </h4>
 	    <hr /><br />
-    	<div class="col-md-6">
+    	<div class="col-md-6 col-sm-6">
     		<div class="fileinput fileinput-new" data-provides="fileinput">
 			  <div class="fileinput-new thumbnail">
     			@if(!$producto->imagen)
@@ -48,7 +48,7 @@
 			  </div>
 			</div>
     	</div>
-    	<div class="col-md-6">
+    	<div class="col-md-6 col-sm-6">
     		<h4>{{ $producto->nombre }}</h4>
     		<p>{{ $producto->descripcion }}</p>
     	</div>

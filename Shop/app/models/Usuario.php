@@ -67,5 +67,9 @@ class Usuario extends Eloquent implements UserInterface, RemindableInterface {
         $v = Validator::make($data, $rules);
         return $v;
 	}
+	
+	public function getNombres(){
+		return $this->nombres.' '.$this->apellidos;
+	}
 
 }

@@ -47,8 +47,15 @@ Route::group(array('before' => 'auth|admin'), function(){
 	Route::post('admin/producto/', array('as' => 'admin_producto_actualizar', 'uses' => 'AdminController@productoActualizar'));
 	Route::post('admin/productos/', array('as' => 'admin_sincronizacion', 'uses' => 'AdminController@sincronizacion'));
 	
+	//categorias
 	Route::get('admin/categorias/', array('as' => 'admin_categorias', 'uses' => 'AdminController@categorias'));
+	
+	//usuarios
 	Route::get('admin/usuarios/', array('as' => 'admin_usuarios', 'uses' => 'AdminController@usuarios'));
+	Route::get('admin/usuarios/{id}', array('as' => 'admin_usuario_consultar', 'uses' => 'AdminController@usuarioConsultar'));
+	Route::get('admin/usuarios/{id}', array('as' => 'admin_usuario_editar', 'uses' => 'AdminController@usuarioEditar'));
+	
+	//ajustes
 	Route::get('admin/ajustes/', array('as' => 'admin_ajustes', 'uses' => 'AdminController@ajustes'));
 	
 	

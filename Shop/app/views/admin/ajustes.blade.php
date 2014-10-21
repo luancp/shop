@@ -6,7 +6,7 @@
 
 @section('content')
 	<div class="col-sm-12 col-md-12 bg-white">
-	    <h4>Ajustes</h4>
+	    <h4><i class="fa fa-gears"></i>&nbsp;&nbsp;Ajustes</h4>
 	    <hr /><br />
     	
   	</div>

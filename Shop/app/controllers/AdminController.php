@@ -82,12 +82,9 @@ class AdminController extends BaseController {
 			Producto::procesar(json_decode($resp));
 			Session::flash('success_mensaje', 'Se han importado los productos exitosamente.');
 		}else{
-			Session::flash('error_mensaje', 'Se ha producido un error de conexion.');
+			Session::flash('error_mensaje', 'Se ha producido un error de sincronizacion.');
 		}
-		return Redirect::route('admin_productos')
-			->with('module', 'productos')
-			->with('title', 'Productos')
-			->with('productos', "asdjashdjashdjhasjdhajsdhasjdhjashdja");
+		return Redirect::route('admin_productos');
 	}
 
 	public function categorias(){
@@ -98,10 +95,31 @@ class AdminController extends BaseController {
 			->with('categorias', $categorias);
 	}
 
+	//consulta todos los usuarios
 	public function usuarios(){
+		$usuarios = Usuario::paginate(30);
 		return View::make('admin.usuario.index')
 			->with('module', 'usuarios')
+			->with('usuarios', $usuarios)
 			->with('title', 'Usuarios');
+	}
+
+	//consulta un usuario
+	public function usuarioConsultar($id){
+		$usuario = Usuario::findOrFail($id);
+		return View::make('admin.usuario.consultar')
+			->with('module', 'usuarios')
+			->with('usuario', $usuario)
+			->with('title', 'Usuario');
+	}
+
+	//edita un usuario
+	public function usuarioEditar($id){
+		$usuario = Usuario::findOrFail($id);
+		return View::make('admin.usuario.editar')
+			->with('module', 'usuarios')
+			->with('usuario', $usuario)
+			->with('title', 'Usuario');
 	}
 
 	public function ajustes(){
