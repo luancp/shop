@@ -36,7 +36,7 @@
     		<p>
     			<hr />
     		</p>
-    		<p>
+    		<p class="">
     			<a class="btn btn-default btn-xs" href="{{ URL::route('admin_usuario_editar', $usuario->id) }}"><i class="fa fa-edit"></i>&nbsp;Editar</a>
     		</p>
     	</div>
