@@ -50,4 +50,10 @@ class Categoria extends Eloquent {
 		}
 	}
 
+	//obtiene la cantidad total de productos por categorias
+	public function getCantidadProductos(){
+		$productos = Producto::where('categoria_id', $this->id);
+		return $productos->count();		 
+	}
+
 }

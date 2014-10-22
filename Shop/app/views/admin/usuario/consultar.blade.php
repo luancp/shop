@@ -23,15 +23,14 @@
     		<p><i class="fa fa-at"></i>&nbsp;{{ $usuario->email }}</p>
     		<p>
     			@if($usuario->estado == 'A')
-					<strong class="text-success tooltip-estado"><i class="fa fa-circle"></i></strong>
+					<strong class="label label-success">{{ $usuario->getEstadoDisplay() }}</strong>
 				@endif
-    			@if($usuario->estado == 'I')
-					<strong class="text-danger tooltip-estado"><i class="fa fa-circle"></i></strong>
+				@if($usuario->estado == 'S')
+					<strong class="label label-warning">{{ $usuario->getEstadoDisplay() }}</strong>
 				@endif
-    			@if($usuario->estado == 'S')
-					<strong class="text-warning tooltip-estado"><i class="fa fa-circle"></i></strong>
+				@if($usuario->estado == 'I')
+					<strong class="label label-danger">{{ $usuario->getEstadoDisplay() }}</strong>
 				@endif
-    			{{ $usuario->getEstadoDisplay() }}
     		</p>
     		<p>
     			<hr />

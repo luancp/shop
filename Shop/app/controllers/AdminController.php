@@ -34,20 +34,33 @@ class AdminController extends BaseController {
 			$file = Input::file('imagen');
 			$imagen = $producto->id.'.'.$file->getClientOriginalExtension();
 			$imagen_thumb = 'thumb_'.$producto->id.'.'.$file->getClientOriginalExtension();
+			$imagen_mini = 'venta_'.$producto->id.'.'.$file->getClientOriginalExtension();
 			$directorio = public_path().'/img/productos/';
-			//verifica la imagen
+			//verifica la imagen y la elimina
 			if(File::exists($directorio.$producto->imagen)){
 				File::delete($directorio.$producto->imagen);
 			}
+			//verifica la imagen thumbnail y la elimina
+			if(File::exists($directorio.'thumb_'.$producto->imagen)){
+				File::delete($directorio.'thumb_'.$producto->imagen);
+			}
+			//verifica la imagen mini y la elimina
+			if(File::exists($directorio.'mini_'.$producto->imagen)){
+				File::delete($directorio.'mini_'.$producto->imagen);
+			}
 			
-			//guarda la imagen
+			//guarda la imagen - administracion, venta - individual
 			$image = Image::make($file);
 			$image->fit(420, 520);
 			$image->save($directorio.$imagen);
-			//thumbnail
+			//thumbnail - administracion
 			$image = Image::make($file);
 			$image->fit(180, 140);
 			$image->save($directorio.$imagen_thumb);
+			//venta - pagina principal
+			$image = Image::make($file);
+			$image->fit(250, 188);
+			$image->save($directorio.$imagen_mini);
 			
 			//setea la iamgen al usuario
 			$producto->imagen = $imagen;
@@ -116,9 +129,40 @@ class AdminController extends BaseController {
 	//edita un usuario
 	public function usuarioEditar($id){
 		$usuario = Usuario::findOrFail($id);
+		if(Request::isMethod('post')){
+			
+			Session::flash('success_mensaje', 'Se actualizo el usuario correctamente.');
+		}
 		return View::make('admin.usuario.editar')
 			->with('module', 'usuarios')
 			->with('usuario', $usuario)
+			->with('title', 'Usuario');
+	}
+
+	//actualiza un usuario
+	public function usuarioActualizar(){
+		$id = Input::get('id');
+		$usuario = Usuario::findOrFail($id);
+		$rules = array(
+            'nombres' => 'required|alpha',
+            'apellidos' => 'required|alpha',
+            'cedula' => 'required|digits|size:10|unique:usuario_usuario,cedula,'.$usuario->id,
+            'email' => 'required|email|unique:usuario_usuario,email,'.$usuario->id,
+        );
+        $validator = Validator::make(Input::all(), $rules);
+        if(!$validator->fails()){
+			$usuario->nombres = Input::get('nombres');
+			$usuario->apellidos = Input::get('apellidos');
+			$usuario->cedula = Input::get('cedula');
+			$usuario->email = Input::get('email');
+			$usuario->estado = Input::get('estado');
+			$usuario->save();
+			Session::flash('success_mensaje', 'Se actualizo el usuario correctamente.');
+		}else{
+			Session::flash('error_mensaje', 'Por favor corregir los campos con errores.');			
+		}
+		return Redirect::route('admin_usuario_editar', $usuario->id)
+			->with('module', 'usuarios')
 			->with('title', 'Usuario');
 	}
 

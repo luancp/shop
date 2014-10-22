@@ -24,9 +24,9 @@ class Producto extends Eloquent {
 				$id_categoria = Categoria::setearCategoria($d->categoria->id, $d->categoria->nombre, $d->categoria->codigo);
 			}
 			if(!self::existeProducto($d->id)){ //no existe producto
-				$id_producto = self::crearProducto($d->id, $d->nombre, $d->codigo, $d->stock, $d->descripcion, $d->tipo_producto, $id_categoria);
+				$id_producto = self::crearProducto($d->id, $d->nombre, $d->codigo, $d->stock, $d->descripcion, $d->tipo_producto, $id_categoria, $d->precio);
 			}else{
-				$id_producto = self::setearProducto($d->id, $d->nombre, $d->codigo, $d->stock, $d->descripcion, $d->tipo_producto, $id_categoria);
+				$id_producto = self::setearProducto($d->id, $d->nombre, $d->codigo, $d->stock, $d->descripcion, $d->tipo_producto, $id_categoria, $d->precio);
 			}
 		}
 	}
@@ -46,13 +46,14 @@ class Producto extends Eloquent {
 	}
 	
 	//guarda un producto
-	public static function crearProducto($id, $nombre, $codigo, $stock, $descripcion, $tipo_producto, $id_categoria){
+	public static function crearProducto($id, $nombre, $codigo, $stock, $descripcion, $tipo_producto, $id_categoria, $precio){
 		try{
 			$p = new Producto;
 			$p->nombre = $nombre;
 			$p->codigo = $codigo;
 			$p->descripcion = $descripcion;
 			$p->stock = $stock;
+			$p->precio = $precio;
 			$p->tipo_producto = $tipo_producto;
 			$p->categoria_id = $id_categoria;
 			$p->contifico_id = $id;
@@ -64,13 +65,14 @@ class Producto extends Eloquent {
 	}
 
 	//setea un producto guardado
-	public static function setearProducto($id, $nombre, $codigo, $stock, $descripcion, $tipo_producto, $id_categoria){
+	public static function setearProducto($id, $nombre, $codigo, $stock, $descripcion, $tipo_producto, $id_categoria, $precio){
 		try{
 			$p = self::where('contifico_id', $id)->first();
 			$p->nombre = $nombre;
 			$p->codigo = $codigo;
 			$p->descripcion = $descripcion;
 			$p->stock = $stock;
+			$p->precio = $precio;
 			$p->tipo_producto = $tipo_producto;
 			$p->categoria_id = $id_categoria;
 			$p->contifico_id = $id;

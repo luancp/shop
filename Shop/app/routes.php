@@ -53,7 +53,8 @@ Route::group(array('before' => 'auth|admin'), function(){
 	//usuarios
 	Route::get('admin/usuarios/', array('as' => 'admin_usuarios', 'uses' => 'AdminController@usuarios'));
 	Route::get('admin/usuarios/{id}', array('as' => 'admin_usuario_consultar', 'uses' => 'AdminController@usuarioConsultar'));
-	Route::get('admin/usuarios/{id}', array('as' => 'admin_usuario_editar', 'uses' => 'AdminController@usuarioEditar'));
+	Route::get('admin/usuarios/{id}/edit', array('as' => 'admin_usuario_editar', 'uses' => 'AdminController@usuarioEditar'));
+	Route::post('admin/usuario/', array('as' => 'admin_usuario_actualizar', 'uses' => 'AdminController@usuarioActualizar'));
 	
 	//ajustes
 	Route::get('admin/ajustes/', array('as' => 'admin_ajustes', 'uses' => 'AdminController@ajustes'));

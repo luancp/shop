@@ -16,29 +16,51 @@
     		@endif
     	</div>
     	<div class="col-md-9 col-sm-8">
-    		<p><strong>{{ $usuario->getnombres() }}</strong></p>
-    		@if($usuario->cedula)
-    		<p><i class="fa fa-credit-card"></i>&nbsp;{{ $usuario->cedula }}</p>
-    		@endif
-    		<p><i class="fa fa-at"></i>&nbsp;{{ $usuario->email }}</p>
-    		<p>
-    			@if($usuario->estado == 'A')
-					<strong class="text-success tooltip-estado"><i class="fa fa-circle"></i></strong>
-				@endif
-    			@if($usuario->estado == 'I')
-					<strong class="text-danger tooltip-estado"><i class="fa fa-circle"></i></strong>
-				@endif
-    			@if($usuario->estado == 'S')
-					<strong class="text-warning tooltip-estado"><i class="fa fa-circle"></i></strong>
-				@endif
-    			{{ $usuario->getEstadoDisplay() }}
-    		</p>
-    		<p>
-    			<hr />
-    		</p>
-    		<p>
-    			<a class="btn btn-default btn-xs" href="{{ URL::route('admin_usuario_editar', $usuario->id) }}"><i class="fa fa-edit"></i>&nbsp;Editar</a>
-    		</p>
+    		<form role="form" action="{{ URL::route('admin_usuario_actualizar') }}" method="post">
+    			<input type="hidden" name="id" value="{{ $usuario->id }}" />
+	    		<div class="row">
+	    			<div class="form-group col-md-6 col-sm-12">
+						<label>Nombres</label>
+						<input type="text" class="form-control input-sm" name="nombres" value="{{ $usuario->nombres }}"/>
+					</div>
+				</div>
+	    		<div class="row">
+	    			<div class="form-group col-md-6 col-sm-12">
+						<label>Apellidos</label>
+						<input type="text" class="form-control input-sm" name="apellidos" value="{{ $usuario->apellidos }}"/>
+					</div>
+				</div>
+	    		<div class="row">
+	    			<div class="form-group col-md-4 col-sm-6">
+						<label>C&eacute;dula</label>
+						<input type="text" class="form-control input-sm" name="cedula" value="{{ $usuario->cedula }}"/>
+					</div>
+				</div>
+	    		<div class="row">
+	    			<div class="form-group col-md-4 col-sm-6">
+						<label>Email</label>
+						<input type="email" class="form-control input-sm" name="email" value="{{ $usuario->email }}"/>
+					</div>
+				</div>
+	    		<div class="row">
+	    			<div class="form-group col-md-4 col-sm-6">
+						<label>Estado</label>
+						{{ Form::select('estado', 
+		    				array(
+		    					'A' => 'Activo',
+		    					'S' => 'Suspendido',
+		    					'I' => 'Inactivo'
+		    				), $usuario->estado, array('class'=>'form-control input-sm')) 
+		    			}}
+					</div>
+				</div>
+	    		<p>
+	    			<hr />
+	    		</p>
+	    		<p>
+	    			<button class="btn btn-success btn-sm"><i class="fa fa-floppy-o"></i>&nbsp;Actualizar</button>
+	    		</p>
+	    	</form>
     	</div>
   	</div>
 @endsection

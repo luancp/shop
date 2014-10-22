@@ -56,8 +56,12 @@ Route::filter('auth.basic', function()
 
 Route::filter('admin', function()
 {
-	if(!Session::get('usuario')->es_admin){
-		Session::flash('error_mensaje', 'No tiene autorización para ingresar al menú');
+	if(Auth::check()){
+		if(!Session::has('usuario') || !Session::get('usuario')->es_admin){
+			Session::flash('error_mensaje', 'No tiene autorización para ingresar al menú');
+			return Redirect::route('principal');
+		}
+	}else{
 		return Redirect::route('principal');
 	}
 });

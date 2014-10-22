@@ -39,13 +39,13 @@
     					<td>{{ $u->email }}</td>
     					<td>
     						@if($u->estado == 'A')
-    							<strong class="text-success tooltip-estado" data-toggle="tooltip" data-placement="right" title="{{ $u->getEstadoDisplay() }}"><i class="fa fa-circle"></i></strong>
+    							<strong class="label label-success">{{ $u->getEstadoDisplay() }}</strong>
     						@endif
     						@if($u->estado == 'S')
-    							<strong class="text-warning tooltip-estado" data-toggle="tooltip" data-placement="right" title="{{ $u->getEstadoDisplay() }}"><i class="fa fa-circle"></i></strong>
+    							<strong class="label label-warning">{{ $u->getEstadoDisplay() }}</strong>
     						@endif
     						@if($u->estado == 'I')
-    							<strong class="text-danger tooltip-estado" data-toggle="tooltip" data-placement="right" title="{{ $u->getEstadoDisplay() }}"><i class="fa fa-circle"></i></strong>
+    							<strong class="label label-danger">{{ $u->getEstadoDisplay() }}</strong>
     						@endif
     					</td>
     				</tr>
