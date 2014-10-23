@@ -8,6 +8,15 @@
 	<div class="col-sm-12 col-md-12 bg-white">
 	    <h4><i class="fa fa-users"></i>&nbsp;&nbsp;Usuario</h4>
 	    <hr /><br />
+	    @if($errors->has())
+		<div class="alert alert-danger">
+			<ul>
+			@foreach ($errors->all('<li class="text-danger">:message</li>') as $error)
+				{{ $error }}		
+			@endforeach
+			</ul>
+	    </div>
+		@endif
     	<div class="col-md-3 col-sm-4">
     		@if($usuario->imagen)
     		{{ HTML::image('img/avatars/'.$usuario->imagen, 'avatar', array('class'=>'thumbnail')) }}
@@ -21,25 +30,25 @@
 	    		<div class="row">
 	    			<div class="form-group col-md-6 col-sm-12">
 						<label>Nombres</label>
-						<input type="text" class="form-control input-sm" name="nombres" value="{{ $usuario->nombres }}"/>
+						<input type="text" class="form-control input-sm" name="nombres" value="{{ Input::old('nombres')?Input::old('nombres'):$usuario->nombres }}"/>
 					</div>
 				</div>
 	    		<div class="row">
 	    			<div class="form-group col-md-6 col-sm-12">
 						<label>Apellidos</label>
-						<input type="text" class="form-control input-sm" name="apellidos" value="{{ $usuario->apellidos }}"/>
+						<input type="text" class="form-control input-sm" name="apellidos" value="{{ Input::old('apellidos')?Input::old('apellidos'):$usuario->apellidos }}"/>
 					</div>
 				</div>
 	    		<div class="row">
 	    			<div class="form-group col-md-4 col-sm-6">
 						<label>C&eacute;dula</label>
-						<input type="text" class="form-control input-sm" name="cedula" value="{{ $usuario->cedula }}"/>
+						<input type="text" class="form-control input-sm" name="cedula" value="{{ Input::old('cedula')?Input::old('cedula'):$usuario->cedula }}"/>
 					</div>
 				</div>
 	    		<div class="row">
 	    			<div class="form-group col-md-4 col-sm-6">
 						<label>Email</label>
-						<input type="email" class="form-control input-sm" name="email" value="{{ $usuario->email }}"/>
+						<input type="email" class="form-control input-sm" name="email" value="{{ Input::old('email')?Input::old('email'):$usuario->email }}"/>
 					</div>
 				</div>
 	    		<div class="row">

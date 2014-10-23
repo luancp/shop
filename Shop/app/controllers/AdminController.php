@@ -144,9 +144,9 @@ class AdminController extends BaseController {
 		$id = Input::get('id');
 		$usuario = Usuario::findOrFail($id);
 		$rules = array(
-            'nombres' => 'required|alpha',
-            'apellidos' => 'required|alpha',
-            'cedula' => 'required|digits|size:10|unique:usuario_usuario,cedula,'.$usuario->id,
+            'nombres' => 'required|regex:/^[\pL\s]+$/u',
+            'apellidos' => 'required|regex:/^[\pL\s]+$/u',
+            'cedula' => 'required|digits:10|unique:usuario_usuario,cedula,'.$usuario->id,
             'email' => 'required|email|unique:usuario_usuario,email,'.$usuario->id,
         );
         $validator = Validator::make(Input::all(), $rules);
@@ -159,7 +159,12 @@ class AdminController extends BaseController {
 			$usuario->save();
 			Session::flash('success_mensaje', 'Se actualizo el usuario correctamente.');
 		}else{
-			Session::flash('error_mensaje', 'Por favor corregir los campos con errores.');			
+			Session::flash('error_mensaje', 'Por favor corregir los campos con errores.');
+			$response = Redirect::route('admin_usuario_editar', $usuario->id)
+				->withErrors($validator)
+				->with('messages', $validator->messages())
+				->withInput();
+			return $response;			
 		}
 		return Redirect::route('admin_usuario_editar', $usuario->id)
 			->with('module', 'usuarios')

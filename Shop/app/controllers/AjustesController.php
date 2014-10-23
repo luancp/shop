@@ -46,7 +46,7 @@ class AjustesController extends BaseController {
 			}
 			$usuario->save();
 		}else{
-			Session::flash('error_mensaje', 'Se ha producido un error.');
+			Session::flash('error_mensaje', 'Por favor corregir los campos con errores.');
 			$response = Redirect::route('perfil')
 				->withErrors($validator)
 				->with('messages', $validator->messages())
