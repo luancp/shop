@@ -6,10 +6,12 @@
 
 @section('sidebar')
 <ul class="list-group">
-  	<a class="list-group-item @if($cat == '-1') active @endif" href="{{ URL::route('principal') }}">Todas las Categorias</a>
-	@foreach($categorias as $c)
-  		<a class="list-group-item @if($cat == $c->id) active @endif" href="{{ URL::route('principal') }}?categoria={{ $c->id }}"><span class="badge">{{ $c->getCantidadProductos() }}</span>{{ $c->nombre }}</a>
-  	@endforeach
+	@if($categorias)
+	  	<a class="list-group-item @if($cat == '-1') active @endif" href="{{ URL::route('principal') }}">Todas las Categorias</a>
+		@foreach($categorias as $c)
+	  		<a class="list-group-item @if($cat == $c->id) active @endif" href="{{ URL::route('principal') }}?categoria={{ $c->id }}">{{ $c->nombre }}<span class="fa fa-angle-right pull-right"></span></a>
+	  	@endforeach
+  	@endif
 </ul>
 @endsection
 
@@ -19,12 +21,12 @@
 		<div class="col-sm-6 col-md-4">
 		    <div class="thumbnail">
 		    	@if($p->imagen)
-		      	<img src="{{ URL::asset('img/productos/venta_'.$p->imagen) }}" alt="{{ $p->nombre }}" />
+		      	<a href="{{ URL::route('producto_venta', $p->id) }}"><img src="{{ URL::asset('img/productos/venta_'.$p->imagen) }}" alt="{{ $p->nombre }}" /></a>
 		      	@else
-		      	<img src="{{ URL::asset('img/productos/default.png') }}" alt="{{ $p->nombre }}" />
+		      	<a href="{{ URL::route('producto_venta', $p->id) }}"><img src="{{ URL::asset('img/productos/default.png') }}" alt="{{ $p->nombre }}" /></a>
 		      	@endif
 		      	<div class="caption">
-		        	<a href=""><h5>{{ $p->nombre }}<strong class="pull-right text-success">${{ $p->precio }}</strong></h5></a>
+		        	<a href="{{ URL::route('producto_venta', $p->id) }}"><h5>{{ $p->nombre }}<strong class="pull-right text-success">${{ $p->precio }}</strong></h5></a>
 		      	</div>
 		    </div>
 	  	</div>

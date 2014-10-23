@@ -69,7 +69,7 @@
 		          </form>
 			  </li>
 			  <li class="hidden-xs">
-	         	<a href=""><i class="fa fa-shopping-cart fa-2x"></i><span class="badge badge-cart">0</span></a>
+	         	<a href=""><i class="fa fa-shopping-cart fa-2x"></i><span class="badge badge-cart">{{ Cookie::get(Auth::user()->usuario.'_carrito_cantidad')?Cookie::get(Auth::user()->usuario.'_carrito_cantidad'):0 }}</span></a>
 	          </li>
 			  @if(!Session::has('usuario'))
 			  <li class="">

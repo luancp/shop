@@ -10,11 +10,16 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
-
-Route::get('/', array('as' => 'principal', 'uses' => 'ShopController@principal'));
+//para la autenticacion
 Route::get('login/', array('as' => 'login', 'uses' => 'MainController@showLogin'));
 Route::post('login_user/', array('as' => 'login_user', 'uses' => 'MainController@login'));
 Route::get('logout/', array('as' => 'logout', 'uses' => 'MainController@logout'));
+
+//para las paginas principales
+Route::get('/', array('as' => 'principal', 'uses' => 'ShopController@principal'));
+Route::get('/producto/{id}', array('as' => 'producto_venta', 'uses' => 'ShopController@showProducto'));
+Route::post('/carrito/add/', array('as' => 'agregar_carrito', 'uses' => 'ShopController@agregarCarrito'));
+
 
 //registro de usuarios
 Route::get('registro/', array('as' => 'registrar', 'uses' => 'ShopController@showRegistro'));
