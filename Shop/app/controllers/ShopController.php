@@ -47,25 +47,30 @@ class ShopController extends BaseController {
 	
 	//agregar los productos al carrito de compras
 	public function agregarCarrito(){
-		$usuario = Auth::user()->usuario;
 		$id = Input::get('id');
 		$cantidad = Input::get('cantidad');
-		$carrito = Cookie::get($usuario.'_carrito');
+		$carrito = Cookie::get('carrito');
 		$cookie_compras = null;
 		$cookie_cantidad = null;
 		//$carrito_cantidad = Cookie::get('carrito_cantidad');
 		if(!is_null($carrito)){
-			$carrito = array_add($carrito, $id, $cantidad);
-			$cookie_compras = Cookie::forever($usuario.'_carrito', $carrito);
-			$cookie_cantidad = Cookie::forever($usuario.'_carrito_cantidad', count($carrito));
+			if(array_key_exists($id,$carrito)){
+				$cant = (int)$carrito[$id]+(int)$cantidad;
+				array_set($carrito, $id, (int)$cant);
+				$cookie_compras = Cookie::forever('carrito', $carrito);
+			}else{
+				$carrito = array_add($carrito, $id, $cantidad);
+				$cookie_compras = Cookie::forever('carrito', $carrito);
+			}
+			$cookie_cantidad = Cookie::forever('carrito_cantidad', count($carrito));
 		}else{
 			$carrito = array();
-			$compras = array_add($carrito, $id, $cantidad);
-			$cookie_compras = Cookie::forever($usuario.'_carrito', $compras);
-			$cookie_cantidad = Cookie::forever($usuario.'_carrito_cantidad', count($compras));
-			//dd($cookie_compras);
+			$compras = array_add($carrito, $id, (int)$cantidad);
+			$cookie_compras = Cookie::forever('carrito', $compras);
+			$cookie_cantidad = Cookie::forever('carrito_cantidad', count($compras));
 		}
 		//redireccion despues de agregar al carrito
+		//dd($carrito);
 		return Redirect::route('principal')
 			->withCookie($cookie_compras)
 			->withCookie($cookie_cantidad);
