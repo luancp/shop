@@ -1,15 +1,5 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the Closure to execute when that URI is requested.
-|
-*/
 //para la autenticacion
 Route::get('login/', array('as' => 'login', 'uses' => 'MainController@showLogin'));
 Route::post('login_user/', array('as' => 'login_user', 'uses' => 'MainController@login'));
@@ -20,15 +10,15 @@ Route::get('/', array('as' => 'principal', 'uses' => 'ShopController@principal')
 Route::get('/producto/{id}', array('as' => 'producto_venta', 'uses' => 'ShopController@showProducto'));
 Route::post('/carrito/add/', array('as' => 'agregar_carrito', 'uses' => 'ShopController@agregarCarrito'));
 
-
 //registro de usuarios
 Route::get('registro/', array('as' => 'registrar', 'uses' => 'ShopController@showRegistro'));
 Route::post('registro_usuario/', array('as' => 'usuario_registrar', 'uses' => 'ShopController@registrar'));
-
+//---------------------------------------------------------------------------------------------------------------
 //urls con seguridad - para la tienda
 Route::group(array('before' => 'auth'), function(){
 	//para el carrito de compras
 	Route::get('carrito/', array('as' => 'carrito', 'uses' => 'ShopController@carrito'));
+	Route::post('carrito/eliminar/', array('as' => 'carrito_eliminar_producto', 'uses' => 'ShopController@carritoEliminarProducto'));
 
 	//para las paginas del perfil
 	Route::get('perfil/', array('as' => 'perfil', 'uses' => 'AjustesController@mostrarPerfil'));
@@ -40,7 +30,7 @@ Route::group(array('before' => 'auth'), function(){
 	Route::get('password/', array('as' => 'contrasenia', 'uses' => 'AjustesController@mostrarContrasenia'));
 	Route::get('password/update/', array('as' => 'contrasenia_actualizar', 'uses' => 'AjustesController@actualizarContrasenia'));
 });
-
+//---------------------------------------------------------------------------------------------------------------
 //urls con seguridad - para el admin
 Route::group(array('before' => 'auth|admin'), function(){
 	//para el admin

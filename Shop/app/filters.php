@@ -35,16 +35,8 @@ App::after(function($request, $response)
 
 Route::filter('auth', function()
 {
-	if (Auth::guest())
-	{
-		if (Request::ajax())
-		{
-			return Response::make('Unauthorized', 401);
-		}
-		else
-		{
-			return Redirect::guest('/');
-		}
+	if(!Auth::check()){
+		return Redirect::route('login');
 	}
 });
 
@@ -58,7 +50,7 @@ Route::filter('admin', function()
 {
 	if(Auth::check()){
 		if(!Session::has('usuario') || !Session::get('usuario')->es_admin){
-			Session::flash('error_mensaje', 'No tiene autorización para ingresar al menú');
+			Session::flash('error_mensaje', 'No tiene autorización para ingresar a este menu.');
 			return Redirect::route('principal');
 		}
 	}else{

@@ -31,10 +31,15 @@
     		<p><hr /></p>
     		<p>{{ $producto->descripcion }}</p>
     		<p><hr /></p>
+    		<p><h4><small>precio: </small>${{ $producto->precio }}</h4></p>
+    		<p><hr /></p>
     		<div class="row">
     			<form role="form" action="{{ URL::route('agregar_carrito') }}" method="post">
 	    			<p class="col-md-3 col-sm-5 col-xs-6">
 	    				<input type="hidden" name="id" value="{{ $producto->id }}" />
+	    				<input type="hidden" name="nombre" value="{{ $producto->nombre }}" />
+	    				<input type="hidden" name="precio" value="{{ $producto->precio }}" />
+	    				<input type="hidden" name="imagen" value="{{ $producto->imagen }}" />
 	    				<input class="form-control input-sm" type="number" name="cantidad" value="1" />
 	    			</p>
 	    			<p class="col-md-3 col-sm-5 col-xs-6">

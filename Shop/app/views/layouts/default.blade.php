@@ -44,7 +44,7 @@
             <span class="icon-bar"></span>
           </button>
           <a class="navbar-brand" href="{{ URL::route('principal') }}"></a>
-          <a class="navbar-toggle collapsed cart-movil" href=""><i class="fa fa-shopping-cart fa-2x"></i><span class="badge badge-cart">{{ Cookie::get('carrito_cantidad')?Cookie::get('carrito_cantidad'):0 }}</span></a>
+          <a class="navbar-toggle collapsed cart-movil" href="{{ URL::route('carrito') }}"><i class="fa fa-shopping-cart fa-2x"></i><span class="badge badge-cart">{{ Cookie::get('carrito_cantidad')?Cookie::get('carrito_cantidad'):0 }}</span></a>
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
@@ -69,7 +69,7 @@
 		          </form>
 			  </li>
 			  <li class="hidden-xs">
-	         	<a href=""><i class="fa fa-shopping-cart fa-2x"></i><span class="badge badge-cart">{{ Cookie::get('carrito_cantidad')?Cookie::get('carrito_cantidad'):0 }}</span></a>
+	         	<a href="{{ URL::route('carrito') }}"><i class="fa fa-shopping-cart fa-2x"></i><span class="badge badge-cart">{{ Cookie::get('carrito_cantidad')?Cookie::get('carrito_cantidad'):0 }}</span></a>
 	          </li>
 			  @if(!Session::has('usuario'))
 			  <li class="">

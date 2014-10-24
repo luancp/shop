@@ -34,3 +34,6 @@
 	</div>
 @endsection
 
+@section('js-footer')
+
+@endsection

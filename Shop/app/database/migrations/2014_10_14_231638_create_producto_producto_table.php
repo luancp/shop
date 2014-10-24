@@ -21,7 +21,7 @@ class CreateProductoProductoTable extends Migration {
             $table->string('tipo_producto', 3);
             $table->string('imagen', 100)->nullable();
             $table->integer('stock');
-            $table->integer('precio');
+            $table->decimal('precio', 10, 2);
             $table->integer('contifico_id');
             $table->integer('categoria_id')->unsigned();
 			$table->foreign('categoria_id')->references('id')->on('categoria_categoria');

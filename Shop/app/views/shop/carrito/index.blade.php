@@ -1,253 +1,123 @@
 @extends('layouts.default')
 
 @section('css-header')
-
+<style type="text/css">
+	.text-mini{
+		font-size: 12px;
+	}
+	.espacio-arriba{
+		padding-top: 10px;
+	}
+</style>
 @endsection
 
 @section('sidebar')
-	<ul class="list-group">
+	<!-- <ul class="list-group">
 	  <a class="list-group-item" href=""><span class="badge">14</span>Categoria</a>
 	  <a class="list-group-item" href=""><span class="badge">3</span>Categoria 2</a>
 	  <a class="list-group-item active" href=""><span class="badge">0</span>Categoria 3</a>
 	  <a class="list-group-item" href=""><span class="badge">5</span>Categoria 4</a>
 	  <a class="list-group-item" href=""><span class="badge">30</span>Categoria 5</a>
-	</ul>
+	</ul> -->
 @endsection
 
 @section('content')
-	<div class="row">
-		<div class="col-sm-6 col-md-4">
-		    <div class="thumbnail">
-		      	<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNDIiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEyMSIgeT0iMTAwIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjE1cHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjQyeDIwMDwvdGV4dD48L3N2Zz4=" alt="..." />
-		      	<div class="caption">
-		        	<a href=""><h5>Producto 5<strong class="pull-right text-success">$30.00</strong></h5></a>
-		      	</div>
-		    </div>
-	  	</div>
-		<div class="col-sm-6 col-md-4">
-		    <div class="thumbnail">
-		      	<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNDIiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEyMSIgeT0iMTAwIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjE1cHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjQyeDIwMDwvdGV4dD48L3N2Zz4=" alt="..." />
-		      	<div class="caption">
-		        	<a href=""><h5>Producto 5<strong class="pull-right text-success">$30.00</strong></h5></a>
-		      	</div>
-		    </div>
-	  	</div>
-		<div class="col-sm-6 col-md-4">
-		    <div class="thumbnail">
-		      	<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNDIiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEyMSIgeT0iMTAwIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjE1cHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjQyeDIwMDwvdGV4dD48L3N2Zz4=" alt="..." />
-		      	<div class="caption">
-		        	<a href=""><h5>Producto 5<strong class="pull-right text-success">$30.00</strong></h5></a>
-		      	</div>
-		    </div>
-	  	</div>
-		<div class="col-sm-6 col-md-4">
-		    <div class="thumbnail">
-		      	<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNDIiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEyMSIgeT0iMTAwIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjE1cHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjQyeDIwMDwvdGV4dD48L3N2Zz4=" alt="..." />
-		      	<div class="caption">
-		        	<a href=""><h5>Producto 5<strong class="pull-right text-success">$30.00</strong></h5></a>
-		      	</div>
-		    </div>
-	  	</div>
-		<div class="col-sm-6 col-md-4">
-		    <div class="thumbnail">
-		      	<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNDIiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEyMSIgeT0iMTAwIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjE1cHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjQyeDIwMDwvdGV4dD48L3N2Zz4=" alt="..." />
-		      	<div class="caption">
-		        	<a href=""><h5>Producto 5<strong class="pull-right text-success">$30.00</strong></h5></a>
-		      	</div>
-		    </div>
-	  	</div>
-		<div class="col-sm-6 col-md-4">
-		    <div class="thumbnail">
-		      	<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNDIiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEyMSIgeT0iMTAwIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjE1cHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjQyeDIwMDwvdGV4dD48L3N2Zz4=" alt="..." />
-		      	<div class="caption">
-		        	<a href=""><h5>Producto 5<strong class="pull-right text-success">$30.00</strong></h5></a>
-		      	</div>
-		    </div>
-	  	</div>
-		<div class="col-sm-6 col-md-4">
-		    <div class="thumbnail">
-		      	<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNDIiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEyMSIgeT0iMTAwIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjE1cHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjQyeDIwMDwvdGV4dD48L3N2Zz4=" alt="..." />
-		      	<div class="caption">
-		        	<a href=""><h5>Producto 5<strong class="pull-right text-success">$30.00</strong></h5></a>
-		      	</div>
-		    </div>
-	  	</div>
-		<div class="col-sm-6 col-md-4">
-		    <div class="thumbnail">
-		      	<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNDIiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEyMSIgeT0iMTAwIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjE1cHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjQyeDIwMDwvdGV4dD48L3N2Zz4=" alt="..." />
-		      	<div class="caption">
-		        	<a href=""><h5>Producto 5<strong class="pull-right text-success">$30.00</strong></h5></a>
-		      	</div>
-		    </div>
-	  	</div>
-		<div class="col-sm-6 col-md-4">
-		    <div class="thumbnail">
-		      	<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNDIiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEyMSIgeT0iMTAwIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjE1cHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjQyeDIwMDwvdGV4dD48L3N2Zz4=" alt="..." />
-		      	<div class="caption">
-		        	<a href=""><h5>Producto 5<strong class="pull-right text-success">$30.00</strong></h5></a>
-		      	</div>
-		    </div>
-	  	</div>
-		<div class="col-sm-6 col-md-4">
-		    <div class="thumbnail">
-		      	<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNDIiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEyMSIgeT0iMTAwIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjE1cHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjQyeDIwMDwvdGV4dD48L3N2Zz4=" alt="..." />
-		      	<div class="caption">
-		        	<a href=""><h5>Producto 5<strong class="pull-right text-success">$30.00</strong></h5></a>
-		      	</div>
-		    </div>
-	  	</div>
-		<div class="col-sm-6 col-md-4">
-		    <div class="thumbnail">
-		      	<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNDIiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEyMSIgeT0iMTAwIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjE1cHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjQyeDIwMDwvdGV4dD48L3N2Zz4=" alt="..." />
-		      	<div class="caption">
-		        	<a href=""><h5>Producto 5<strong class="pull-right text-success">$30.00</strong></h5></a>
-		      	</div>
-		    </div>
-	  	</div>
-		<div class="col-sm-6 col-md-4">
-		    <div class="thumbnail">
-		      	<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNDIiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEyMSIgeT0iMTAwIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjE1cHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjQyeDIwMDwvdGV4dD48L3N2Zz4=" alt="..." />
-		      	<div class="caption">
-		        	<a href=""><h5>Producto 5<strong class="pull-right text-success">$30.00</strong></h5></a>
-		      	</div>
-		    </div>
-	  	</div>
-		<div class="col-sm-6 col-md-4">
-		    <div class="thumbnail">
-		      	<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNDIiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEyMSIgeT0iMTAwIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjE1cHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjQyeDIwMDwvdGV4dD48L3N2Zz4=" alt="..." />
-		      	<div class="caption">
-		        	<a href=""><h5>Producto 5<strong class="pull-right text-success">$30.00</strong></h5></a>
-		      	</div>
-		    </div>
-	  	</div>
-		<div class="col-sm-6 col-md-4">
-		    <div class="thumbnail">
-		      	<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNDIiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEyMSIgeT0iMTAwIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjE1cHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjQyeDIwMDwvdGV4dD48L3N2Zz4=" alt="..." />
-		      	<div class="caption">
-		        	<a href=""><h5>Producto 5<strong class="pull-right text-success">$30.00</strong></h5></a>
-		      	</div>
-		    </div>
-	  	</div>
-		<div class="col-sm-6 col-md-4">
-		    <div class="thumbnail">
-		      	<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNDIiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEyMSIgeT0iMTAwIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjE1cHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjQyeDIwMDwvdGV4dD48L3N2Zz4=" alt="..." />
-		      	<div class="caption">
-		        	<a href=""><h5>Producto 5<strong class="pull-right text-success">$30.00</strong></h5></a>
-		      	</div>
-		    </div>
-	  	</div>
-		<div class="col-sm-6 col-md-4">
-		    <div class="thumbnail">
-		      	<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNDIiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEyMSIgeT0iMTAwIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjE1cHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjQyeDIwMDwvdGV4dD48L3N2Zz4=" alt="..." />
-		      	<div class="caption">
-		        	<a href=""><h5>Producto 5<strong class="pull-right text-success">$30.00</strong></h5></a>
-		      	</div>
-		    </div>
-	  	</div>
-		<div class="col-sm-6 col-md-4">
-		    <div class="thumbnail">
-		      	<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNDIiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEyMSIgeT0iMTAwIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjE1cHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjQyeDIwMDwvdGV4dD48L3N2Zz4=" alt="..." />
-		      	<div class="caption">
-		        	<a href=""><h5>Producto 5<strong class="pull-right text-success">$30.00</strong></h5></a>
-		      	</div>
-		    </div>
-	  	</div>
-		<div class="col-sm-6 col-md-4">
-		    <div class="thumbnail">
-		      	<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNDIiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEyMSIgeT0iMTAwIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjE1cHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjQyeDIwMDwvdGV4dD48L3N2Zz4=" alt="..." />
-		      	<div class="caption">
-		        	<a href=""><h5>Producto 5<strong class="pull-right text-success">$30.00</strong></h5></a>
-		      	</div>
-		    </div>
-	  	</div>
-		<div class="col-sm-6 col-md-4">
-		    <div class="thumbnail">
-		      	<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNDIiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEyMSIgeT0iMTAwIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjE1cHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjQyeDIwMDwvdGV4dD48L3N2Zz4=" alt="..." />
-		      	<div class="caption">
-		        	<a href=""><h5>Producto 5<strong class="pull-right text-success">$30.00</strong></h5></a>
-		      	</div>
-		    </div>
-	  	</div>
-		<div class="col-sm-6 col-md-4">
-		    <div class="thumbnail">
-		      	<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNDIiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEyMSIgeT0iMTAwIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjE1cHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjQyeDIwMDwvdGV4dD48L3N2Zz4=" alt="..." />
-		      	<div class="caption">
-		        	<a href=""><h5>Producto 5<strong class="pull-right text-success">$30.00</strong></h5></a>
-		      	</div>
-		    </div>
-	  	</div>
-		<div class="col-sm-6 col-md-4">
-		    <div class="thumbnail">
-		      	<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNDIiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEyMSIgeT0iMTAwIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjE1cHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjQyeDIwMDwvdGV4dD48L3N2Zz4=" alt="..." />
-		      	<div class="caption">
-		        	<a href=""><h5>Producto 5<strong class="pull-right text-success">$30.00</strong></h5></a>
-		      	</div>
-		    </div>
-	  	</div>
-		<div class="col-sm-6 col-md-4">
-		    <div class="thumbnail">
-		      	<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNDIiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEyMSIgeT0iMTAwIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjE1cHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjQyeDIwMDwvdGV4dD48L3N2Zz4=" alt="..." />
-		      	<div class="caption">
-		        	<a href=""><h5>Producto 5<strong class="pull-right text-success">$30.00</strong></h5></a>
-		      	</div>
-		    </div>
-	  	</div>
-		<div class="col-sm-6 col-md-4">
-		    <div class="thumbnail">
-		      	<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNDIiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEyMSIgeT0iMTAwIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjE1cHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjQyeDIwMDwvdGV4dD48L3N2Zz4=" alt="..." />
-		      	<div class="caption">
-		        	<a href=""><h5>Producto 5<strong class="pull-right text-success">$30.00</strong></h5></a>
-		      	</div>
-		    </div>
-	  	</div>
-		<div class="col-sm-6 col-md-4">
-		    <div class="thumbnail">
-		      	<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNDIiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEyMSIgeT0iMTAwIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjE1cHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjQyeDIwMDwvdGV4dD48L3N2Zz4=" alt="..." />
-		      	<div class="caption">
-		        	<a href=""><h5>Producto 5<strong class="pull-right text-success">$30.00</strong></h5></a>
-		      	</div>
-		    </div>
-	  	</div>
-		<div class="col-sm-6 col-md-4">
-		    <div class="thumbnail">
-		      	<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNDIiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEyMSIgeT0iMTAwIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjE1cHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjQyeDIwMDwvdGV4dD48L3N2Zz4=" alt="..." />
-		      	<div class="caption">
-		        	<a href=""><h5>Producto 5<strong class="pull-right text-success">$30.00</strong></h5></a>
-		      	</div>
-		    </div>
-	  	</div>
-		<div class="col-sm-6 col-md-4">
-		    <div class="thumbnail">
-		      	<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNDIiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEyMSIgeT0iMTAwIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjE1cHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjQyeDIwMDwvdGV4dD48L3N2Zz4=" alt="..." />
-		      	<div class="caption">
-		        	<a href=""><h5>Producto 5<strong class="pull-right text-success">$30.00</strong></h5></a>
-		      	</div>
-		    </div>
-	  	</div>
-		<div class="col-sm-6 col-md-4">
-		    <div class="thumbnail">
-		      	<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNDIiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEyMSIgeT0iMTAwIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjE1cHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjQyeDIwMDwvdGV4dD48L3N2Zz4=" alt="..." />
-		      	<div class="caption">
-		        	<a href=""><h5>Producto 5<strong class="pull-right text-success">$30.00</strong></h5></a>
-		      	</div>
-		    </div>
-	  	</div>
-		<div class="col-sm-6 col-md-4">
-		    <div class="thumbnail">
-		      	<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNDIiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEyMSIgeT0iMTAwIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjE1cHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjQyeDIwMDwvdGV4dD48L3N2Zz4=" alt="..." />
-		      	<div class="caption">
-		        	<a href=""><h5>Producto 5<strong class="pull-right text-success">$30.00</strong></h5></a>
-		      	</div>
-		    </div>
-	  	</div>
-		<div class="col-sm-6 col-md-4">
-		    <div class="thumbnail">
-		      	<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNDIiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEyMSIgeT0iMTAwIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjE1cHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjQyeDIwMDwvdGV4dD48L3N2Zz4=" alt="..." />
-		      	<div class="caption">
-		        	<a href=""><h5>Producto 5<strong class="pull-right text-success">$30.00</strong></h5></a>
-		      	</div>
-		    </div>
-	  	</div>
+	<div class="bg-white">
+		<div class="col-md-12">
+			<h4><i class="fa fa-shopping-cart"></i>&nbsp;&nbsp;Mis Compras</h4>
+		    <hr /><br />
+	    </div>
+		<div class="col-md-12 col-sm-12">
+			@if($compras)
+			<div class="table-responsive">
+				<table class="table table-condensed">
+					<thead>
+						<tr>
+							<th width="90"></th>
+							<th>Producto</th>
+							<th class="text-center" width="100">Cantidad</th>
+							<th class="text-center">Precio</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach($compras as $c)
+						<tr>
+							<td>
+								<p class="espacio-arriba">
+								@if(array_get($c, 'imagen'))
+									{{ HTML::image('img/productos/thumb_'.array_get($c, 'imagen'), '', array('class'=>'img-rounded', 'width'=>'70')) }}
+								@else
+									{{ HTML::image('img/productos/thumb_default.png', '', array('class'=>'img-rounded', 'width'=>'70')) }}
+								@endif
+								</p>
+							</td>
+							<td>
+								<p class="espacio-arriba">
+									<strong>{{ array_get($c, 'nombre') }}</strong>
+								</p>
+							</td>
+							<td class="text-center">
+								<p class="espacio-arriba">
+									<input class="form-control input-sm" type="number" name="cantidad" value="{{ array_get($c, 'cantidad') }}" />
+									<button class="text-mini btn-link" type="submit"><span class="fa fa-refresh"></span>&nbsp;Actualizar</button>
+								</p>
+							</td>
+							<td class="text-center">
+								<p class="espacio-arriba">
+									<strong>${{ array_get($c, 'precio') }}</strong>
+								</p>
+							</td>
+							<td class="text-center">								
+								<form class="espacio-arriba" role="form" name="elminarProducto_{{ array_get($c, 'id') }}" action="{{ URL::route('carrito_eliminar_producto') }}" method="post">
+									<input type="hidden" name="eliminar" value="1" />
+									<input type="hidden" name="id_prod" value="{{ array_get($c, 'id') }}" />
+									<button class="text-mini btn-link btn-eliminar" type="submit" data-toggle="tooltip" data-placement="top" title="Eliminar" data-id="{{ array_get($c, 'id') }}">
+										<i class="fa fa-times-circle text-danger"></i>
+									</button>
+								</form>								
+							</td>
+						</tr>
+						@endforeach
+					</tbody>
+				</table>
+			</div>
+			<div class="">
+				<hr />
+				<br />
+				<a href="{{ URL::route('principal') }}">Seguir comprando</a>
+			</div>
+			@else
+				<div class="text-center">
+					<h3 style="margin-top: 0">
+						<small><i class="fa fa-frown-o text-muted"></i>&nbsp;&nbsp;No has realizado compras aun.</small>
+					</h3>
+					<br />
+					<a href="{{ URL::route('principal') }}">Ir a comprar</a>
+					<br />
+				</div>
+				<br />
+			@endif
+		</div>
+		<div class="clearfix"><br /></div>
 	</div>
 @endsection
 
+@section('js-footer')
+{{ HTML::script('js/bootbox.min.js') }}
+<script type="text/javascript">
+	$(function(){
+		$('button.btn-eliminar').tooltip();
+		$('button.btn-eliminar').click(function(e){
+			e.preventDefault();
+			var boton = $(this);
+			var id_prod = $(this).attr('data-id');
+			bootbox.confirm("Está seguro de eliminar el producto?", function(result){
+                if(result){
+                	$(boton).closest('form').submit();
+                }
+            });
+		});
+	});
+</script>
+@endsection

@@ -3,8 +3,7 @@
 class ShopController extends BaseController {
 
 	//pagina principal de la tienda
-	public function principal()
-	{
+	public function principal(){
 		$id = '';
 		$categorias = Categoria::all();
 		if(Request::has('categoria')){
@@ -27,8 +26,7 @@ class ShopController extends BaseController {
 	}
 	
 	//para cuando se muestra el carrito
-	public function showProducto($id)
-	{
+	public function showProducto($id){
 		$producto = Producto::findOrFail($id);
 		$categorias = Categoria::all();
 		return View::make('shop.producto')
@@ -37,45 +35,75 @@ class ShopController extends BaseController {
 			->with('cat', '')
 			->with('title', 'Carrito de Compras');
 	}
-
-	//para cuando se muestra el carrito
-	public function carrito()
-	{
-		return View::make('shop.carrito.index')
-			->with('title', 'Carrito de Compras');
-	}
 	
 	//agregar los productos al carrito de compras
 	public function agregarCarrito(){
 		$id = Input::get('id');
 		$cantidad = Input::get('cantidad');
+		$nombre = Input::get('nombre');
+		$precio = Input::get('precio');
+		$imagen = Input::get('imagen')?Input::get('imagen'):null;
 		$carrito = Cookie::get('carrito');
 		$cookie_compras = null;
 		$cookie_cantidad = null;
 		//$carrito_cantidad = Cookie::get('carrito_cantidad');
-		if(!is_null($carrito)){
-			if(array_key_exists($id,$carrito)){
-				$cant = (int)$carrito[$id]+(int)$cantidad;
-				array_set($carrito, $id, (int)$cant);
-				$cookie_compras = Cookie::forever('carrito', $carrito);
-			}else{
-				$carrito = array_add($carrito, $id, $cantidad);
-				$cookie_compras = Cookie::forever('carrito', $carrito);
+		if(!is_null($carrito) && count($carrito) > 0){
+			foreach($carrito as $c){
+				$item_id = (int)array_get($c, 'id');
+				if($item_id == (int)$id){
+					$cant = (int)array_get($c, 'cantidad')+(int)$cantidad;
+					$item = array('id'=>$id, 'cantidad'=>(int)$cant, 'nombre'=>$nombre, 'precio'=>$precio, 'imagen'=>$imagen);
+					$carrito = array_set($carrito, $id, $item);
+					$cookie_compras = Cookie::forever('carrito', $carrito);
+					$cookie_cantidad = Cookie::forever('carrito_cantidad', count($carrito));
+					break;
+				}else{
+					$item = array('id'=>$id, 'cantidad'=>(int)$cantidad, 'nombre'=>$nombre, 'precio'=>$precio, 'imagen'=>$imagen);
+					$carrito = array_add($carrito, $id, $item);
+					$cookie_compras = Cookie::forever('carrito', $carrito);
+					$cookie_cantidad = Cookie::forever('carrito_cantidad', count($carrito));
+					break;
+				}
 			}
-			$cookie_cantidad = Cookie::forever('carrito_cantidad', count($carrito));
 		}else{
 			$carrito = array();
-			$compras = array_add($carrito, $id, (int)$cantidad);
-			$cookie_compras = Cookie::forever('carrito', $compras);
-			$cookie_cantidad = Cookie::forever('carrito_cantidad', count($compras));
+			$item = array('id'=>$id, 'cantidad'=>(int)$cantidad, 'nombre'=>$nombre, 'precio'=>$precio, 'imagen'=>$imagen);
+			$carrito = array_add($carrito, $id, $item);
+			$cookie_compras = Cookie::forever('carrito', $carrito);
+			$cookie_cantidad = Cookie::forever('carrito_cantidad', count($carrito));
 		}
 		//redireccion despues de agregar al carrito
-		//dd($carrito);
-		return Redirect::route('principal')
+		return Redirect::route('carrito')
 			->withCookie($cookie_compras)
 			->withCookie($cookie_cantidad);
 	}
 
+	//para cuando se muestra el carrito
+	public function carrito(){
+		$compras = Cookie::get('carrito');
+		if(is_null($compras)){
+			$compras = array();
+		}
+		return View::make('shop.carrito.index')
+			->with('compras', $compras)
+			->with('title', 'Carrito de Compras');
+	}
 
+	//para cuando se elimina un producto del carrito
+	public function carritoEliminarProducto(){
+		$compras = Cookie::get('carrito');
+		$id_prod = Input::get('id_prod');
+		if(is_null($compras)){
+			$compras = array();
+			
+		}else{
+			$comp = array_pull($compras, $id_prod);
+		}
+		$cookie_compras = Cookie::forever('carrito', $compras);
+		$cookie_cantidad = Cookie::forever('carrito_cantidad', count($compras));
+		return Redirect::route('carrito')
+			->withCookie($cookie_compras)
+			->withCookie($cookie_cantidad);
+	}
 
 }
