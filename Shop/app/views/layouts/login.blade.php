@@ -33,10 +33,11 @@
       	@if(Session::has('error_login'))
       	<div class="alert alert-danger">Usuario o Clave incorrectos.</div>
       	@endif
-        <input type="text" name="usuario" class="form-control" placeholder="Usuario" required autofocus />
-        <input type="password" name="password" class="form-control" placeholder="Contrase&ntilde;a" required />
+        <input type="text" name="usuario" class="form-control input-sm" placeholder="Usuario" required autofocus />
+        <input type="password" name="password" class="form-control input-sm" placeholder="Contrase&ntilde;a" required />
 
-        <button class="btn btn-success btn-block" type="submit">Ingresar</button>
+        <button class="btn btn-success btn-block" type="submit">Ingresar</button><br>
+        <a href="{{ URL::route('resetear_password') }}">&iquest;Olvido su contrase&ntilde;a? </a>
       </form>
 
     </div> <!-- /container -->

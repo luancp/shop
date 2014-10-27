@@ -15,7 +15,7 @@ class UsuariosTableSeeder extends Seeder {
 			'token' => Hash::make('admin'),
 			'nombres' => 'Nombre Usuario',
 			'apellidos' => 'Apellido Usuario',
-			'email' => 'email@primer.com',
+			'email' => 'jgaibory@gmail.com',
 			'remember_token' => Hash::make('admin'),
 			'es_admin' => '1',
 			'estado' => 'A'
@@ -26,7 +26,7 @@ class UsuariosTableSeeder extends Seeder {
 			'token' => Hash::make('venta'),
 			'nombres' => 'Nombre Usuario2',
 			'apellidos' => 'Apellido Usuario2',
-			'email' => 'email@segundo.com',
+			'email' => 'jgaibory@gmail.com',
 			'remember_token' => Hash::make('venta'),
 			'es_admin' => '0',
 			'estado' => 'A'

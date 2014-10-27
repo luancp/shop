@@ -31,7 +31,7 @@
     		<p><hr /></p>
     		<p>{{ $producto->descripcion }}</p>
     		<p><hr /></p>
-    		<p><h4><small>precio: </small>${{ $producto->precio }}</h4></p>
+    		<p><h4><small>precio: </small>${{ number_format($producto->precio, 2) }}</h4></p>
     		<p><hr /></p>
     		<div class="row">
     			<form role="form" action="{{ URL::route('agregar_carrito') }}" method="post">

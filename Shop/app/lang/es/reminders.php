@@ -13,14 +13,14 @@ return array(
 	|
 	*/
 
-	"password" => "Passwords must be at least six characters and match the confirmation.",
+	"password" => "La contrase&ntilde;a debe tener al menos 6 caracteres y debe confirmarse.",
 
-	"user" => "We can't find a user with that e-mail address.",
+	"user" => "La direcci&oacute;n de correo electr&oacute;nico no esta registrada.",
 
-	"token" => "This password reset token is invalid.",
+	"token" => "Se ha expirado el token para resetear su contrase&ntilde;a.",
 
-	"sent" => "Password reminder sent!",
+	"sent" => "Se ha enviado a su correo electr&oacute;nico un enlace para resetear su contrase&ntilde;a.",
 
-	"reset" => "Password has been reset!",
+	"reset" => "Se ha resetado su contrase&ntilde;a satisfactoriamente.",
 
 );

@@ -44,56 +44,7 @@
             <span class="icon-bar"></span>
           </button>
           <a class="navbar-brand" href="{{ URL::route('principal') }}"></a>
-          <a class="navbar-toggle collapsed cart-movil" href="{{ URL::route('carrito') }}"><i class="fa fa-shopping-cart fa-2x"></i><span class="badge badge-cart">{{ Cookie::get('carrito_cantidad')?Cookie::get('carrito_cantidad'):0 }}</span></a>
         </div>
-        <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-reorder fa-2x"></span></a>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else </a></li>
-                <li class="divider"></li>
-                <li class="dropdown-header">Nav header</li>
-                <li><a href="#">Separated link</a></li>
-                <li><a href="#">One more </a></li>
-              </ul>
-            </li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-			  <li class="">
-		          <form class="navbar-form text-center" role="form">
-		            <div class="form-group">
-		              <input type="search" placeholder="Buscar..." class="form-control form-rounded"/>
-		            </div>
-		          </form>
-			  </li>
-			  <li class="hidden-xs">
-	         	<a href="{{ URL::route('carrito') }}"><i class="fa fa-shopping-cart fa-2x"></i><span class="badge badge-cart">{{ Cookie::get('carrito_cantidad')?Cookie::get('carrito_cantidad'):0 }}</span></a>
-	          </li>
-			  @if(!Session::has('usuario'))
-			  <li class="">
-			  	<a class="text-primary" href="{{ URL::route('login') }}">Ingresar</a>
-			  </li>
-			  <li class="">
-			  	<a class="text-primary" href="">Registrarse</a>
-			  </li>
-			  @else
-			  	<li class="dropdown">
-				  	<a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;"><img class="img-circle" style="width:27px;" src="{{ Session::get('imagen_usuario') }}" />&nbsp;&nbsp;{{ Session::get('usuario')->usuario }}&nbsp;<i class="fa fa-chevron-down"></i></a>
-				  	<ul class="dropdown-menu" role="menu">
-				  		@if(Session::get('usuario')->es_admin == '1')
-		                	<li><a href="{{ URL::route('admin') }}"><i class="fa fa-gear"></i>&nbsp;&nbsp;Administraci&oacute;n</a></li>
-		                 @endif
-		                <li><a href="{{ URL::route('perfil') }}"><i class="fa fa-dollar"></i>&nbsp;&nbsp;Mis Ordenes</a></li>
-		                <li><a href="{{ URL::route('perfil') }}"><i class="fa fa-user"></i>&nbsp;&nbsp;Perfil</a></li>
-		                <li class="divider"></li>
-		                <li class=""><a href="{{ URL::route('logout') }}"><i class="fa fa-power-off"></i>&nbsp;&nbsp;Logout</a></li>
-	              	</ul>
-				</li>
-			  @endif
-          </ul>
-        </div><!--/.nav-collapse -->
       </div>
     </div>
 
@@ -120,11 +71,11 @@
     	</div>
     	@endif
     	<div class="row">
-		  	<div class="col-md-3 col-sm-3">
-				@yield('sidebar')
-			</div>
-			<div class="col-md-9 col-sm-9">
-				@yield('content')
+			<div class="col-md-12 col-sm-12">
+				<form action="{{ URL::route('resetear_password') }}" method="POST">
+				    <input type="email" name="email">
+				    <input type="submit" value="Send Reminder">
+				</form>
 			</div>
 		</div>
     </div>

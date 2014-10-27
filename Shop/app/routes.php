@@ -8,18 +8,29 @@ Route::get('logout/', array('as' => 'logout', 'uses' => 'MainController@logout')
 //para las paginas principales
 Route::get('/', array('as' => 'principal', 'uses' => 'ShopController@principal'));
 Route::get('/producto/{id}', array('as' => 'producto_venta', 'uses' => 'ShopController@showProducto'));
+
+//para el carrito sin login - como Amazon.com
 Route::post('/carrito/add/', array('as' => 'agregar_carrito', 'uses' => 'ShopController@agregarCarrito'));
+Route::get('carrito/', array('as' => 'carrito', 'uses' => 'ShopController@carrito'));
+Route::post('carrito/actualizar/', array('as' => 'carrito_actualizar_producto', 'uses' => 'ShopController@carritoActualizarProducto'));
+Route::post('carrito/eliminar/', array('as' => 'carrito_eliminar_producto', 'uses' => 'ShopController@carritoEliminarProducto'));
 
 //registro de usuarios
 Route::get('registro/', array('as' => 'registrar', 'uses' => 'ShopController@showRegistro'));
-Route::post('registro_usuario/', array('as' => 'usuario_registrar', 'uses' => 'ShopController@registrar'));
+Route::post('registro/usuario/', array('as' => 'usuario_registrar', 'uses' => 'ShopController@registrar'));
+
+//resetear password
+Route::get('password/reset/', array('as' => 'resetear_password', 'uses' => 'RemindersController@getRemind'));
+Route::post('password/reset/', array('as' => 'resetear_password_post', 'uses' => 'RemindersController@postRemind'));
+Route::get('password/reset/token/{token}', array('as' => 'resetear_password_token', 'uses' => 'RemindersController@getReset'));
+Route::post('password/reset/token/', array('as' => 'resetear_password_token_post', 'uses' => 'RemindersController@postReset'));
+
 //---------------------------------------------------------------------------------------------------------------
 //urls con seguridad - para la tienda
 Route::group(array('before' => 'auth'), function(){
 	//para el carrito de compras
-	Route::get('carrito/', array('as' => 'carrito', 'uses' => 'ShopController@carrito'));
-	Route::post('carrito/eliminar/', array('as' => 'carrito_eliminar_producto', 'uses' => 'ShopController@carritoEliminarProducto'));
-
+	Route::post('carrito/checkout/', array('as' => 'carrito_checkout', 'uses' => 'ShopController@carritoCheckout'));
+	
 	//para las paginas del perfil
 	Route::get('perfil/', array('as' => 'perfil', 'uses' => 'AjustesController@mostrarPerfil'));
 	Route::post('perfil/update/', array('as' => 'perfil_actualizar', 'uses' => 'AjustesController@actualizarPerfil'));
