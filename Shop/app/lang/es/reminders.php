@@ -17,10 +17,10 @@ return array(
 
 	"user" => "La direcci&oacute;n de correo electr&oacute;nico no esta registrada.",
 
-	"token" => "Se ha expirado el token para resetear su contrase&ntilde;a.",
+	"token" => "Se ha expirado el token para cambiar su contrase&ntilde;a.",
 
-	"sent" => "Se ha enviado a su correo electr&oacute;nico un enlace para resetear su contrase&ntilde;a.",
+	"sent" => "Se ha enviado a su correo electr&oacute;nico un enlace para cambiar su contrase&ntilde;a.",
 
-	"reset" => "Se ha resetado su contrase&ntilde;a satisfactoriamente.",
+	"reset" => "Se ha cambiado su contrase&ntilde;a satisfactoriamente.",
 
 );
