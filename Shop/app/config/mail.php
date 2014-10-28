@@ -80,7 +80,7 @@ return array(
 	|
 	*/
 
-	'username' => 'jgaibory@gmail.com',
+	'username' => 'contifico@gmail.com',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -93,7 +93,7 @@ return array(
 	|
 	*/
 
-	'password' => 'password',
+	'password' => 'nameknts2',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -119,6 +119,6 @@ return array(
 	|
 	*/
 
-	'pretend' => true,
+	'pretend' => false,
 
 );

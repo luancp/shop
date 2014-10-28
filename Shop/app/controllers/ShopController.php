@@ -49,6 +49,7 @@ class ShopController extends BaseController {
 		}
 		return View::make('shop.carrito.index')
 			->with('compras', $compras)
+			->with('items', count($compras))
 			->with('total', $total)
 			->with('title', 'Carrito de Compras');
 	}

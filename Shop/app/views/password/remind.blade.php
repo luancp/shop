@@ -70,11 +70,23 @@
 	    	</div>
     	</div>
     	@endif
-    	<div class="row">
-			<div class="col-md-12 col-sm-12">
-				<form action="{{ URL::route('resetear_password') }}" method="POST">
-				    <input type="email" name="email">
-				    <input type="submit" value="Send Reminder">
+    	<div class="">
+    		<div class="col-md-3 col-sm-3">
+				
+			</div>
+			<div class="col-md-9 col-sm-9 bg-white">
+				<h4>Cambiar Contrase&ntilde;a</h4>
+	    		<hr /><br />
+				<form class="row" action="{{ URL::route('resetear_password') }}" method="POST">
+					<p class="col-md-12">Por favor ingrese la direcci&oacute;n de correo elect&oacute;nico con la que se registr&oacute; para poder resetear su contrase&ntilde;a.</p>
+					<div class="col-md-6 col-sm-9">
+						<input class="form-control input-sm" type="email" name="email" required="" placeholder="direccion de email" />
+					</div>
+					<div class="col-md-12 col-sm-12">
+						<br />
+					    <button class="btn btn-success btn-sm" type="submit">Cambiar Contrase&ntilde;a</button>
+					</div>
+					<div class="col-md-12"><br /><hr /></div>
 				</form>
 			</div>
 		</div>

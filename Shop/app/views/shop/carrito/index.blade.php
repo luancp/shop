@@ -42,7 +42,7 @@
 					<thead>
 						<tr>
 							<th width="90"></th>
-							<th>Producto</th>
+							<th>Productos</th>
 							<th class="text-center">Precio</th>
 							<th class="text-center" width="100">Cantidad</th>
 							<th class="text-center">Subtotal</th>
@@ -97,7 +97,7 @@
 					</tbody>
 					<tfoot style="border-top:3px solid #ddd;">
 						<tr>
-							<td colspan="3"></td>
+							<td colspan="3">Total items: <strong>{{ $items }}</strong></td>
 							<td class="text-center"><strong class="gran-total espacio-arriba">Total</strong></td>
 							<td class="text-center"><strong class="gran-total espacio-arriba">${{ number_format($total, 2) }}</strong></td>
 							<td></td>

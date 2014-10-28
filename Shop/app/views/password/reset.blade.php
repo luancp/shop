@@ -70,14 +70,41 @@
 	    	</div>
     	</div>
     	@endif
-    	<div class="row">
-			<div class="col-md-12 col-sm-12">
-				<form action="{{ URL::route('resetear_password_token_post') }}" method="POST">
-				    <input type="hidden" name="token" value="{{ $token }}">
-				    <input type="email" name="email">
-				    <input type="password" name="password">
-				    <input type="password" name="password_confirmation">
-				    <input type="submit" value="Reset Password">
+    	<div class="">
+    		<div class="col-md-3 col-sm-3">
+				
+			</div>
+			<div class="col-md-9 col-sm-9 bg-white">
+				<h4>Cambiar Contrase&ntilde;a</h4>
+	    		<hr /><br />
+				<form class=" form-horizontal" action="{{ URL::route('resetear_password_token_post') }}" method="POST">
+					<p class="">Por favor ingrese la direcci&oacute;n de correo elect&oacute;nico con la que se registr&oacute; para poder resetear su contrase&ntilde;a.</p>
+					<div class="form-group">	
+						<div class="col-md-6 col-sm-9">
+							<input type="hidden" name="token" value="{{ $token }}">
+							<label>Email</label>
+							<input class="form-control input-sm" type="email" name="email" placeholder="email" />
+						</div>
+					</div>
+					<div class="form-group">	
+						<div class="col-md-6 col-sm-9">
+							<label>Password</label>
+							<input class="form-control input-sm" type="password" name="password" required="" />
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-md-6 col-sm-9">
+							<label>Confirmar Password</label>
+							<input class="form-control input-sm" type="password" name="password_confirmation" required="" />
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-md-12 col-sm-12">
+							<br />
+						    <button class="btn btn-success btn-sm" type="submit">Cambiar Contrase&ntilde;a</button>
+						</div>
+					</div>					
+					<div class="col-md-12"><br /><hr /></div>
 				</form>
 			</div>
 		</div>

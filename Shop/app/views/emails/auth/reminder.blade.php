@@ -1,14 +1,18 @@
 <!DOCTYPE html>
-<html lang="en-US">
+<html lang="es-EC">
 	<head>
 		<meta charset="utf-8">
 	</head>
 	<body>
-		<h2>Password Reset</h2>
-
+		<div style="text-align:center;">
+			<img src="{{ URL::asset('img/logo.png') }}" alt="" />
+		</div>
+		<h3>Cambiar Contrase&ntilde;a</h3>
 		<div>
-			To reset your password, complete this form: {{ URL::to('password/reset', array($token)) }}.<br/>
-			This link will expire in {{ Config::get('auth.reminder.expire', 60) }} minutes.
+			Para cambiar su contrase&ntilde;a por favor dirigase al siguiente enlace: <a href="{{ URL::route('resetear_password_token', array($token)) }}">Cambiar Contrase&ntilde;a</a>.<br/>
+			<br>Si el link de arriba no funciona, copie y pegue en el navegador la siguiente direcci&oacute;n:<br>{{ URL::route('resetear_password_token', array($token)) }}<br >
+			<br>
+			<p style="color:#777;font-size:12px;">Este link expira en {{ Config::get('auth.reminder.expire', 60) }} minutos.</p>
 		</div>
 	</body>
 </html>
