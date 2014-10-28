@@ -82,3 +82,23 @@ a.list-group-item.active>.badge, .nav-pills>.active>a>.badge {
 hr{
 	margin: 0;
 }
+
+/*popover carrito*/
+.popover{
+    max-width:250px;
+}
+.popover-content {
+	padding: 5px 10px;
+}
+.content-cart-header{
+	width:230px;
+	max-height: 250px;
+	overflow-y: scroll;
+}
+.producto-carrito-header{
+	font-size: 12px;
+}
+.text-mini-cart{
+	color: #bbb;
+	font-size: 11px;
+}

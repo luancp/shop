@@ -44,7 +44,7 @@
             <span class="icon-bar"></span>
           </button>
           <a class="navbar-brand" href="{{ URL::route('principal') }}"></a>
-          <a class="navbar-toggle collapsed cart-movil" href="{{ URL::route('carrito') }}"><i class="fa fa-shopping-cart fa-2x"></i><span class="badge badge-cart">{{ Cookie::get('carrito_cantidad')?Cookie::get('carrito_cantidad'):0 }}</span></a>
+          <a class="navbar-toggle collapsed cart-movil pull-left" id="popoverCartMovil" href="javascript:;" data-placement="bottom" data-toggle="popover" data-content=""><i class="fa fa-shopping-cart fa-2x"></i><span class="badge badge-cart">{{ Cookie::get('carrito_cantidad')?Cookie::get('carrito_cantidad'):0 }}</span></a>
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
@@ -69,7 +69,7 @@
 		          </form>
 			  </li>
 			  <li class="hidden-xs">
-	         	<a href="{{ URL::route('carrito') }}"><i class="fa fa-shopping-cart fa-2x"></i><span class="badge badge-cart">{{ Cookie::get('carrito_cantidad')?Cookie::get('carrito_cantidad'):0 }}</span></a>
+	         	<a id="popoverCart" href="javascript:;" data-placement="bottom" data-toggle="popover" data-content=""><i class="fa fa-shopping-cart fa-2x"></i><span class="badge badge-cart">{{ Cookie::get('carrito_cantidad')?Cookie::get('carrito_cantidad'):0 }}</span></a>
 	          </li>
 			  @if(!Session::has('usuario'))
 			  <li class="">
@@ -135,6 +135,25 @@
         <p class="text-muted">Todos los derechos reservados.</p>
       </div>
     </div> -->
+    <div id="cart-hover" class="hide">
+    	<div class="content-cart-header">
+	    	@foreach(Cookie::get('carrito') as $c)
+	    	<div class="media">
+			  <a class="pull-left" href="#">
+				@if(array_get($c, 'imagen'))
+					{{ HTML::image('img/productos/thumb_'.array_get($c, 'imagen'), '', array('class'=>'img-rounded', 'width'=>'60')) }}
+				@else
+					{{ HTML::image('img/productos/thumb_default.png', '', array('class'=>'img-rounded', 'width'=>'60')) }}
+				@endif
+			  </a>
+			  <div class="media-body producto-carrito-header">
+			    {{ str_limit(array_get($c, 'nombre'), $limit = 50, $end = '...') }}<br /><span class="text-mini-cart">Cant. {{ array_get($c, 'cantidad') }}</span>
+			  </div>
+			</div>
+	    	@endforeach
+	    </div>
+    	<div class="text-center" style="padding-top:10px;"><a class="btn btn-info btn-xs" href="{{ URL::route('carrito') }}">Ver Carrito</a></div>
+    </div>
 
 	<!-- Bootstrap core JavaScript
     ================================================== -->
@@ -143,6 +162,14 @@
     {{ HTML::script('js/bootstrap.min.js') }}
 
     @yield('js-footer')
-
+	<script type="text/javascript">
+		$(function(){
+			$('#popoverCart, #popoverCartMovil').popover({
+				html: true,
+				content: $('#cart-hover').html(),
+				trigger: 'click'
+			});
+		});
+	</script>
 	</body>
 </html>
