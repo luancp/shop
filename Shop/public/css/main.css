@@ -93,7 +93,10 @@ hr{
 .content-cart-header{
 	width:230px;
 	max-height: 250px;
-	overflow-y: scroll;
+	/*overflow-y: scroll;*/
+	position: relative;
+    height: 100%; /* Or whatever you want (eg. 400px) */
+    overflow: hidden;
 }
 .producto-carrito-header{
 	font-size: 12px;

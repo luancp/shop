@@ -25,6 +25,7 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     {{ HTML::style('css/main.css') }}
+    {{ HTML::style('css/perfect-scrollbar.min.css') }}
 
     <!-- css header -->
     @yield('css-header')
@@ -136,6 +137,7 @@
       </div>
     </div> -->
     <div id="cart-hover" class="hide">
+    	@if(Cookie::get('carrito'))
     	<div class="content-cart-header">
 	    	@foreach(Cookie::get('carrito') as $c)
 	    	<div class="media">
@@ -153,6 +155,9 @@
 	    	@endforeach
 	    </div>
     	<div class="text-center" style="padding-top:10px;"><a class="btn btn-info btn-xs" href="{{ URL::route('carrito') }}">Ver Carrito</a></div>
+    	@else
+    	<p class="text-muted content-cart-header">No has realizado compras aun.</p>
+    	@endif
     </div>
 
 	<!-- Bootstrap core JavaScript
@@ -160,6 +165,7 @@
     <!-- Placed at the end of the document so the pages load faster -->
     {{ HTML::script('js/jquery-1.11.1.min.js') }}
     {{ HTML::script('js/bootstrap.min.js') }}
+    {{ HTML::script('js/perfect-scrollbar.min.js') }}
 
     @yield('js-footer')
 	<script type="text/javascript">
@@ -169,6 +175,7 @@
 				content: $('#cart-hover').html(),
 				trigger: 'click'
 			});
+			$('.content-cart-header').perfectScrollbar();
 		});
 	</script>
 	</body>
