@@ -70,7 +70,7 @@
 		          </form>
 			  </li>
 			  <li class="hidden-xs">
-	         	<a href="javascript:;" id="popoverCart" data-placement="bottom" data-toggle="popover" data-content="" data-trigger="click" tabindex="0"><i class="fa fa-shopping-cart fa-2x" ></i><span class="badge badge-cart">{{ Cookie::get('carrito_cantidad')?Cookie::get('carrito_cantidad'):0 }}</span></a>
+	         	<a href="javascript:;" id="popoverCart" data-placement="bottom" data-toggle="popover" data-content="" data-trigger="focus" tabindex="0"><i class="fa fa-shopping-cart fa-2x" ></i><span class="badge badge-cart">{{ Cookie::get('carrito_cantidad')?Cookie::get('carrito_cantidad'):0 }}</span></a>
 	          </li>
 			  @if(!Session::has('usuario'))
 			  <li class="">
@@ -174,7 +174,12 @@
 				html: true,
 				content: $('#cart-hover').html()
 			});
-			
+			$('#popoverCart, #popoverCartMovil').on('show.bs.popover', function(){
+				$("body").addClass("modal-open");
+			});
+			$('#popoverCart, #popoverCartMovil').on('hide.bs.popover', function(){
+				$("body").removeClass("modal-open");
+			});
 		});
 	</script>
 	</body>

@@ -118,3 +118,7 @@ hr{
 	color: #bbb;
 	font-size: 11px;
 }
+
+body.modal-open {
+    overflow: hidden;
+}
