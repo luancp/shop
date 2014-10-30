@@ -156,7 +156,7 @@
 	    </div>
     	<div class="text-center" style="padding-top:10px;"><a class="btn btn-info btn-xs" href="{{ URL::route('carrito') }}">Ver Carrito</a></div>
     	@else
-    	<p class="text-muted content-cart-header">No has realizado compras aun.</p>
+    	<p class="text-muted" style="width:200px;padding-top:5px;">No has realizado compras aun.</p>
     	@endif
     </div>
 
