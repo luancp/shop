@@ -70,7 +70,7 @@
 		          </form>
 			  </li>
 			  <li class="hidden-xs">
-	         	<a id="popoverCart" href="javascript:;" data-placement="bottom" data-toggle="popover" data-content=""><i class="fa fa-shopping-cart fa-2x"></i><span class="badge badge-cart">{{ Cookie::get('carrito_cantidad')?Cookie::get('carrito_cantidad'):0 }}</span></a>
+	         	<a href="javascript:;" id="popoverCart" data-placement="bottom" data-toggle="popover" data-content="" data-trigger="click" tabindex="0"><i class="fa fa-shopping-cart fa-2x" ></i><span class="badge badge-cart">{{ Cookie::get('carrito_cantidad')?Cookie::get('carrito_cantidad'):0 }}</span></a>
 	          </li>
 			  @if(!Session::has('usuario'))
 			  <li class="">
@@ -138,14 +138,14 @@
     </div> -->
     <div id="cart-hover" class="hide">
     	@if(Cookie::get('carrito'))
-    	<div class="content-cart-header">
+    	<div id="content-cart-header">
 	    	@foreach(Cookie::get('carrito') as $c)
 	    	<div class="media">
 			  <a class="pull-left" href="#">
 				@if(array_get($c, 'imagen'))
-					{{ HTML::image('img/productos/thumb_'.array_get($c, 'imagen'), '', array('class'=>'img-rounded', 'width'=>'60')) }}
+					{{ HTML::image('img/productos/thumb_'.array_get($c, 'imagen'), '', array('class'=>'img-rounded', 'width'=>'55')) }}
 				@else
-					{{ HTML::image('img/productos/thumb_default.png', '', array('class'=>'img-rounded', 'width'=>'60')) }}
+					{{ HTML::image('img/productos/thumb_default.png', '', array('class'=>'img-rounded', 'width'=>'55')) }}
 				@endif
 			  </a>
 			  <div class="media-body producto-carrito-header">
@@ -172,10 +172,9 @@
 		$(function(){
 			$('#popoverCart, #popoverCartMovil').popover({
 				html: true,
-				content: $('#cart-hover').html(),
-				trigger: 'click'
+				content: $('#cart-hover').html()
 			});
-			$('.content-cart-header').perfectScrollbar();
+			
 		});
 	</script>
 	</body>
