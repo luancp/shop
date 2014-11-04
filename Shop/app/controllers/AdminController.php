@@ -45,8 +45,8 @@ class AdminController extends BaseController {
 				File::delete($directorio.'thumb_'.$producto->imagen);
 			}
 			//verifica la imagen mini y la elimina
-			if(File::exists($directorio.'mini_'.$producto->imagen)){
-				File::delete($directorio.'mini_'.$producto->imagen);
+			if(File::exists($directorio.'venta_'.$producto->imagen)){
+				File::delete($directorio.'venta_'.$producto->imagen);
 			}
 			
 			//guarda la imagen - administracion, venta - individual
@@ -54,11 +54,11 @@ class AdminController extends BaseController {
 			$image->fit(420, 520);
 			$image->save($directorio.$imagen);
 			//thumbnail - administracion
-			$image = Image::make($file);
+			//$image = Image::make($file);
 			$image->fit(180, 140);
 			$image->save($directorio.$imagen_thumb);
 			//venta - pagina principal
-			$image = Image::make($file);
+			//$image = Image::make($file);
 			$image->fit(250, 188);
 			$image->save($directorio.$imagen_mini);
 			
