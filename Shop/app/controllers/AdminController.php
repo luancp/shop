@@ -32,6 +32,10 @@ class AdminController extends BaseController {
 			$producto = Producto::findOrFail($id);
 			
 			$file = Input::file('imagen');
+			$coors = Input::get('img-coors');
+			
+			$cor = json_decode($coors);
+			
 			$imagen = $producto->id.'.'.$file->getClientOriginalExtension();
 			$imagen_thumb = 'thumb_'.$producto->id.'.'.$file->getClientOriginalExtension();
 			$imagen_mini = 'venta_'.$producto->id.'.'.$file->getClientOriginalExtension();
@@ -49,9 +53,13 @@ class AdminController extends BaseController {
 				File::delete($directorio.'venta_'.$producto->imagen);
 			}
 			
-			//guarda la imagen - administracion, venta - individual
 			$image = Image::make($file);
-			$image->fit(420, 520);
+			$image->resize(500, 500);
+			$image->save($directorio.$imagen);
+
+			//guarda la imagen - administracion, venta - individual
+			//$image = Image::make($file);
+			$image->crop((int)$cor->w, (int)$cor->h, (int)$cor->x, (int)$cor->y);
 			$image->save($directorio.$imagen);
 			//thumbnail - administracion
 			//$image = Image::make($file);

@@ -25,19 +25,20 @@
     		<div class="fileinput fileinput-new" data-provides="fileinput">
 			  <div class="fileinput-new thumbnail">
     			@if(!$producto->imagen)
-    			<img class="img-select" src="{{ URL::asset('img/productos/default.png') }}" width="500" />
+    			<img class="img-select" src="{{ URL::asset('img/productos/default.png') }}" width="100%" />
     			@else    			
-    			<img class="img-select" src="{{ URL::asset('img/productos/'.$producto->imagen) }}" width="500" />
+    			<img class="img-select" src="{{ URL::asset('img/productos/'.$producto->imagen) }}" width="100%" />
     			@endif
 			  </div>
-			  <div id="fileinput-preview" class="fileinput-preview fileinput-exists thumbnail" >
+			  <div id="fileinput-preview" class="fileinput-preview fileinput-exists thumbnail" style="overflow:scroll;">
 			  	@if($producto->imagen)
-    			<img class="img-select" src="{{ URL::asset('img/productos/'.$producto->imagen) }}" width="500" />
+    			<img class="img-select" src="{{ URL::asset('img/productos/'.$producto->imagen) }}" width="100%" />
 			  	@endif
 			  </div>
 			  <div>
 			  	<form method="post" action="{{ URL::route('admin_producto_actualizar') }}" class="form-inline" enctype="multipart/form-data">
 			  		<input type="hidden" name="id" value="{{ $producto->id }}" />
+			  		<input type="hidden" id="img-coors" name="img-coors" value="" />
 				    <span class="btn btn-info btn-file">
 				    	<span class="fileinput-new" id="seleccionar-imagen">Seleccionar Imagen</span>
 				    	<span class="fileinput-exists" id="cambiar-imagen">Cambiar</span>
@@ -67,7 +68,8 @@
 {{ HTML::script('js/jcrop/jquery.Jcrop.min.js') }}
 <script type="text/javascript">
 	function selectImagen(c){
-		console.log(c);
+		var coors = '{"x":"'+c.x+'","y":"'+c.y+'","x2":"'+c.x2+'","y2":"'+c.y2+'","w":"'+c.w+'","h":"'+c.h+'"}';
+		$('#img-coors').val(coors);
 	}
 	
 	$(function(){
@@ -87,8 +89,8 @@
 	            bgOpacity:   .6,
 	            boxWidth: 	 500,
 	            boxHeight: 	 500,
-	            minSize:	 [420, 498],
-	            maxSize:	 [420, 498],
+	            minSize:	 [420, 500],
+	            maxSize:	 [420, 500],
 			});
 		});
 	});
