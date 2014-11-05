@@ -28,18 +28,17 @@ class AdminController extends BaseController {
 	public function productoActualizar(){
 		$id = Input::get('id');
 		
+		$producto = Producto::findOrFail($id);
 		if(Input::hasFile('imagen')){
-			$producto = Producto::findOrFail($id);
 			
 			$file = Input::file('imagen');
 			$coors = Input::get('img-coors');
 			
-			$cor = json_decode($coors);
-			
 			$imagen = $producto->id.'.'.$file->getClientOriginalExtension();
 			$imagen_thumb = 'thumb_'.$producto->id.'.'.$file->getClientOriginalExtension();
-			$imagen_mini = 'venta_'.$producto->id.'.'.$file->getClientOriginalExtension();
+			//$imagen_mini = 'venta_'.$producto->id.'.'.$file->getClientOriginalExtension();
 			$directorio = public_path().'/img/productos/';
+			
 			//verifica la imagen y la elimina
 			if(File::exists($directorio.$producto->imagen)){
 				File::delete($directorio.$producto->imagen);
@@ -48,29 +47,33 @@ class AdminController extends BaseController {
 			if(File::exists($directorio.'thumb_'.$producto->imagen)){
 				File::delete($directorio.'thumb_'.$producto->imagen);
 			}
-			//verifica la imagen mini y la elimina
-			if(File::exists($directorio.'venta_'.$producto->imagen)){
-				File::delete($directorio.'venta_'.$producto->imagen);
-			}
 			
+			//verifica las coordenadas de la imagen
 			$image = Image::make($file);
-			$image->resize(500, 500);
+			if(!$coors){
+				//imagen para producto - individual
+				$width = $image->width();
+				$height = $image->height();
+				if($height < 500){
+					$image->resizeCanvas(null, 500, 'center', false, 'ffffff');
+				}
+				if($width < 420){
+					$image->resizeCanvas(420, null, 'center', false, 'ffffff');
+				}
+				$image->fit(420, 500);
+			}else{
+				$cor = json_decode($coors);
+				//imagen para producto - individual
+				$image = $image->crop((int)$cor->w, (int)$cor->h, (int)$cor->x, (int)$cor->y);
+			}
 			$image->save($directorio.$imagen);
-
-			//guarda la imagen - administracion, venta - individual
-			//$image = Image::make($file);
-			$image->crop((int)$cor->w, (int)$cor->h, (int)$cor->x, (int)$cor->y);
-			$image->save($directorio.$imagen);
-			//thumbnail - administracion
-			//$image = Image::make($file);
+			
+			//thumbnail - administracion y carrito
+			$image = Image::make($directorio.$imagen);
 			$image->fit(180, 140);
 			$image->save($directorio.$imagen_thumb);
-			//venta - pagina principal
-			//$image = Image::make($file);
-			$image->fit(250, 188);
-			$image->save($directorio.$imagen_mini);
 			
-			//setea la iamgen al usuario
+			//setea la imagen al producto
 			$producto->imagen = $imagen;
 			$producto->save();
 		}

@@ -25,7 +25,6 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     {{ HTML::style('css/main.css') }}
-    {{ HTML::style('css/perfect-scrollbar.min.css') }}
 
     <!-- css header -->
     @yield('css-header')
@@ -145,7 +144,7 @@
 				@if(array_get($c, 'imagen'))
 					{{ HTML::image('img/productos/thumb_'.array_get($c, 'imagen'), '', array('class'=>'img-rounded', 'width'=>'55')) }}
 				@else
-					{{ HTML::image('img/productos/thumb_default.png', '', array('class'=>'img-rounded', 'width'=>'55')) }}
+					{{ HTML::image('img/productos/default/thumb_default.png', '', array('class'=>'img-rounded', 'width'=>'55')) }}
 				@endif
 			  </a>
 			  <div class="media-body producto-carrito-header">
@@ -165,7 +164,6 @@
     <!-- Placed at the end of the document so the pages load faster -->
     {{ HTML::script('js/jquery-1.11.1.min.js') }}
     {{ HTML::script('js/bootstrap.min.js') }}
-    {{ HTML::script('js/perfect-scrollbar.min.js') }}
 
     @yield('js-footer')
 	<script type="text/javascript">

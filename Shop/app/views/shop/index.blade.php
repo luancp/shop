@@ -21,9 +21,9 @@
 		<div class="col-sm-6 col-md-4">
 		    <div class="thumbnail">
 		    	@if($p->imagen)
-		      	<a href="{{ URL::route('producto_venta', $p->id) }}"><img src="{{ URL::asset('img/productos/venta_'.$p->imagen) }}" alt="{{ $p->nombre }}" /></a>
+		      	<a href="{{ URL::route('producto_venta', $p->id) }}"><img src="{{ URL::asset('img/productos/'.$p->imagen) }}" alt="{{ $p->nombre }}" /></a>
 		      	@else
-		      	<a href="{{ URL::route('producto_venta', $p->id) }}"><img src="{{ URL::asset('img/productos/default.png') }}" alt="{{ $p->nombre }}" /></a>
+		      	<a href="{{ URL::route('producto_venta', $p->id) }}"><img src="{{ URL::asset('img/productos/default/venta_default.png') }}" alt="{{ $p->nombre }}" /></a>
 		      	@endif
 		      	<div class="caption">
 		        	<a href="{{ URL::route('producto_venta', $p->id) }}"><h5>{{ $p->nombre }}<strong class="pull-right text-success">${{ number_format($p->precio, 2) }}</strong></h5></a>

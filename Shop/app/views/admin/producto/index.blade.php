@@ -35,7 +35,7 @@
     			@if($p->imagen)
     				{{ HTML::image('img/productos/thumb_'.$p->imagen, '', array('class' => 'thumbnail', 'width' => '100%', 'data-title' => $p->nombre, 'data-src' => URL::asset("img/productos/$p->imagen"))) }}
     			@else
-    				{{ HTML::image('img/productos/default.png', '', array('class' => 'thumbnail', 'width' => '100%', 'data-title' => $p->nombre)) }}
+    				{{ HTML::image('img/productos/default/default.png', '', array('class' => 'thumbnail', 'width' => '100%', 'data-title' => $p->nombre)) }}
     			@endif
 				</div>
     		</div>

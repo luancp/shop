@@ -30,7 +30,7 @@
     			<img class="img-select" src="{{ URL::asset('img/productos/'.$producto->imagen) }}" width="100%" />
     			@endif
 			  </div>
-			  <div id="fileinput-preview" class="fileinput-preview fileinput-exists thumbnail" style="overflow:scroll;">
+			  <div id="fileinput-preview" class="fileinput-preview fileinput-exists thumbnail">
 			  	@if($producto->imagen)
     			<img class="img-select" src="{{ URL::asset('img/productos/'.$producto->imagen) }}" width="100%" />
 			  	@endif
