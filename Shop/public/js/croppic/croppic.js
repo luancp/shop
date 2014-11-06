@@ -1,7 +1,7 @@
 /*
  * CROP
  * dependancy: jQuery
- * author: Ognjen "Zmaj Džedaj" Božičković
+ * author: Ognjen "Zmaj DÅ¾edaj" BoÅ¾iÄkoviÄ‡
  */
 
 (function (window, document) {
@@ -163,7 +163,7 @@
                     processData: false,
                     type: 'POST'
 				}).always(function(data){
-					var response = data;
+					response = data;
 					if(response.status=='success'){
 						
 						that.imgInitW = that.imgW = response.width;
