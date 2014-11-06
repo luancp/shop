@@ -10,9 +10,14 @@
 		white-space: nowrap;
 		overflow: hidden;
 	}
+	#imagen-imagen{
+		width: 420px;
+		height: 500px;
+		position: relative; /* or fixed or absolute */
+	}
 </style>
 {{ HTML::style('css/jasny-bootstrap.min.css') }}
-{{ HTML::style('css/jcrop/jquery.Jcrop.min.css') }}
+{{ HTML::style('css/croppic/croppic.css') }}
 @endsection
 
 @section('content')
@@ -21,36 +26,14 @@
 	    	<i class="fa fa-shopping-cart"></i>&nbsp;&nbsp;Producto
 	    </h4>
 	    <hr /><br />
-    	<div class="col-md-8 col-sm-8">
-    		<div class="fileinput fileinput-new" data-provides="fileinput">
-			  <div class="fileinput-new thumbnail">
-    			@if(!$producto->imagen)
-    			<img class="img-select" src="{{ URL::asset('img/productos/default.png') }}" width="100%" />
-    			@else    			
-    			<img class="img-select" src="{{ URL::asset('img/productos/'.$producto->imagen) }}" width="100%" />
+    	<div class="col-md-7 col-sm-7" style="overflow:hidden">
+    		<div id="imagen-imagen">
+    			@if($producto->imagen)
+    				<img class="croppedImg" src="{{ URL::asset('img/productos/'.$producto->imagen) }}">
     			@endif
-			  </div>
-			  <div id="fileinput-preview" class="fileinput-preview fileinput-exists thumbnail">
-			  	@if($producto->imagen)
-    			<img class="img-select" src="{{ URL::asset('img/productos/'.$producto->imagen) }}" width="100%" />
-			  	@endif
-			  </div>
-			  <div>
-			  	<form method="post" action="{{ URL::route('admin_producto_actualizar') }}" class="form-inline" enctype="multipart/form-data">
-			  		<input type="hidden" name="id" value="{{ $producto->id }}" />
-			  		<input type="hidden" id="img-coors" name="img-coors" value="" />
-				    <span class="btn btn-info btn-file">
-				    	<span class="fileinput-new" id="seleccionar-imagen">Seleccionar Imagen</span>
-				    	<span class="fileinput-exists" id="cambiar-imagen">Cambiar</span>
-				    	<input id="usuario-imagen" type="file" name="imagen">
-				    </span>
-				    <a href="#" id="quitar-imagen" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Quitar</a>
-				    <button class="btn btn-success fileinput-exists pull-right" type="submit">Guardar</button>
-				</form>
-			  </div>
-			</div>
+    		</div>
     	</div>
-    	<div class="col-md-4 col-sm-4">
+    	<div class="col-md-5 col-sm-5">
     		<h4>{{ $producto->nombre }}</h4>
     		<p><hr /></p>
     		<p>{{ $producto->descripcion }}</p>
@@ -58,20 +41,14 @@
     		<p><h4><small>precio: </small>${{ number_format($producto->precio, 2) }}</h4></p>
     		<p><hr /></p>
     	</div>
-		<br />
   	</div>
+  	<div class="col-md-12"><hr /></div>
 @endsection
 
 @section('js-footer')
 {{ HTML::script('js/jasny-bootstrap.min.js') }}
-{{ HTML::script('js/jcrop/jquery.color.js') }}
-{{ HTML::script('js/jcrop/jquery.Jcrop.min.js') }}
+{{ HTML::script('js/croppic/croppic.js') }}
 <script type="text/javascript">
-	function selectImagen(c){
-		var coors = '{"x":"'+c.x+'","y":"'+c.y+'","x2":"'+c.x2+'","y2":"'+c.y2+'","w":"'+c.w+'","h":"'+c.h+'"}';
-		$('#img-coors').val(coors);
-	}
-	
 	$(function(){
 		$('#usuario-imagen').fileinput({'name':'imagen'});
 		
@@ -80,19 +57,25 @@
 			$('#cambiar-imagen').show();
 			//$('#quitar-imagen').show();
 		@endif
-		
+
 		//para cortar la imagen
-		$('#fileinput-preview').bind('click', function(){
-			$('#img-preview').Jcrop({
-				onSelect:    selectImagen,
-	            bgColor:     'green',
-	            bgOpacity:   .6,
-	            boxWidth: 	 500,
-	            boxHeight: 	 500,
-	            minSize:	 [420, 500],
-	            maxSize:	 [420, 500],
-			});
-		});
+		var cropperOptions = {
+			uploadUrl:	'{{ URL::route("admin_producto_subir", $producto->id) }}',
+			cropUrl:	'{{ URL::route("admin_producto_cortar", $producto->id) }}',
+			uploadData:{
+				"id": "{{ $producto->id }}"
+			},
+			cropData:{
+				"id": "{{ $producto->id }}"
+			},
+			zoomFactor: 5,
+			doubleZoomControls: true,
+			imgEyecandy: true,
+			imgEyecandyOpacity: 0.4,
+			loaderHtml:'<div class="loader bubblingG"><span id="bubblingG_1"></span><span id="bubblingG_2"></span><span id="bubblingG_3"></span></div>'
+		};
+		var cropperHeader = new Croppic('imagen-imagen', cropperOptions);		
+		
 	});
 </script>
 @endsection

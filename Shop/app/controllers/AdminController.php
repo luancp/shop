@@ -82,6 +82,59 @@ class AdminController extends BaseController {
 			->with('module', 'productos')
 			->with('title', 'Producto');
 	}
+
+	//sube la imagen al servidor
+	public function prodImagenSubir($id){
+		$producto = Producto::findOrFail(Input::get('id'));
+		$file = Input::file('img');
+		
+		$imagen = $id.'.'.$file->getClientOriginalExtension();
+		$directorio = public_path().'/img/productos/';
+		
+		$image = Image::make($file);
+		$image->save($directorio.'tmp_'.$imagen);
+		
+		//setear la imagen al producto
+		$producto->imagen = $imagen;
+		$producto->save();
+		
+		//retornar el json
+		return Response::json(array(
+			"status" => "success",
+			"url" => URL::asset('img/productos/tmp_'.$imagen),
+		));
+	}
+
+	//corta la imagen del servidor
+	public function prodImagenCortar($id){
+		$producto = Producto::findOrFail(Input::get('id'));
+		$x = (int)Input::get('imgX1');
+		$y = (int)Input::get('imgY1');
+		$w = (int)Input::get('cropW');
+		$h = (int)Input::get('cropH');
+		
+		$directorio = public_path().'/img/productos/';
+		$imagen = $producto->imagen;
+		
+		$image = Image::make($directorio.'tmp_'.$imagen);
+		$image->crop($w, $h, $x, $y);
+		$image->save($directorio.$imagen);
+		
+		//verifica la imagen y la elimina
+		if(File::exists($directorio.'tmp_'.$imagen)){
+			File::delete($directorio.'tmp_'.$imagen);
+		}
+		
+		//setear la imagen al producto
+		$producto->imagen = $imagen;
+		$producto->save();
+		
+		//retornar el json
+		return Response::json(array(
+			"status" => "success",
+			"url" => URL::asset('img/productos/'.$producto->imagen),
+		));
+	}
 	
 	public function sincronizacion(){
 		// Get cURL resource
