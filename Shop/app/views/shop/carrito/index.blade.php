@@ -105,7 +105,7 @@
 					</tfoot>
 				</table>
 			</div>
-			<div class="">
+			<div class="clearfix">
 				<hr />
 				<br />
 				<a class="pull-left" style="margin-top:8px;" href="{{ URL::route('principal') }}">Seguir comprando</a>

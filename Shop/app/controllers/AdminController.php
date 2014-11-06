@@ -10,10 +10,12 @@ class AdminController extends BaseController {
 	}
 
 	public function productos(){
+		$empresa = Empresa::find(Session::get('empresa_id'));
 		$productos = Producto::paginate(20);
 		return View::make('admin.producto.index')
 			->with('module', 'productos')
 			->with('title', 'Productos')
+			->with('empresa', $empresa)
 			->with('productos', $productos);
 	}
 
@@ -91,7 +93,23 @@ class AdminController extends BaseController {
 		$imagen = $id.'.'.$file->getClientOriginalExtension();
 		$directorio = public_path().'/img/productos/';
 		
+		//verifica y elimina las imagenes anteriores
+		if(File::exists($directorio.$producto->imagen)){
+			File::delete($directorio.$producto->imagen);
+		}
+		if(File::exists($directorio.'thumb_'.$producto->imagen)){
+			File::delete($directorio.'thumb_'.$producto->imagen);
+		}
+		
 		$image = Image::make($file);
+		$width = $image->width();
+		$height = $image->height();
+		if($height < 500){
+			$image = $image->resizeCanvas(null, 600, 'center', false, 'ffffff');
+		}
+		if($width < 420){
+			$image = $image->resizeCanvas(520, null, 'center', false, 'ffffff');
+		}
 		$image->save($directorio.'tmp_'.$imagen);
 		
 		//setear la imagen al producto
@@ -102,6 +120,8 @@ class AdminController extends BaseController {
 		return Response::json(array(
 			"status" => "success",
 			"url" => URL::asset('img/productos/tmp_'.$imagen),
+			"width" => $image->width(),
+			"height" => $image->height(),
 		));
 	}
 
@@ -112,19 +132,31 @@ class AdminController extends BaseController {
 		$y = (int)Input::get('imgY1');
 		$w = (int)Input::get('cropW');
 		$h = (int)Input::get('cropH');
+		$w_r = (int)Input::get('imgW');
+		$h_r = (int)Input::get('imgH');
 		
 		$directorio = public_path().'/img/productos/';
 		$imagen = $producto->imagen;
+		$imagen_thumb = 'thumb_'.$imagen;
 		
 		$image = Image::make($directorio.'tmp_'.$imagen);
-		$image->crop($w, $h, $x, $y);
+		$image = $image->resize($w_r, $h_r);
+		$image = $image->crop($w, $h, $x, $y);
 		$image->save($directorio.$imagen);
 		
-		//verifica la imagen y la elimina
+		//verifica y elimina la imagen temporal y la pequeña
 		if(File::exists($directorio.'tmp_'.$imagen)){
 			File::delete($directorio.'tmp_'.$imagen);
 		}
+		if(File::exists($directorio.'thumb_'.$imagen)){
+			File::delete($directorio.'thumb_'.$imagen);
+		}
 		
+		//thumbnail - administracion y carrito
+		$image = Image::make($directorio.$imagen);
+		$image->fit(180, 140);
+		$image->save($directorio.$imagen_thumb);
+			
 		//setear la imagen al producto
 		$producto->imagen = $imagen;
 		$producto->save();
@@ -157,6 +189,7 @@ class AdminController extends BaseController {
 		if($resp){
 			//procesar json
 			Producto::procesar(json_decode($resp));
+			Empresa::marcarSincronizacion(new DateTime('now', new DateTimeZone('America/Guayaquil')), Session::get('empresa_id'));
 			Session::flash('success_mensaje', 'Se han importado los productos exitosamente.');
 		}else{
 			Session::flash('error_mensaje', 'Se ha producido un error de sincronizacion.');

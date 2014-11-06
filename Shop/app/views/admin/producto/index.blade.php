@@ -21,6 +21,9 @@
 	    <h4>
 	    	<i class="fa fa-shopping-cart"></i>&nbsp;&nbsp;Productos
 	    	<form class="form-inline pull-right" role="form" action="{{ URL::route('admin_sincronizacion') }}" method="post">
+	    		@if($empresa->ultima_sincronizacion)
+	    			<span class="text-primary text-mini text">&uacute;ltima sincronizaci&oacute;n: {{ date_format(date_create($empresa->ultima_sincronizacion), "d/m/Y, G:i") }}&nbsp;&nbsp;</span>
+	    		@endif
 	    		<button id="btn-sincronizar" class="btn btn-info btn-xs" type="submit">
 	    			<i class="fa fa-refresh"></i>&nbsp;<span class="text-sincronizar">Sincronizar</span>
 	    		</button>

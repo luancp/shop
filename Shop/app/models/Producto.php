@@ -57,6 +57,7 @@ class Producto extends Eloquent {
 			$p->tipo_producto = $tipo_producto;
 			$p->categoria_id = $id_categoria;
 			$p->contifico_id = $id;
+			$p->empresa_id = 1;
 			$p->save();
 			return $p->id;
 		}catch(Exception $e){

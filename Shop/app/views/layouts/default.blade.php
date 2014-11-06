@@ -140,13 +140,13 @@
     	<div id="content-cart-header">
 	    	@foreach(Cookie::get('carrito') as $c)
 	    	<div class="media">
-			  <a class="pull-left" href="#">
+			  <div class="pull-left">
 				@if(array_get($c, 'imagen'))
 					{{ HTML::image('img/productos/thumb_'.array_get($c, 'imagen'), '', array('class'=>'img-rounded', 'width'=>'55')) }}
 				@else
 					{{ HTML::image('img/productos/default/thumb_default.png', '', array('class'=>'img-rounded', 'width'=>'55')) }}
 				@endif
-			  </a>
+			  </div>
 			  <div class="media-body producto-carrito-header">
 			    {{ str_limit(array_get($c, 'nombre'), $limit = 50, $end = '...') }}<br /><span class="text-mini-cart">Cant. {{ array_get($c, 'cantidad') }}</span>
 			  </div>
