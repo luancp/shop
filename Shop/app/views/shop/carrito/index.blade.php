@@ -1,4 +1,4 @@
-@extends('layouts.default')
+@extends('layouts.carrito')
 
 @section('css-header')
 <style type="text/css">
@@ -30,7 +30,7 @@
 			<h4>
 				<i class="fa fa-shopping-cart"></i>&nbsp;&nbsp;Mis Compras
 				@if($compras)
-					<a class="btn btn-success btn-xs pull-right" href="{{ URL::route('principal') }}">Checkout</a>
+					<a class="btn btn-success btn-xs pull-right visible-xs" href="{{ URL::route('principal') }}">Checkout</a>
 				@endif
 			</h4>
 		    <hr /><br />
