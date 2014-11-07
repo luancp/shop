@@ -268,8 +268,18 @@ class AdminController extends BaseController {
 			->with('title', 'Usuario');
 	}
 
+	//muestra la ventana de ajustes de administracion
 	public function ajustes(){
+		$empresa = Session::get('empresa');
 		return View::make('admin.ajustes')
+			->with('module', 'ajustes')
+			->with('empresa', $empresa)
+			->with('title', 'Ajustes');
+	}
+
+	//cambia los ajustes del sistema
+	public function actualizarAjustes(){
+		return Redirect::route('admin_ajustes')
 			->with('module', 'ajustes')
 			->with('title', 'Ajustes');
 	}

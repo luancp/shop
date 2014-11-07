@@ -47,38 +47,8 @@
           <a class="navbar-toggle collapsed cart-movil" href=""><i class="fa fa-shopping-cart fa-2x"></i><span class="badge badge-cart">0</span></a>
         </div>
         <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-reorder fa-2x"></span></a>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else </a></li>
-                <li class="divider"></li>
-                <li class="dropdown-header">Nav header</li>
-                <li><a href="#">Separated link</a></li>
-                <li><a href="#">One more </a></li>
-              </ul>
-            </li>
-          </ul>
           <ul class="nav navbar-nav navbar-right">
-			  <li class="">
-		          <form class="navbar-form text-center" role="form">
-		            <div class="form-group">
-		              <input type="search" placeholder="Buscar..." class="form-control form-rounded"/>
-		            </div>
-		          </form>
-			  </li>
-			  <li class="hidden-xs">
-	         	<a href=""><i class="fa fa-shopping-cart fa-2x"></i><span class="badge badge-cart">0</span></a>
-	          </li>
-			  @if(!Session::has('usuario'))
-			  <li class="">
-			  	<a class="text-primary" href="{{ URL::route('login') }}">Ingresar</a>
-			  </li>
-			  <li class="">
-			  	<a class="text-primary" href="">Registrarse</a>
-			  </li>
-			  @else
+			  @if(Session::has('usuario'))
 			  	<li class="dropdown">
 				  	<a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;"><img class="img-circle" style="width:27px;" src="{{ Session::get('imagen_usuario') }}" />&nbsp;&nbsp;{{ Session::get('usuario')->usuario }}&nbsp;<i class="fa fa-chevron-down"></i></a>
 				  	<ul class="dropdown-menu" role="menu">

@@ -66,6 +66,7 @@ Route::group(array('before' => 'auth|admin'), function(){
 	
 	//ajustes
 	Route::get('admin/ajustes/', array('as' => 'admin_ajustes', 'uses' => 'AdminController@ajustes'));
+	Route::get('admin/ajustes/update/', array('as' => 'admin_actualizar_ajustes', 'uses' => 'AdminController@actualizarAjustes'));
 	
 	
 	

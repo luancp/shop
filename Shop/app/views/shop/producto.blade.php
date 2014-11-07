@@ -20,7 +20,7 @@
     	<div class="col-md-6 col-sm-6">
     		<div>
     			@if(!$producto->imagen)
-    			<img class="img-rounded" src="{{ URL::asset('img/productos/default.png') }}" width="100%" />
+    			<img class="img-rounded" src="{{ URL::asset('img/productos/default/default.png') }}" width="100%" />
     			@else    			
     			<img class="img-rounded" src="{{ URL::asset('img/productos/'.$producto->imagen) }}" width="100%" />
     			@endif
@@ -40,7 +40,7 @@
 	    				<input type="hidden" name="nombre" value="{{ $producto->nombre }}" />
 	    				<input type="hidden" name="precio" value="{{ $producto->precio }}" />
 	    				<input type="hidden" name="imagen" value="{{ $producto->imagen }}" />
-	    				<input class="form-control input-sm" type="number" name="cantidad" value="1" />
+	    				<input class="form-control input-sm" type="number" name="cantidad" value="1" min="1" />
 	    			</p>
 	    			<p class="col-md-3 col-sm-5 col-xs-6">
 	    				<button class="btn btn-success btn-sm" type="submit"><i class="fa fa-shopping-cart"></i>&nbsp;&nbsp;Agregar</button>

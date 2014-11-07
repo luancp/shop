@@ -12,13 +12,13 @@
 	    <form class="form-horizontal" role="form">
 		  	<div class="form-group">
 				<label class="col-sm-2 control-label">Usuario</label>
-				<div class="col-sm-4">
+				<div class="col-sm-5">
 			  		<input class="form-control" type="text" name="nombres" value="{{ $usuario->usuario }}" />
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-2 control-label">Email</label>
-				<div class="col-sm-4">
+				<div class="col-sm-5">
 			  		<input class="form-control" type="text" name="email" value="{{ $usuario->email }}" />
 				</div>
 			</div>

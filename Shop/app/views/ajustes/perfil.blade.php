@@ -55,13 +55,13 @@
 			</div>
 			<div class="form-group">
 				<label class="col-sm-2 control-label">C&eacute;dula/RUC</label>
-				<div class="col-sm-3">
+				<div class="col-md-3 col-sm-4">
 			  		<input class="form-control" type="text" name="cedula" value="{{ Input::old('cedula')?Input::old('cedula'):$usuario->cedula }}" required />
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-2 control-label">G&eacute;nero</label>
-				<div class="col-sm-3">
+				<div class="col-md-3 col-sm-4">
 					{{ Form::select('genero', 
 						array(
 							'-' => '',
@@ -74,7 +74,7 @@
 			</div>
 			<div class="form-group">
 				<label class="col-sm-2 control-label">Ubicaci&oacute;n</label>
-				<div class="col-sm-5">
+				<div class="col-md-3 col-sm-5">
 					<select class="form-control" name="ubicacion" id="ubicacion">
 						<option value="Azuay">Azuay</option>
 						<option value="Bolívar">Bolívar</option>

@@ -5,14 +5,23 @@
 @endsection
 
 @section('sidebar')
-<ul class="list-group">
-	@if($categorias)
-	  	<a class="list-group-item @if($cat == '-1') active @endif" href="{{ URL::route('principal') }}">Todas las Categorias</a>
-		@foreach($categorias as $c)
-	  		<a class="list-group-item @if($cat == $c->id) active @endif" href="{{ URL::route('principal') }}?categoria={{ $c->id }}">{{ $c->nombre }}<span class="fa fa-angle-right pull-right"></span></a>
-	  	@endforeach
-  	@endif
-</ul>
+	<ul class="list-group">
+		@if($categorias)
+		  	<a class="list-group-item @if($cat == '-1') active @endif" href="{{ URL::route('principal') }}">Todas las Categorias</a>
+			@foreach($categorias as $c)
+		  		<a class="list-group-item @if($cat == $c->id) active @endif" href="{{ URL::route('principal') }}?categoria={{ $c->id }}">{{ $c->nombre }}<span class="fa fa-angle-right pull-right"></span></a>
+		  	@endforeach
+	  	@endif
+	</ul>
+	@if(Session::has('empresa'))
+		<hr />
+		<br />
+		<div class="text-center">
+		@if(Session::get('empresa')->facebook_plugin_activo)
+			{{ Session::get('empresa')->facebook_plugin_script }}
+		@endif
+		</div>
+	@endif
 @endsection
 
 @section('content')

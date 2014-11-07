@@ -74,7 +74,7 @@
 							<td class="text-center">
 								<form class="espacio-arriba" role="form" name="elminarProducto_{{ array_get($c, 'id') }}" action="{{ URL::route('carrito_actualizar_producto') }}" method="post">
 									<input type="hidden" name="id_prod" value="{{ array_get($c, 'id') }}" />
-									<input class="form-control input-sm" type="number" name="cantidad" value="{{ array_get($c, 'cantidad') }}" />
+									<input class="form-control input-sm" type="number" name="cantidad" value="{{ array_get($c, 'cantidad') }}" min="1" />
 									<button class="text-mini btn-link" type="submit"><span class="fa fa-refresh"></span>&nbsp;Actualizar</button>
 								</form>
 							</td>

@@ -22,11 +22,11 @@
 	    <hr /><br />
     	<div class="col-md-7 col-sm-7">
     		<div id="imagen-imagen">
+    			<button style="position:absolute;" id="button-upload" class="btn btn-success btn-sm pull-right">Subir Imagen</button>
     			@if($producto->imagen)
     				<img class="croppedImg" src="{{ URL::asset('img/productos/'.$producto->imagen) }}">
     			@endif
     		</div>
-			<button id="button-upload" class="btn btn-success btn-sm">Subir Imagen</button>
     	</div>
     	<div class="col-md-5 col-sm-5">
     		<h4>{{ $producto->nombre }}</h4>
@@ -61,7 +61,7 @@
 			customUploadButtonId: 'button-upload',
 			loaderHtml:'<div class="loader bubblingG"><span id="bubblingG_1"></span><span id="bubblingG_2"></span><span id="bubblingG_3"></span></div>'
 		};
-		var cropperHeader = new Croppic('imagen-imagen', cropperOptions);		
+		var cropperHeader = new Croppic('imagen-imagen', cropperOptions);
 		
 	});
 </script>
