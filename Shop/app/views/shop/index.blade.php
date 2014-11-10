@@ -8,6 +8,13 @@
 		background-size: cover;
 		background-color: whitesmoke;
 	}
+	.form-filtros{
+		margin: 10px 20px 10px 10px;
+		padding-top: 10px;
+		padding-bottom: 10px;
+		height: 230px;
+		background: url('{{ URL::asset("/img/bg_banner.png") }}') 0 0 repeat;
+	}
 </style>
 @endsection
 
@@ -35,10 +42,8 @@
 	<div id="img-principal" class="row hide">
 		<div class="col-md-12 col-sm-12">
 			<div class="bg-principal">
-				<form class="form-vertical" action="" role="form">
-					<br />
-					<br />
-					<div class="form-group col-md-4">
+				<form class="clearfix col-md-5 col-sm-5 form-filtros" action="" role="form">
+					<div class="form-group col-md-12 col-sm-12">
 						<label>Colegio</label>
 					    <select class="form-control input-sm">
 					    	<option value="">Todos</option>
@@ -51,6 +56,7 @@
 					</div>
 				</form>
 			</div>
+			<div class="clearfix"><br /></div>
 		</div>
 		<div class="clearfix"><br /></div>
 	</div>

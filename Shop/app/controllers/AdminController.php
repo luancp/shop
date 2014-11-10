@@ -229,6 +229,7 @@ class AdminController extends BaseController {
 			File::delete($directorio.'tmp_'.$imagen);
 		}
 		
+		
 		//setear la imagen a la empresa
 		$empresa->imagen_banner = $imagen;
 		$empresa->save();

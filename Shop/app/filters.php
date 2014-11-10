@@ -13,7 +13,11 @@
 
 App::before(function($request)
 {
-	//
+	if(!Session::has('empresa')){
+		$empresa = Empresa::find(1);
+		Session::put('empresa', $empresa);
+		Session::put('empresa_id', $empresa->id);
+	}
 });
 
 
