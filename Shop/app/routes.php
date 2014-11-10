@@ -66,7 +66,13 @@ Route::group(array('before' => 'auth|admin'), function(){
 	
 	//ajustes
 	Route::get('admin/ajustes/', array('as' => 'admin_ajustes', 'uses' => 'AdminController@ajustes'));
-	Route::get('admin/ajustes/update/', array('as' => 'admin_actualizar_ajustes', 'uses' => 'AdminController@actualizarAjustes'));
+	Route::post('admin/ajustes/update/', array('as' => 'admin_actualizar_ajustes', 'uses' => 'AdminController@actualizarAjustes'));
+	//para las imagenes del banner principal
+	Route::post('admin/ajustes/banner/{id}', array('as' => 'admin_banner_subir', 'uses' => 'AdminController@bannerImagenSubir'));
+	Route::post('admin/ajustes/banner/crop/{id}', array('as' => 'admin_banner_cortar', 'uses' => 'AdminController@bannerImagenCortar'));
+	//para las imagenes del popup modal
+	Route::post('admin/ajustes/popup/{id}', array('as' => 'admin_popup_subir', 'uses' => 'AdminController@popupImagenSubir'));
+	Route::post('admin/ajustes/popup/crop/{id}', array('as' => 'admin_popup_cortar', 'uses' => 'AdminController@popupImagenCortar'));
 	
 	
 	

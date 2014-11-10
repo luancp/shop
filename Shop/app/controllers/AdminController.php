@@ -168,6 +168,150 @@ class AdminController extends BaseController {
 		));
 	}
 	
+	//sube la imagen del banner al servidor
+	public function bannerImagenSubir($id){
+		$empresa = Session::get('empresa');
+		$file = Input::file('img');
+		
+		$imagen = $empresa->id.'_banner.'.$file->getClientOriginalExtension();
+		$directorio = public_path().'/img/';
+		
+		//verifica y elimina las imagenes anteriores
+		if(File::exists($directorio.$empresa->imagen_banner)){
+			File::delete($directorio.$empresa->imagen_banner);
+		}
+		
+		$image = Image::make($file);
+		$width = $image->width();
+		$height = $image->height();
+		if($height < 250){
+			$image = $image->resizeCanvas(null, 300, 'center', false, 'ffffff');
+		}
+		if($width < 850){
+			$image = $image->resizeCanvas(1200, null, 'center', false, 'ffffff');
+		}
+		$image = $image->encode('jpg', 80);
+		$image->save($directorio.'tmp_'.$imagen);
+		
+		//setear la imagen al producto
+		$empresa->imagen_banner = $imagen;
+		$empresa->save();
+		
+		//retornar el json
+		return Response::json(array(
+			"status" => "success",
+			"url" => URL::asset('img/tmp_'.$imagen),
+			"width" => $image->width(),
+			"height" => $image->height(),
+		));
+	}
+
+	//corta la imagen del servidor para el banner
+	public function bannerImagenCortar($id){
+		$empresa = Session::get('empresa');
+		$x = (int)Input::get('imgX1');
+		$y = (int)Input::get('imgY1');
+		$w = (int)Input::get('cropW');
+		$h = (int)Input::get('cropH');
+		$w_r = (int)Input::get('imgW');
+		$h_r = (int)Input::get('imgH');
+		
+		$directorio = public_path().'/img/';
+		$imagen = $empresa->imagen_banner;
+		
+		$image = Image::make($directorio.'tmp_'.$imagen);
+		$image = $image->resize($w_r, $h_r);
+		$image = $image->crop($w, $h, $x, $y);
+		$image->save($directorio.$imagen);
+		
+		//verifica y elimina la imagen temporal
+		if(File::exists($directorio.'tmp_'.$imagen)){
+			File::delete($directorio.'tmp_'.$imagen);
+		}
+		
+		//setear la imagen a la empresa
+		$empresa->imagen_banner = $imagen;
+		$empresa->save();
+		
+		//retornar el json
+		return Response::json(array(
+			"status" => "success",
+			"url" => URL::asset('img/'.$empresa->imagen_banner),
+		));
+	}
+	
+	//sube la imagen del popup modal al servidor
+	public function popupImagenSubir($id){
+		$empresa = Session::get('empresa');
+		$file = Input::file('img');
+		
+		$imagen = $empresa->id.'_popup.'.$file->getClientOriginalExtension();
+		$directorio = public_path().'/img/';
+		
+		//verifica y elimina las imagenes anteriores
+		if(File::exists($directorio.$empresa->popup_imagen)){
+			File::delete($directorio.$empresa->popup_imagen);
+		}
+		
+		$image = Image::make($file);
+		$width = $image->width();
+		$height = $image->height();
+		if($height < 500){
+			$image = $image->resizeCanvas(null, 500, 'center', false, 'ffffff');
+		}
+		if($width < 500){
+			$image = $image->resizeCanvas(500, null, 'center', false, 'ffffff');
+		}
+		$image = $image->encode('jpg', 75);
+		$image->save($directorio.'tmp_'.$imagen);
+		
+		//setear la imagen al producto
+		$empresa->popup_imagen = $imagen;
+		$empresa->save();
+		
+		//retornar el json
+		return Response::json(array(
+			"status" => "success",
+			"url" => URL::asset('img/tmp_'.$imagen),
+			"width" => $image->width(),
+			"height" => $image->height(),
+		));
+	}
+
+	//corta la imagen del servidor para el banner
+	public function popupImagenCortar($id){
+		$empresa = Session::get('empresa');
+		$x = (int)Input::get('imgX1');
+		$y = (int)Input::get('imgY1');
+		$w = (int)Input::get('cropW');
+		$h = (int)Input::get('cropH');
+		$w_r = (int)Input::get('imgW');
+		$h_r = (int)Input::get('imgH');
+		
+		$directorio = public_path().'/img/';
+		$imagen = $empresa->popup_imagen;
+		
+		$image = Image::make($directorio.'tmp_'.$imagen);
+		$image = $image->resize($w_r, $h_r);
+		$image = $image->crop($w, $h, $x, $y);
+		$image->save($directorio.$imagen);
+		
+		//verifica y elimina la imagen temporal
+		if(File::exists($directorio.'tmp_'.$imagen)){
+			File::delete($directorio.'tmp_'.$imagen);
+		}
+		
+		//setear la imagen a la empresa
+		$empresa->popup_imagen = $imagen;
+		$empresa->save();
+		
+		//retornar el json
+		return Response::json(array(
+			"status" => "success",
+			"url" => URL::asset('img/'.$empresa->popup_imagen),
+		));
+	}
+	
 	public function sincronizacion(){
 		// Get cURL resource
 		$curl = curl_init();
@@ -279,6 +423,27 @@ class AdminController extends BaseController {
 
 	//cambia los ajustes del sistema
 	public function actualizarAjustes(){
+		$empresa = Session::get('empresa');
+		if(Input::get('popup_activo')=='on'){
+			$empresa->popup_activo = true;
+			$empresa->popup_titulo = Input::get('popup_titulo');
+		}else{
+			$empresa->popup_activo = false;
+		}
+		if(Input::get('activa_facebook')=='on'){
+			$empresa->facebook_plugin_activo = true;
+			$empresa->facebook_plugin_script = Input::get('script_facebook');
+		}else{
+			$empresa->facebook_plugin_activo = false;
+		}
+		if(Input::get('activa_google')=='on'){
+			$empresa->google_plugin_activo = true;
+			$empresa->google_plugin_script = Input::get('script_google');
+		}else{
+			$empresa->google_plugin_activo = false;
+		}
+		
+		$empresa->save();
 		return Redirect::route('admin_ajustes')
 			->with('module', 'ajustes')
 			->with('title', 'Ajustes');

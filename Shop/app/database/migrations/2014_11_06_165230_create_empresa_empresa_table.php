@@ -15,6 +15,7 @@ class CreateEmpresaEmpresaTable extends Migration {
 		Schema::create('empresa_empresa', function(Blueprint $table)
 		{
 			$table->increments('id');
+			$table->string('imagen_banner')->nullable()->default(null);
 			$table->boolean('facebook_plugin_activo')->default(false);
 			$table->longText('facebook_plugin_script')->nullable()->default(null);
 			

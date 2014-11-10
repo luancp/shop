@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 
 @section('css-header')
+{{ HTML::style('css/croppic/croppic.css') }}
 <style type="text/css">
 	.thumbnail{
 		margin-bottom: 10px;
@@ -10,8 +11,20 @@
 		white-space: nowrap;
 		overflow: hidden;
 	}
+	#imagen-imagen{
+		width: 420px;  /* MANDATORY */
+		height: 500px; /* MANDATORY */
+		position: relative;  /* MANDATORY */
+	
+		border: 2px solid #ddd;
+		box-sizing: content-box;
+		-moz-box-sizing: content-box;
+		border-radius: 2px;
+		background-image: url(/img/productos/default/default.png);
+		background-repeat: no-repeat;
+		background-position: center;
+	}
 </style>
-{{ HTML::style('css/croppic/croppic.css') }}
 @endsection
 
 @section('content')

@@ -1,7 +1,14 @@
 @extends('layouts.default')
 
 @section('css-header')
-
+<style type="text/css">
+	.bg-principal{
+		height: 250px;
+		background: url('{{ URL::asset("/img/".Session::get('empresa')->imagen_banner) }}') 0 0 no-repeat;
+		background-size: cover;
+		background-color: whitesmoke;
+	}
+</style>
 @endsection
 
 @section('sidebar')
@@ -25,6 +32,47 @@
 @endsection
 
 @section('content')
+	<div id="img-principal" class="row hide">
+		<div class="col-md-12 col-sm-12">
+			<div class="bg-principal">
+				<form class="form-vertical" action="" role="form">
+					<br />
+					<br />
+					<div class="form-group col-md-4">
+						<label>Colegio</label>
+					    <select class="form-control input-sm">
+					    	<option value="">Todos</option>
+					    	<option value="">Todos</option>
+					    	<option value="">Todos</option>
+					    	<option value="">Todos</option>
+					    	<option value="">Todos</option>
+					    	<option value="">Todos</option>
+					    </select>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="clearfix"><br /></div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<button class="btn btn-default btn-sm pull-left" id="btn-seleccionar-colegio"><i class="fa fa-angle-down"></i>&nbsp;Seleccionar Colegio</button>
+			<form class="form-inline pull-right" action="" role="form">
+				<div class="form-group">
+					<label>Filtrar</label>
+				    <select class="form-control input-sm">
+				    	<option value="">Todos</option>
+				    	<option value="">Todos</option>
+				    	<option value="">Todos</option>
+				    	<option value="">Todos</option>
+				    	<option value="">Todos</option>
+				    	<option value="">Todos</option>
+				    </select>
+				</div>
+			</form>
+		</div>
+		<div class="clearfix"><br /></div>
+	</div>
 	<div class="row">
 		@foreach($productos as $p)
 		<div class="col-sm-6 col-md-4">
@@ -44,5 +92,21 @@
 @endsection
 
 @section('js-footer')
-
+<script type="text/javascript">
+	$(function(){
+		$("#btn-seleccionar-colegio").click(function(){
+			var img_p = $("#img-principal");
+			var img_button = $(this).find('i.fa');
+			if(img_p.hasClass('hide')){
+				img_p.removeClass('hide');
+				img_button.removeClass('fa-angle-down');
+				img_button.addClass('fa-angle-up');
+			}else{
+				img_p.addClass('hide');
+				img_button.removeClass('fa-angle-up');
+				img_button.addClass('fa-angle-down');
+			}
+		});
+	});
+</script>
 @endsection
