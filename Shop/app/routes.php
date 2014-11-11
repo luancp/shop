@@ -74,6 +74,8 @@ Route::group(array('before' => 'auth|admin'), function(){
 	Route::post('admin/ajustes/popup/{id}', array('as' => 'admin_popup_subir', 'uses' => 'AdminController@popupImagenSubir'));
 	Route::post('admin/ajustes/popup/crop/{id}', array('as' => 'admin_popup_cortar', 'uses' => 'AdminController@popupImagenCortar'));
 	
+	//colegios
+	Route::get('admin/colegios/', array('as' => 'admin_colegios', 'uses' => 'AdminController@colegios'));
 	
 	
 });

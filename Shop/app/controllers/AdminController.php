@@ -443,4 +443,12 @@ class AdminController extends BaseController {
 			->with('title', 'Ajustes');
 	}
 
+	//pagina principal de colegios
+	public function colegios(){
+		$empresa = Session::get('empresa');
+		$colegios = Colegio::where('empresa_id', $empresa->id)->get();
+		return View::make('admin.colegio.index')
+			->with('module', 'colegios')
+			->with('title', 'Colegios');
+	}
 }

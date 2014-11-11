@@ -16,6 +16,8 @@
 		background: url('{{ URL::asset("/img/bg_banner.png") }}') 0 0 repeat;
 	}
 </style>
+{{ HTML::style('css/select2.css') }}
+{{ HTML::style('css/select2-bootstrap.css') }}
 @endsection
 
 @section('sidebar')
@@ -44,14 +46,9 @@
 			<div class="bg-principal">
 				<form class="clearfix col-md-5 col-sm-5 form-filtros" action="" role="form">
 					<div class="form-group col-md-12 col-sm-12">
-						<label>Colegio</label>
-					    <select class="form-control input-sm">
-					    	<option value="">Todos</option>
-					    	<option value="">Todos</option>
-					    	<option value="">Todos</option>
-					    	<option value="">Todos</option>
-					    	<option value="">Todos</option>
-					    	<option value="">Todos</option>
+						<label>Seleccionar Colegio</label>
+					    <select id="select-colegios" class="form-control input-sm">
+					    	<option value="-">Todos</option>
 					    </select>
 					</div>
 				</form>
@@ -98,6 +95,7 @@
 @endsection
 
 @section('js-footer')
+{{ HTML::script('js/select2.min.js') }}
 <script type="text/javascript">
 	$(function(){
 		$("#btn-seleccionar-colegio").click(function(){
@@ -113,6 +111,8 @@
 				img_button.addClass('fa-angle-down');
 			}
 		});
+		
+		$('#select-colegios').select2();
 	});
 </script>
 @endsection
