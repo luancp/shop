@@ -172,15 +172,10 @@ class AdminController extends BaseController {
 	public function bannerImagenSubir($id){
 		$empresa = Session::get('empresa');
 		$file = Input::file('img');
-		
+	
 		$imagen = $empresa->id.'_banner.'.$file->getClientOriginalExtension();
 		$directorio = public_path().'/img/';
-		
-		//verifica y elimina las imagenes anteriores
-		if(File::exists($directorio.$empresa->imagen_banner)){
-			File::delete($directorio.$empresa->imagen_banner);
-		}
-		
+				
 		$image = Image::make($file);
 		$width = $image->width();
 		$height = $image->height();
@@ -190,7 +185,6 @@ class AdminController extends BaseController {
 		if($width < 850){
 			$image = $image->resizeCanvas(1200, null, 'center', false, 'ffffff');
 		}
-		$image = $image->encode('jpg', 80);
 		$image->save($directorio.'tmp_'.$imagen);
 		
 		//setear la imagen al producto
@@ -227,8 +221,7 @@ class AdminController extends BaseController {
 		//verifica y elimina la imagen temporal
 		if(File::exists($directorio.'tmp_'.$imagen)){
 			File::delete($directorio.'tmp_'.$imagen);
-		}
-		
+		}		
 		
 		//setear la imagen a la empresa
 		$empresa->imagen_banner = $imagen;
