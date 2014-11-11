@@ -113,6 +113,7 @@
 		  	<div class="col-md-3 col-sm-3">
 				<ul class="list-group">
 				  <a class="list-group-item @if($module == 'productos') active @endif" href="{{ URL::route('admin_productos') }}"><i class="fa fa-shopping-cart"></i>&nbsp;&nbsp;Productos</a>
+				  <a class="list-group-item @if($module == 'colegios') active @endif" href="{{ URL::route('admin_colegios') }}"><i class="fa fa-graduation-cap"></i>&nbsp;&nbsp;Colegios</a>
 				  <a class="list-group-item @if($module == 'categorias') active @endif" href="{{ URL::route('admin_categorias') }}"><i class="fa fa-tags"></i>&nbsp;&nbsp;Categorias</a>
 				  <a class="list-group-item @if($module == 'usuarios') active @endif" href="{{ URL::route('admin_usuarios') }}"><i class="fa fa-users"></i>&nbsp;&nbsp;Usuarios</a>
 				  <a class="list-group-item @if($module == 'ajustes') active @endif" href="{{ URL::route('admin_ajustes') }}"><i class="fa fa-gears"></i>&nbsp;&nbsp;Ajustes</a>
