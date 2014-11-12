@@ -4,8 +4,8 @@
 {{ HTML::style('css/croppic/croppic.css') }}
 <style type="text/css">
 	#imagen-imagen{
-		width: 200px;  /* MANDATORY */
-		height: 300px; /* MANDATORY */
+		width: 300px;  /* MANDATORY */
+		height: 200px; /* MANDATORY */
 		position: relative;  /* MANDATORY */
 	
 		border: 2px solid #ddd;
@@ -25,17 +25,17 @@
 	    	<i class="fa fa-graduation-cap"></i>&nbsp;&nbsp;Registrar Colegio
 	    </h4>
 	    <hr /><br />
-    	<div class="col-md-7 col-sm-7">
+    	<div class="col-md-5 col-sm-5">
     		<div id="imagen-imagen">
     			<button style="position:absolute;" id="button-upload" class="btn btn-success btn-sm pull-right">Subir Imagen</button>
     		</div>
     	</div>
-    	<div class="col-md-5 col-sm-5">
+    	<div class="col-md-7 col-sm-7">
     		<form class="form-vertical" role="form" action="{{ URL::route('admin_colegio_agregar') }}" method="post">
 	    		<div class="form-group">
-	    			<label>Nombre</label>
-	    			<div class="col-md-12">
-	    				<input type="text" name="nombre" />
+	    			<label>Nombre del Colegio</label>
+	    			<div class="">
+	    				<input class="form-control input-sm" type="text" name="nombre" />
 	    			</div>
 	    		</div>
 	    		<div class="form-group">

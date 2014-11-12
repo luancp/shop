@@ -76,7 +76,7 @@ Route::group(array('before' => 'auth|admin'), function(){
 	
 	//colegios
 	Route::get('admin/colegios/', array('as' => 'admin_colegios', 'uses' => 'AdminController@colegios'));
-	Route::get('admin/colegio/{id}', array('as' => 'admin_colegio_consultar', 'uses' => 'AdminController@colegioConsultar'));
+	Route::get('admin/colegio/{id}/consultar/', array('as' => 'admin_colegio_consultar', 'uses' => 'AdminController@colegioConsultar'));
 	Route::get('admin/colegio/crear/', array('as' => 'admin_colegio_registrar', 'uses' => 'AdminController@colegioRegistrar'));
 	Route::get('admin/colegio/registrar/', array('as' => 'admin_colegio_agregar', 'uses' => 'AdminController@colegioAgregar'));
 	Route::get('admin/colegio/{id}/editar/', array('as' => 'admin_colegio_modificar', 'uses' => 'AdminController@colegioModificar'));
