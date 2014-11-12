@@ -447,11 +447,11 @@ class AdminController extends BaseController {
 	//------- COLEGIOS ------------------------------------------------------------------
 	//-----------------------------------------------------------------------------------
 	//sube la imagen del colegio al servidor
-	public function colegioImagenSubir($id){
-		$colegio = Colegio::find($id);
+	public function colegioImagenSubir(){
 		$file = Input::file('img');
 		
-		$imagen = $colegio->id.'.'.$file->getClientOriginalExtension();
+		$timestamp = DateTime::getTimestamp();
+		$imagen = $timestamp.'.'.$file->getClientOriginalExtension();
 		$directorio = public_path().'/img/colegios/';
 		
 		//verifica y elimina las imagenes anteriores
@@ -486,7 +486,6 @@ class AdminController extends BaseController {
 	
 	//corta la imagen del servidor para un colegio
 	public function colegioImagenCortar($id){
-		$colegio = Colegio::find($id);
 		$x = (int)Input::get('imgX1');
 		$y = (int)Input::get('imgY1');
 		$w = (int)Input::get('cropW');
