@@ -30,7 +30,7 @@
 			<h4>
 				<i class="fa fa-shopping-cart"></i>&nbsp;&nbsp;Mis Compras
 				@if($compras)
-					<a class="btn btn-success btn-xs pull-right visible-xs" href="{{ URL::route('principal') }}">Checkout</a>
+					<a class="btn btn-success btn-xs pull-right visible-xs" href="{{ URL::route('principal') }}">Comprar</a>
 				@endif
 			</h4>
 		    <hr /><br />
@@ -109,7 +109,7 @@
 				<hr />
 				<br />
 				<a class="pull-left" style="margin-top:8px;" href="{{ URL::route('principal') }}">Seguir comprando</a>
-				<a class="btn btn-success pull-right" href="{{ URL::route('principal') }}">Checkout</a>
+				<a class="btn btn-success pull-right" href="{{ URL::route('principal') }}">Comprar</a>
 			</div>
 			@else
 				<div class="text-center">

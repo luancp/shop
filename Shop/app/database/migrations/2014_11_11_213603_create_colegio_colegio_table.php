@@ -17,6 +17,8 @@ class CreateColegioColegioTable extends Migration {
 			$table->increments('id');
             $table->string('nombre', 300);
             $table->string('imagen', 100);
+			$table->integer('empresa_id')->unsigned();
+			$table->foreign('empresa_id')->references('id')->on('empresa_empresa');
             $table->timestamps();
 		});
 	}

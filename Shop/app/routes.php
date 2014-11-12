@@ -67,16 +67,23 @@ Route::group(array('before' => 'auth|admin'), function(){
 	//ajustes
 	Route::get('admin/ajustes/', array('as' => 'admin_ajustes', 'uses' => 'AdminController@ajustes'));
 	Route::post('admin/ajustes/update/', array('as' => 'admin_actualizar_ajustes', 'uses' => 'AdminController@actualizarAjustes'));
-	//para las imagenes del banner principal
+		//para las imagenes del banner principal
 	Route::post('admin/ajustes/banner/{id}', array('as' => 'admin_banner_subir', 'uses' => 'AdminController@bannerImagenSubir'));
 	Route::post('admin/ajustes/banner/crop/{id}', array('as' => 'admin_banner_cortar', 'uses' => 'AdminController@bannerImagenCortar'));
-	//para las imagenes del popup modal
+		//para las imagenes del popup modal
 	Route::post('admin/ajustes/popup/{id}', array('as' => 'admin_popup_subir', 'uses' => 'AdminController@popupImagenSubir'));
 	Route::post('admin/ajustes/popup/crop/{id}', array('as' => 'admin_popup_cortar', 'uses' => 'AdminController@popupImagenCortar'));
 	
 	//colegios
 	Route::get('admin/colegios/', array('as' => 'admin_colegios', 'uses' => 'AdminController@colegios'));
-	
+	Route::get('admin/colegio/{id}', array('as' => 'admin_colegio_consultar', 'uses' => 'AdminController@colegioConsultar'));
+	Route::get('admin/colegio/crear/', array('as' => 'admin_colegio_registrar', 'uses' => 'AdminController@colegioRegistrar'));
+	Route::get('admin/colegio/registrar/', array('as' => 'admin_colegio_agregar', 'uses' => 'AdminController@colegioAgregar'));
+	Route::get('admin/colegio/{id}/editar/', array('as' => 'admin_colegio_modificar', 'uses' => 'AdminController@colegioModificar'));
+	Route::get('admin/colegio/{id}/actualizar/', array('as' => 'admin_colegio_actualizar', 'uses' => 'AdminController@colegioActualizar'));
+	//para menejo de imagenes	
+	Route::post('admin/colegio/imagen/subir/', array('as' => 'admin_imagen_colegio_subir', 'uses' => 'AdminController@colegioImagenSubir'));
+	Route::post('admin/colegio/imagen/cortar/', array('as' => 'admin_imagen_colegio_cortar', 'uses' => 'AdminController@colegioImagenCortar'));
 	
 });
 

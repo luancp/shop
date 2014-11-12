@@ -443,11 +443,126 @@ class AdminController extends BaseController {
 			->with('title', 'Ajustes');
 	}
 
+	//-----------------------------------------------------------------------------------
+	//------- COLEGIOS ------------------------------------------------------------------
+	//-----------------------------------------------------------------------------------
+	//sube la imagen del colegio al servidor
+	public function colegioImagenSubir($id){
+		$colegio = Colegio::find($id);
+		$file = Input::file('img');
+		
+		$imagen = $colegio->id.'.'.$file->getClientOriginalExtension();
+		$directorio = public_path().'/img/colegios/';
+		
+		//verifica y elimina las imagenes anteriores
+		if(File::exists($directorio.$colegio->imagen)){
+			File::delete($directorio.$colegio->imagen);
+		}
+		
+		$image = Image::make($file);
+		$width = $image->width();
+		$height = $image->height();
+		if($height < 200){
+			$image = $image->resizeCanvas(null, 300, 'center', false, 'ffffff');
+		}
+		if($width < 300){
+			$image = $image->resizeCanvas(400, null, 'center', false, 'ffffff');
+		}
+		$image = $image->encode('jpg', 75);
+		$image->save($directorio.'tmp_'.$imagen);
+		
+		//setear la imagen al producto
+		$colegio->imagen = $imagen;
+		$colegio->save();
+		
+		//retornar el json
+		return Response::json(array(
+			"status" => "success",
+			"url" => URL::asset('img/colegios/tmp_'.$imagen),
+			"width" => $image->width(),
+			"height" => $image->height(),
+		));
+	}
+	
+	//corta la imagen del servidor para un colegio
+	public function colegioImagenCortar($id){
+		$colegio = Colegio::find($id);
+		$x = (int)Input::get('imgX1');
+		$y = (int)Input::get('imgY1');
+		$w = (int)Input::get('cropW');
+		$h = (int)Input::get('cropH');
+		$w_r = (int)Input::get('imgW');
+		$h_r = (int)Input::get('imgH');
+		
+		$directorio = public_path().'/img/colegios/';
+		$imagen = $colegio->imagen;
+		
+		$image = Image::make($directorio.'tmp_'.$imagen);
+		$image = $image->resize($w_r, $h_r);
+		$image = $image->crop($w, $h, $x, $y);
+		$image->save($directorio.$imagen);
+		
+		//verifica y elimina la imagen temporal
+		if(File::exists($directorio.'tmp_'.$imagen)){
+			File::delete($directorio.'tmp_'.$imagen);
+		}
+		
+		//setear la imagen a la empresa
+		$colegio->imagen = $imagen;
+		$colegio->save();
+		
+		//retornar el json
+		return Response::json(array(
+			"status" => "success",
+			"url" => URL::asset('img/colegios/'.$colegio->imagen),
+		));
+	}
+	
 	//pagina principal de colegios
 	public function colegios(){
 		$empresa = Session::get('empresa');
-		$colegios = Colegio::where('empresa_id', $empresa->id)->get();
+		$colegios = Colegio::where('empresa_id', $empresa->id)->paginate(30);
 		return View::make('admin.colegio.index')
+			->with('module', 'colegios')
+			->with('colegios', $colegios)
+			->with('title', 'Colegios');
+	}
+
+	//pagina para consultar un colegio
+	public function colegioConsultar($id){
+		$colegio = Colegio::find($id);
+		return View::make('admin.colegio.consultar')
+			->with('module', 'colegios')
+			->with('colegio', $colegio)
+			->with('title', 'Colegios');
+	}
+
+	//pagina para mostrar el formulario para crear un colegio
+	public function colegioRegistrar(){
+		return View::make('admin.colegio.registrar')
+			->with('module', 'colegios')
+			->with('title', 'Colegios');
+	}
+
+	//agrega un colegio
+	public function colegioAgregar(){
+		$empresa = Session::get('empresa');
+		return View::make('admin.colegio.registrar')
+			->with('module', 'colegios')
+			->with('title', 'Colegios');
+	}
+
+	//pagina para modificar-formulario un colegio
+	public function colegioModificar($id){
+		return View::make('admin.colegio.modificar')
+			->with('module', 'colegios')
+			->with('title', 'Colegios');
+	}
+
+	//modifica un colegio
+	public function colegioActualizar($id){
+		$empresa = Session::get('empresa');
+		return View::make('admin.colegio.registrar')
 			->with('module', 'colegios')
 			->with('title', 'Colegios');
 	}
