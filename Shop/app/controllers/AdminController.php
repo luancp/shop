@@ -449,14 +449,15 @@ class AdminController extends BaseController {
 	//sube la imagen del colegio al servidor
 	public function colegioImagenSubir(){
 		$file = Input::file('img');
+		$id = Input::get('id');
 		
-		$timestamp = DateTime::getTimestamp();
+		$timestamp = time();
 		$imagen = $timestamp.'.'.$file->getClientOriginalExtension();
 		$directorio = public_path().'/img/colegios/';
 		
 		//verifica y elimina las imagenes anteriores
-		if(File::exists($directorio.$colegio->imagen)){
-			File::delete($directorio.$colegio->imagen);
+		if(File::exists($directorio.$imagen)){
+			File::delete($directorio.$imagen);
 		}
 		
 		$image = Image::make($file);
@@ -471,9 +472,7 @@ class AdminController extends BaseController {
 		$image = $image->encode('jpg', 75);
 		$image->save($directorio.'tmp_'.$imagen);
 		
-		//setear la imagen al producto
-		$colegio->imagen = $imagen;
-		$colegio->save();
+		Session::set('img_tmp', $imagen);
 		
 		//retornar el json
 		return Response::json(array(
@@ -485,7 +484,7 @@ class AdminController extends BaseController {
 	}
 	
 	//corta la imagen del servidor para un colegio
-	public function colegioImagenCortar($id){
+	public function colegioImagenCortar(){
 		$x = (int)Input::get('imgX1');
 		$y = (int)Input::get('imgY1');
 		$w = (int)Input::get('cropW');
@@ -494,7 +493,8 @@ class AdminController extends BaseController {
 		$h_r = (int)Input::get('imgH');
 		
 		$directorio = public_path().'/img/colegios/';
-		$imagen = $colegio->imagen;
+		$imagen = Session::get('img_tmp');
+		Session::put('img_tmp', '');
 		
 		$image = Image::make($directorio.'tmp_'.$imagen);
 		$image = $image->resize($w_r, $h_r);
@@ -506,14 +506,10 @@ class AdminController extends BaseController {
 			File::delete($directorio.'tmp_'.$imagen);
 		}
 		
-		//setear la imagen a la empresa
-		$colegio->imagen = $imagen;
-		$colegio->save();
-		
 		//retornar el json
 		return Response::json(array(
 			"status" => "success",
-			"url" => URL::asset('img/colegios/'.$colegio->imagen),
+			"url" => URL::asset('img/colegios/'.$imagen),
 		));
 	}
 	
@@ -546,15 +542,29 @@ class AdminController extends BaseController {
 	//agrega un colegio
 	public function colegioAgregar(){
 		$empresa = Session::get('empresa');
-		return View::make('admin.colegio.registrar')
-			->with('module', 'colegios')
-			->with('title', 'Colegios');
+		$nombre = Input::get('nombre');
+		$v = Colegio::validar($nombre);
+		if($v->fails()){
+			//Session::flash('error_mensaje', 'Verificar el nombre del colegio.');
+	    	return Redirect::route('admin_colegio_registrar')
+	    		->withInput()
+	    		->withErrors($v);
+	    }else{
+	    	$colegio = new Colegio;
+			$colegio->nombre = $nombre;
+			$colegio->empresa_id = $empresa->id;
+			$colegio->save();
+			
+			return Redirect::route('admin_colegio_modificar', $colegio->id);
+	    }
 	}
 
 	//pagina para modificar-formulario un colegio
 	public function colegioModificar($id){
+		$colegio = Colegio::find($id);
 		return View::make('admin.colegio.modificar')
 			->with('module', 'colegios')
+			->with('colegio', $colegio)
 			->with('title', 'Colegios');
 	}
 

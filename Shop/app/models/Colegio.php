@@ -9,6 +9,16 @@ class Colegio extends Eloquent {
 	 * @var array
 	 */
 	
+	public static function validar($nombre){
+		$rules = array(
+			'nombre' => 'required|unique:colegio_colegio,nombre'
+		);
+		$data = array(
+			'nombre' => $nombre
+		);
+		$validator = Validator::make($data, $rules);
+		return $validator;
+	}
 
 
 }

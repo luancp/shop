@@ -31,15 +31,29 @@
     		</div>
     	</div>
     	<div class="col-md-7 col-sm-7">
+    		@if(Session::has('errors'))
+    		<div class="alert alert-danger">
+    			<button type="button" class="close" data-dismiss="alert">
+				  	<span aria-hidden="true">&times;</span>
+				  	<span class="sr-only">Close</span>
+				</button>
+    			<ul class="list-unstyled">
+		        @foreach($errors->all('<li>:message</li>') as $message)
+		            {{ $message }}
+		        @endforeach
+		        </ul>
+    		</div>
+    		@endif
     		<form class="form-vertical" role="form" action="{{ URL::route('admin_colegio_agregar') }}" method="post">
 	    		<div class="form-group">
 	    			<label>Nombre del Colegio</label>
 	    			<div class="">
-	    				<input class="form-control input-sm" type="text" name="nombre" />
+	    				<input type="hidden" id="img-colegio" name="img-colegio" />
+	    				<input class="form-control input-sm" type="text" required="required" name="nombre" value="@if(Input::old('nombre'))Input::old('nombre')@endif" />
 	    			</div>
 	    		</div>
 	    		<div class="form-group">
-	    			<button type="submit" class="btn btn-sm btn-success">Guardar</button>
+	    			<button type="submit" class="btn btn-sm btn-success"><i class="fa fa-floppy-o"></i>&nbsp;Guardar</button>
 				</div>
     		</form>
     	</div>
@@ -60,9 +74,13 @@
 			cropData:{
 				
 			},
+			outputUrlId: 'img-colegio',
 			modal: true,
+			onAfterImgUpload: function(){
+				
+			},
 			onAfterImgCrop:	function(){
-				location.reload(true);
+				//location.reload(true);
 			},
 			customUploadButtonId: 'button-upload',
 			loaderHtml:'<div class="loader bubblingG"><span id="bubblingG_1"></span><span id="bubblingG_2"></span><span id="bubblingG_3"></span></div>'
