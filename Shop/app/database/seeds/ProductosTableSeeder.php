@@ -29,36 +29,7 @@ class ProductosTableSeeder extends Seeder {
 			'precio' => '123.90',
 			'contifico_id' => '1',
 			'categoria_id' => '1',
-		));
-		Producto::create(array(
-			'nombre' => 'Nombre Producto 1',
-			'descripcion' => 'Descripcion Producto con algo mas de texto para ver como funciona',
-			'codigo' => 'codigo1',
-			'tipo_producto' => 'SIM',
-			'stock' => '23',
-			'precio' => '123.90',
-			'contifico_id' => '1',
-			'categoria_id' => '2',
-		));
-		Producto::create(array(
-			'nombre' => 'Nombre Producto 1',
-			'descripcion' => 'Descripcion Producto con algo mas de texto para ver como funciona',
-			'codigo' => 'codigo1',
-			'tipo_producto' => 'SIM',
-			'stock' => '23',
-			'precio' => '123.90',
-			'contifico_id' => '1',
-			'categoria_id' => '1',
-		));
-		Producto::create(array(
-			'nombre' => 'Nombre Producto 1',
-			'descripcion' => 'Descripcion Producto con algo mas de texto para ver como funciona',
-			'codigo' => 'codigo1',
-			'tipo_producto' => 'SIM',
-			'stock' => '23',
-			'precio' => '123.90',
-			'contifico_id' => '1',
-			'categoria_id' => '2',
+			'empresa_id' => '1',
 		));
 		Producto::create(array(
 			'nombre' => 'Nombre Producto 1',
@@ -69,36 +40,7 @@ class ProductosTableSeeder extends Seeder {
 			'precio' => '123.90',
 			'contifico_id' => '1',
 			'categoria_id' => '1',
-		));
-		Producto::create(array(
-			'nombre' => 'Nombre Producto 1',
-			'descripcion' => 'Descripcion Producto con algo mas de texto para ver como funciona',
-			'codigo' => 'codigo1',
-			'tipo_producto' => 'SIM',
-			'stock' => '23',
-			'precio' => '123.90',
-			'contifico_id' => '1',
-			'categoria_id' => '2',
-		));
-		Producto::create(array(
-			'nombre' => 'Nombre Producto 1',
-			'descripcion' => 'Descripcion Producto con algo mas de texto para ver como funciona',
-			'codigo' => 'codigo1',
-			'tipo_producto' => 'SIM',
-			'stock' => '23',
-			'precio' => '123.90',
-			'contifico_id' => '1',
-			'categoria_id' => '1',
-		));
-		Producto::create(array(
-			'nombre' => 'Nombre Producto 1',
-			'descripcion' => 'Descripcion Producto con algo mas de texto para ver como funciona',
-			'codigo' => 'codigo1',
-			'tipo_producto' => 'SIM',
-			'stock' => '23',
-			'precio' => '123.90',
-			'contifico_id' => '1',
-			'categoria_id' => '2',
+			'empresa_id' => '1',
 		));
 		Producto::create(array(
 			'nombre' => 'Nombre Producto 1',
@@ -109,36 +51,7 @@ class ProductosTableSeeder extends Seeder {
 			'precio' => '123.90',
 			'contifico_id' => '1',
 			'categoria_id' => '1',
-		));
-		Producto::create(array(
-			'nombre' => 'Nombre Producto 1',
-			'descripcion' => 'Descripcion Producto con algo mas de texto para ver como funciona',
-			'codigo' => 'codigo1',
-			'tipo_producto' => 'SIM',
-			'stock' => '23',
-			'precio' => '123.90',
-			'contifico_id' => '1',
-			'categoria_id' => '2',
-		));
-		Producto::create(array(
-			'nombre' => 'Nombre Producto 1',
-			'descripcion' => 'Descripcion Producto con algo mas de texto para ver como funciona',
-			'codigo' => 'codigo1',
-			'tipo_producto' => 'SIM',
-			'stock' => '23',
-			'precio' => '123.90',
-			'contifico_id' => '1',
-			'categoria_id' => '1',
-		));
-		Producto::create(array(
-			'nombre' => 'Nombre Producto 1',
-			'descripcion' => 'Descripcion Producto con algo mas de texto para ver como funciona',
-			'codigo' => 'codigo1',
-			'tipo_producto' => 'SIM',
-			'stock' => '23',
-			'precio' => '123.90',
-			'contifico_id' => '1',
-			'categoria_id' => '2',
+			'empresa_id' => '1',
 		));
 		Producto::create(array(
 			'nombre' => 'Nombre Producto 1',
@@ -149,6 +62,7 @@ class ProductosTableSeeder extends Seeder {
 			'precio' => '123.90',
 			'contifico_id' => '1',
 			'categoria_id' => '1',
+			'empresa_id' => '1',
 		));
 		Producto::create(array(
 			'nombre' => 'Nombre Producto 1',
@@ -158,7 +72,8 @@ class ProductosTableSeeder extends Seeder {
 			'stock' => '23',
 			'precio' => '123.90',
 			'contifico_id' => '1',
-			'categoria_id' => '2',
+			'categoria_id' => '1',
+			'empresa_id' => '1',
 		));
 		Producto::create(array(
 			'nombre' => 'Nombre Producto 1',
@@ -168,7 +83,8 @@ class ProductosTableSeeder extends Seeder {
 			'stock' => '23',
 			'precio' => '123.90',
 			'contifico_id' => '1',
-			'categoria_id' => '2',
+			'categoria_id' => '1',
+			'empresa_id' => '1',
 		));
 		Producto::create(array(
 			'nombre' => 'Nombre Producto 1',
@@ -178,7 +94,8 @@ class ProductosTableSeeder extends Seeder {
 			'stock' => '23',
 			'precio' => '123.90',
 			'contifico_id' => '1',
-			'categoria_id' => '2',
+			'categoria_id' => '1',
+			'empresa_id' => '1',
 		));
 		Producto::create(array(
 			'nombre' => 'Nombre Producto 1',
@@ -188,7 +105,8 @@ class ProductosTableSeeder extends Seeder {
 			'stock' => '23',
 			'precio' => '123.90',
 			'contifico_id' => '1',
-			'categoria_id' => '2',
+			'categoria_id' => '1',
+			'empresa_id' => '1',
 		));
 		Producto::create(array(
 			'nombre' => 'Nombre Producto 1',
@@ -198,7 +116,52 @@ class ProductosTableSeeder extends Seeder {
 			'stock' => '23',
 			'precio' => '123.90',
 			'contifico_id' => '1',
-			'categoria_id' => '2',
+			'categoria_id' => '1',
+			'empresa_id' => '1',
+		));
+		Producto::create(array(
+			'nombre' => 'Nombre Producto 1',
+			'descripcion' => 'Descripcion Producto con algo mas de texto para ver como funciona',
+			'codigo' => 'codigo1',
+			'tipo_producto' => 'SIM',
+			'stock' => '23',
+			'precio' => '123.90',
+			'contifico_id' => '1',
+			'categoria_id' => '1',
+			'empresa_id' => '1',
+		));
+		Producto::create(array(
+			'nombre' => 'Nombre Producto 1',
+			'descripcion' => 'Descripcion Producto con algo mas de texto para ver como funciona',
+			'codigo' => 'codigo1',
+			'tipo_producto' => 'SIM',
+			'stock' => '23',
+			'precio' => '123.90',
+			'contifico_id' => '1',
+			'categoria_id' => '1',
+			'empresa_id' => '1',
+		));
+		Producto::create(array(
+			'nombre' => 'Nombre Producto 1',
+			'descripcion' => 'Descripcion Producto con algo mas de texto para ver como funciona',
+			'codigo' => 'codigo1',
+			'tipo_producto' => 'SIM',
+			'stock' => '23',
+			'precio' => '123.90',
+			'contifico_id' => '1',
+			'categoria_id' => '1',
+			'empresa_id' => '1',
+		));
+		Producto::create(array(
+			'nombre' => 'Nombre Producto 1',
+			'descripcion' => 'Descripcion Producto con algo mas de texto para ver como funciona',
+			'codigo' => 'codigo1',
+			'tipo_producto' => 'SIM',
+			'stock' => '23',
+			'precio' => '123.90',
+			'contifico_id' => '1',
+			'categoria_id' => '1',
+			'empresa_id' => '1',
 		));
 	}
 
