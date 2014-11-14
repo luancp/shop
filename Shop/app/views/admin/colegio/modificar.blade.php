@@ -28,19 +28,26 @@
     	<div class="col-md-5 col-sm-5">
     		<div id="imagen-imagen">
     			<button style="position:absolute;" id="button-upload" class="btn btn-success btn-sm pull-right">Subir Imagen</button>
+    			@if($colegio->imagen)
+    				<img class="croppedImg" src="{{ URL::asset('img/colegios/'.$colegio->imagen) }}">
+    			@endif
     		</div>
     	</div>
     	<div class="col-md-7 col-sm-7">
-    		@if(Session::has('error'))
+    		@if(Session::has('errors'))
     		<div class="alert alert-danger">
     			<button type="button" class="close" data-dismiss="alert">
 				  	<span aria-hidden="true">&times;</span>
 				  	<span class="sr-only">Close</span>
 				</button>
-    			<strong>Error</strong>, {{ Session::get('error') }}
+    			<ul>
+		        @foreach($errors->all('<li>:message</li>') as $message)
+		            {{ $message }}
+		        @endforeach
+		        </ul>
     		</div>
     		@endif
-    		<form class="form-vertical" role="form" action="{{ URL::route('admin_colegio_agregar') }}" method="post">
+    		<form class="form-vertical" role="form" action="{{ URL::route('admin_colegio_actualizar', $colegio->id) }}" method="post">
 	    		<div class="form-group">
 	    			<label>Nombre del Colegio</label>
 	    			<div class="">
@@ -64,10 +71,10 @@
 			uploadUrl:	'{{ URL::route("admin_imagen_colegio_subir") }}',
 			cropUrl:	'{{ URL::route("admin_imagen_colegio_cortar") }}',
 			uploadData:{
-				
+				"id": "{{ $colegio->id }}"
 			},
 			cropData:{
-				
+				"id": "{{ $colegio->id }}"
 			},
 			modal: true,
 			onAfterImgCrop:	function(){

@@ -81,6 +81,7 @@ Route::group(array('before' => 'auth|admin'), function(){
 	Route::post('admin/colegio/registrar/', array('as' => 'admin_colegio_agregar', 'uses' => 'AdminController@colegioAgregar'));
 	Route::get('admin/colegio/{id}/editar/', array('as' => 'admin_colegio_modificar', 'uses' => 'AdminController@colegioModificar'));
 	Route::post('admin/colegio/{id}/actualizar/', array('as' => 'admin_colegio_actualizar', 'uses' => 'AdminController@colegioActualizar'));
+	Route::get('admin/colegio/{id}/eliminar/', array('as' => 'admin_colegio_eliminar', 'uses' => 'AdminController@colegioEliminar'));
 	//para menejo de imagenes	
 	Route::post('admin/colegio/imagen/subir/', array('as' => 'admin_imagen_colegio_subir', 'uses' => 'AdminController@colegioImagenSubir'));
 	Route::post('admin/colegio/imagen/cortar/', array('as' => 'admin_imagen_colegio_cortar', 'uses' => 'AdminController@colegioImagenCortar'));

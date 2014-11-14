@@ -28,6 +28,9 @@
     	<div class="col-md-5 col-sm-5">
     		<div id="imagen-imagen">
     			<button style="position:absolute;" id="button-upload" class="btn btn-success btn-sm pull-right">Subir Imagen</button>
+    			@if(Input::old('img-colegio'))
+    				<img class="croppedImg" src="{{ Input::old('img-colegio') }}">
+    			@endif
     		</div>
     	</div>
     	<div class="col-md-7 col-sm-7">
@@ -37,7 +40,7 @@
 				  	<span aria-hidden="true">&times;</span>
 				  	<span class="sr-only">Close</span>
 				</button>
-    			<ul class="list-unstyled">
+    			<ul>
 		        @foreach($errors->all('<li>:message</li>') as $message)
 		            {{ $message }}
 		        @endforeach
@@ -48,8 +51,8 @@
 	    		<div class="form-group">
 	    			<label>Nombre del Colegio</label>
 	    			<div class="">
-	    				<input type="hidden" id="img-colegio" name="img-colegio" />
-	    				<input class="form-control input-sm" type="text" required="required" name="nombre" value="@if(Input::old('nombre'))Input::old('nombre')@endif" />
+	    				<input type="hidden" id="img-colegio" name="img-colegio" value="@if(Input::old('img-colegio')){{Input::old('img-colegio')}}@endif" />
+	    				<input class="form-control input-sm" type="text" required="required" name="nombre" value="@if(Input::old('nombre')){{Input::old('nombre')}}@endif" />
 	    			</div>
 	    		</div>
 	    		<div class="form-group">

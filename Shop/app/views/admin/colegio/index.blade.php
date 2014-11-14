@@ -17,22 +17,39 @@
     		<table class="table table-condensed">
     			<thead>
     				<tr>
-    					<th></th>
+    					<th width="100"></th>
     					<th>Nombre</th>
+    					<th>Cursos</th>
     					<th>Listas</th>
+    					<th>Acciones</th>
     				</tr>
     			</thead>
     			<tbody>
     				@foreach($colegios as $c)
     				<tr>
     					<td>
-    						<img src="{{ URL::asset('img/colegio/'.$c->imagen) }}" alt="{{ $c->colegio }}" width="100" />
+    						<img src="{{ URL::asset('img/colegios/'.$c->imagen) }}" alt="{{ $c->nombre }}" width="60" />
     					</td>
     					<td>
-    						<a href="{{ URL::route('admin_colegio_consultar', $u->id) }}">{{ $c->nombre }}</a>
+    						<a href="{{ URL::route('admin_colegio_consultar', $c->id) }}">{{ $c->nombre }}</a>
+    					</td>
+    					<td>
+    						{{ count($c->cursos) }}
     					</td>
     					<td>
     						{{ $c->id }}
+    					</td>
+    					<td>
+    						<div class="dropdown">
+								<button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+									<i class="fa fa-cog"></i>
+									<span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+									<li role="presentation"><a class="" href="{{ URL::route('admin_colegio_modificar', $c->id) }}" role="menuitem" tabindex="-1"><i class="fa fa-edit"></i>&nbsp;Editar</a></li>
+									<li role="presentation"><a class="btn-eliminar" href="{{ URL::route('admin_colegio_eliminar', $c->id) }}" role="menuitem" tabindex="-1"><i class="fa fa-trash-o"></i>&nbsp;Eliminar</a></li>
+								</ul>
+							</div>
     					</td>
     				</tr>
     				@endforeach
@@ -46,9 +63,18 @@
 @endsection
 
 @section('js-footer')
+{{ HTML::script('js/bootbox.min.js') }}
 <script type="text/javascript">
 	$(function(){
-		
+		$('a.btn-eliminar').click(function(e){
+			e.preventDefault();
+			var loc = $(this).attr('href');
+			bootbox.confirm("Está seguro de eliminar el colegio?\nSe eliminarán todos los cursos y listas.", function(result){
+                if(result){
+                	location.href = loc;
+                }
+            });
+		});
 	});
 </script>
 @endsection

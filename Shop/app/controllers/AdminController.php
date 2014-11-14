@@ -449,10 +449,12 @@ class AdminController extends BaseController {
 	//sube la imagen del colegio al servidor
 	public function colegioImagenSubir(){
 		$file = Input::file('img');
-		$id = Input::get('id');
 		
-		$timestamp = time();
-		$imagen = $timestamp.'.'.$file->getClientOriginalExtension();
+		$nombre = time();
+		if(Input::has('id')){
+			$nombre = Input::get('id');
+		}		
+		$imagen = $nombre.'.'.$file->getClientOriginalExtension();
 		$directorio = public_path().'/img/colegios/';
 		
 		//verifica y elimina las imagenes anteriores
@@ -472,7 +474,9 @@ class AdminController extends BaseController {
 		$image = $image->encode('jpg', 75);
 		$image->save($directorio.'tmp_'.$imagen);
 		
+		
 		Session::set('img_tmp', $imagen);
+		
 		
 		//retornar el json
 		return Response::json(array(
@@ -493,19 +497,38 @@ class AdminController extends BaseController {
 		$h_r = (int)Input::get('imgH');
 		
 		$directorio = public_path().'/img/colegios/';
+
 		$imagen = Session::get('img_tmp');
-		Session::put('img_tmp', '');
+		Session::forget('img_tmp');
+		$ss = explode('/', $imagen);
+		$imagen = $ss[count($ss)-1];
 		
+		if(!Input::has('id')){
+			$ext = explode('.', $imagen);
+			
+			$image = Image::make($directorio.'tmp_'.$imagen);
+			$image = $image->resize($w_r, $h_r);
+			$image = $image->crop($w, $h, $x, $y);
+			$image->save($directorio.$imagen);
+			
+		}else{
+			$ext = explode('.', $imagen);
+			$id = Input::get('id');
+			$colegio = Colegio::find($id);			
+			$imagen = $colegio->id.'.'.$ext[1];
+			
+			$colegio->imagen = $imagen;
+			$colegio->save();
+		}
 		$image = Image::make($directorio.'tmp_'.$imagen);
 		$image = $image->resize($w_r, $h_r);
 		$image = $image->crop($w, $h, $x, $y);
 		$image->save($directorio.$imagen);
-		
 		//verifica y elimina la imagen temporal
 		if(File::exists($directorio.'tmp_'.$imagen)){
 			File::delete($directorio.'tmp_'.$imagen);
 		}
-		
+
 		//retornar el json
 		return Response::json(array(
 			"status" => "success",
@@ -541,8 +564,11 @@ class AdminController extends BaseController {
 
 	//agrega un colegio
 	public function colegioAgregar(){
+		$directorio = public_path().'/img/colegios/';
 		$empresa = Session::get('empresa');
 		$nombre = Input::get('nombre');
+		$imagen = Input::get('img-colegio');
+		
 		$v = Colegio::validar($nombre);
 		if($v->fails()){
 			//Session::flash('error_mensaje', 'Verificar el nombre del colegio.');
@@ -554,7 +580,25 @@ class AdminController extends BaseController {
 			$colegio->nombre = $nombre;
 			$colegio->empresa_id = $empresa->id;
 			$colegio->save();
-			
+			if(!is_null($imagen) && $imagen != ''){
+				$ss = explode('/', $imagen);
+				$imagen = $ss[count($ss)-1];
+				$ext = explode('.', $imagen);
+				
+				$img = Image::make($directorio.$imagen);
+				$img->save($directorio.$colegio->id.'.'.$ext[1]);
+				
+				//verifica y elimina la imagen temporal
+				if(File::exists($directorio.$imagen)){
+					File::delete($directorio.$imagen);
+				}
+				
+				$colegio->imagen = $colegio->id.'.'.$ext[1];
+			}else{
+				$colegio->imagen = null;
+			}
+			$colegio->save();
+			Session::flash('success_mensaje', 'Se agrego correctamente el colegio.');
 			return Redirect::route('admin_colegio_modificar', $colegio->id);
 	    }
 	}
@@ -571,8 +615,30 @@ class AdminController extends BaseController {
 	//modifica un colegio
 	public function colegioActualizar($id){
 		$empresa = Session::get('empresa');
-		return View::make('admin.colegio.registrar')
-			->with('module', 'colegios')
-			->with('title', 'Colegios');
+		$nombre = Input::get('nombre');		
+		$v = Colegio::validar($nombre, $id);
+		if($v->fails()){
+			//Session::flash('error_mensaje', 'Verificar el nombre del colegio.');
+	    	return Redirect::route('admin_colegio_modificar', $id)
+	    		->withInput()
+	    		->withErrors($v);
+	    }else{
+	    	$colegio = Colegio::find($id);
+			$colegio->nombre = $nombre;
+			$colegio->save();
+			Session::flash('success_mensaje', 'Se agrego correctamente el colegio.');
+			return Redirect::route('admin_colegio_modificar', $colegio->id);
+	    }
+		
+		Session::flash('success_mensaje', 'Se actualizó correctamente el colegio.');
+		return Redirect::route('admin_colegio_modificar', $colegio->id);
+	}
+
+	//elimina un colegio
+	public function colegioEliminar($id){
+		$empresa = Session::get('empresa');
+		$colegio = Colegio::find($id);
+		$colegio->delete();
+		return Redirect::route('admin_colegios');
 	}
 }

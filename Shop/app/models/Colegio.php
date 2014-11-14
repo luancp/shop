@@ -9,15 +9,20 @@ class Colegio extends Eloquent {
 	 * @var array
 	 */
 	
-	public static function validar($nombre){
+	public static function validar($nombre, $id = null){
 		$rules = array(
-			'nombre' => 'required|unique:colegio_colegio,nombre'
+			'nombre' => 'required|unique:colegio_colegio,nombre,'.$id.''
 		);
 		$data = array(
 			'nombre' => $nombre
 		);
 		$validator = Validator::make($data, $rules);
 		return $validator;
+	}
+	
+	public function cursos(){
+		$cursos = $this->hasMany('Curso');
+		return $cursos;
 	}
 
 
