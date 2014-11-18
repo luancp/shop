@@ -21,7 +21,7 @@ class Colegio extends Eloquent {
 	}
 	
 	public function cursos(){
-		$cursos = $this->hasMany('Curso');
+		$cursos = $this->hasMany('Curso')->orderBy('id', 'DESC');
 		return $cursos;
 	}
 

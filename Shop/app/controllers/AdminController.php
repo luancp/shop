@@ -26,6 +26,13 @@ class AdminController extends BaseController {
 			->with('title', 'Producto')
 			->with('producto', $producto);
 	}
+
+	public function productosConsultarJson(){
+		$term = Input::get('term');
+		$productos = Producto::where('nombre', 'like', '%'.$term.'%')->select('id', 'nombre')->get();
+		//return Response::json(array('name' => 'Steve', 'state' => 'CA'));
+		return Response::json($productos);
+	}
 	
 	public function productoActualizar(){
 		$id = Input::get('id');
@@ -640,5 +647,66 @@ class AdminController extends BaseController {
 		$colegio = Colegio::find($id);
 		$colegio->delete();
 		return Redirect::route('admin_colegios');
+	}
+
+	//administrar un colegio
+	public function colegioAdministrar($id){
+		$empresa = Session::get('empresa');
+		
+		if(Request::isMethod('post')){
+			$nombre = Input::get('nombre');
+			$id_colegio = Input::get('id-colegio');
+			$colegio = Colegio::find($id_colegio);
+			
+			if(Input::has('agregar-producto') && Input::get('agregar-producto') == 'true'){
+				$id_curso = Input::get('id-curso');
+				$producto = Input::get('producto');
+				$producto = Producto::find($producto);
+				$nombre = Input::get('id-curso');
+				$cantidad = Input::get('cantidad');
+				
+				$lista = new CursoLista;
+				$lista->curso_id = $id_curso;
+				$lista->producto_id = $producto->id;
+				$lista->nombre = $nombre;
+				$lista->cantidad = $cantidad;
+				$lista->save();
+				
+				return Response::json(array(
+					'id' => $lista->id,
+					'prod_id' => $producto->id,
+					'prod_name' => $producto->nombre,
+				));
+			}
+			
+			$curso = new Curso;
+			$curso->nombre = $nombre;
+			$curso->colegio_id = $id_colegio;
+			$curso->save();
+			return Redirect::route('admin_colegio_admin_curso', $colegio->id);
+		}else{
+			$colegio = Colegio::find($id);
+		}
+		
+		return View::make('admin.colegio.administrar')
+			->with('module', 'colegios')
+			->with('colegio', $colegio)
+			->with('title', 'Colegios');
+	}
+
+	//administrar un colegio
+	public function colegioCursoListas(){
+		$empresa = Session::get('empresa');
+		$listas = array();
+		
+		$nombre = Input::get('nombre');
+		$id_curso = Input::get('id-curso');
+		
+		$curso = Curso::find($id_curso);
+		foreach($curso->listas as $l){
+			$listas = array_add($listas, 'data_'.$l->id, array('id' => $l->id, 'producto_id' => $l->producto->id, 'producto' => $l->producto->nombre, 'cantidad' => $l->cantidad));
+		}
+		return Response::json($listas);
+	
 	}
 }

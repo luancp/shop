@@ -1,6 +1,6 @@
 <?php
 
-class Curso extends Eloquent {
+class CursoLista extends Eloquent {
 
 	protected $table = 'colegio_curso_producto';
 	/**
@@ -9,7 +9,9 @@ class Curso extends Eloquent {
 	 * @var array
 	 */
 	
+	public function producto(){
+		$p = $this->belongsTo('Producto');
+		return $p;
+	}
 	
-
-
 }

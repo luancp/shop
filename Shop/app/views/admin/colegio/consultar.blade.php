@@ -18,20 +18,109 @@
     	<div class="col-md-7 col-sm-7">
     		<h4>{{ $colegio->nombre }}</h4>
     		<p><hr /></p>
-    		<p><strong>Cursos</strong></p>
     		<p>
-    			@foreach($colegio->cursos as $c)
-    				{{ $c->nombre }},&nbsp;
-    			@endforeach
-    		</p>    		
-    		<p><hr /></p>
-    		<p><a class="btn btn-default btn-xs" href="{{ URL::route('admin_colegio_modificar', $colegio->id) }}"><i class="fa fa-edit"></i>&nbsp;Editar</a></p>
+    			<a class="btn btn-default btn-xs" href="{{ URL::route('admin_colegio_modificar', $colegio->id) }}"><i class="fa fa-edit"></i>&nbsp;Editar</a>
+    			<a class="btn btn-default btn-xs" href="{{ URL::route('admin_colegio_admin_curso', $colegio->id) }}"><i class="fa fa-cog"></i>&nbsp;Administrar</a>
+    		</p>
     	</div>
-	  	<p class="col-md-12">&nbsp;<hr /></p>
+	  	<div class="col-md-12">&nbsp;<hr /><br /></div>
+	  	<div class="col-md-12 col-sm-12">
+	  		<div class="row">
+	  			<div class="col-md-6 col-sm-6">
+		  			<div class="panel panel-default">
+					  <!-- Default panel contents -->
+					  <div class="panel-heading"><strong>Cursos</strong></div>
+					  <!-- List group -->
+					  <ul class="list-group">
+					    @foreach($colegio->cursos as $c)
+						    <li class="list-group-item" id="{{ $c->id }}"><a class="item-curso" data-name="{{ $c->nombre }}" data-id="{{ $c->id }}" href="#">{{ $c->nombre }}</a></li>
+		    			@endforeach
+					  </ul>
+					</div>
+		  		</div>
+		  		<div class="col-md-6 col-sm-6">
+		  			<div class="panel panel-default">
+					  <!-- Default panel contents -->
+					  <div class="panel-heading" id="head-list"><strong>Lista por Curso</strong></div>
+					  <!-- List group -->
+					  <ul class="list-group" id="lista-productos-curso">
+						<li class="list-group-item text-center curso-list-load">Seleccione un curso</li>
+					  </ul>
+					</div>
+		  		</div>
+	  		</div>
+	  	</div>
   	</div>
 @endsection
 
 @section('js-footer')
+<script type="text/javascript">
+	$(function(){
+		$('.agregar-curso').click(function(e){
+			e.preventDefault();
+			if($('.form-agregar-curso').hasClass('hide')){
+				$('.form-agregar-curso').removeClass('hide');
+			}
+		});
+		$('.cancelar-curso').click(function(e){
+			e.preventDefault();
+			if(!$('.form-agregar-curso').hasClass('hide')){
+				$('.form-agregar-curso').addClass('hide');
+			}
+		});
+		$('.cancelar-producto').click(function(e){
+			e.preventDefault();
+			if(!$('#form-agregar-producto').hasClass('hide')){
+				$('#form-agregar-producto').addClass('hide');
+				$('.agregar-producto').removeClass('hide');
+			}
+		});
+		//----------------------
+		$('.item-curso').click(function(e){
+			e.preventDefault();
+			$('#head-list').html("<strong>"+ $(this).attr('data-name') +"</strong>");
+			$('.lista-productos').removeClass('hide');
+			$('.agregar-producto').removeClass('hide');
+			$('#lista-productos-curso').find('li.curso-list').remove();
+			//ajax trae los productos de la lista
+			$.ajax({
+			   url: '{{ URL::route('admin_colegio_get_lista_curso') }}',
+			   type: 'POST',
+			   dataType: 'json',
+			   async: true,
+			   data: {
+			      'id-curso': $(this).attr('data-id'),
+			   },
+			   beforeSend: function() {
+			      $('.curso-list-load').html('<span class="fa fa-spinner fa-spin"></span>&nbsp;');
+			   },
+			   error: function() {
+			      $('.curso-list-load').html('A ocurrido un error.');
+			   },
+			   success: function(data) {
+			   	  if(data.length == 0){
+			   	  	  $('.curso-list-load').html('No hay productos en la lista').removeClass('hide');
+			   	  }else{
+				   	  $.each(data, function(k, v){
+					  	$('#lista-productos-curso').append('<li class="list-group-item curso-list">'+v.producto+'</li>');
+				   	  });
+				   	  //agrega el producto a la lista
+				      
+				      $('.curso-list-load').html('').addClass('hide');
+				  }
+			   },
+			});
+			//agrega el id del curso al form
+			$('#id-curso').val($(this).attr('data-id'));
+			
+		});
+		$('.agregar-producto').click(function(e){
+			e.preventDefault();
+			$(this).addClass('hide');
+			$('#form-agregar-producto').removeClass('hide');
+		});
 
+	});
+</script>
 @endsection
 

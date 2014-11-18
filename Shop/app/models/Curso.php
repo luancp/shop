@@ -9,6 +9,9 @@ class Curso extends Eloquent {
 	 * @var array
 	 */
 	
-
+	public function listas(){
+		$listas = $this->hasMany('CursoLista')->orderBy('id', 'DESC');
+		return $listas;
+	}
 
 }

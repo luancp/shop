@@ -48,6 +48,8 @@
 								<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
 									<li role="presentation"><a class="" href="{{ URL::route('admin_colegio_modificar', $c->id) }}" role="menuitem" tabindex="-1"><i class="fa fa-edit"></i>&nbsp;Editar</a></li>
 									<li role="presentation"><a class="btn-eliminar" href="{{ URL::route('admin_colegio_eliminar', $c->id) }}" role="menuitem" tabindex="-1"><i class="fa fa-trash-o"></i>&nbsp;Eliminar</a></li>
+									<li class="divider"></li>
+									<li role="presentation"><a class="" href="{{ URL::route('admin_colegio_admin_curso', $c->id) }}" role="menuitem" tabindex="-1"><i class="fa fa-cog"></i>&nbsp;Cursos</a></li>
 								</ul>
 							</div>
     					</td>
