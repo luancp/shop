@@ -58,7 +58,7 @@
 					  <!-- List group -->
 					  <ul class="list-group">
 					    @foreach($colegio->cursos as $c)
-						    <li class="list-group-item" id="{{ $c->id }}"><a href="#" class="text-danger"><i class="fa fa-minus-circle"></i></a>&nbsp;<a class="item-curso" data-name="{{ $c->nombre }}" data-id="{{ $c->id }}" href="#">{{ $c->nombre }}</a></li>
+						    <li class="list-group-item" id="{{ $c->id }}"><a href="{{ URL::route('') }}" class="text-danger delete-curso" data-id="{{ $c->id }}"><i class="fa fa-minus-circle"></i></a>&nbsp;<a class="item-curso" data-name="{{ $c->nombre }}" data-id="{{ $c->id }}" href="#">{{ $c->nombre }}</a></li>
 		    			@endforeach
 					  </ul>
 					</div>
@@ -102,6 +102,7 @@
 
 @section('js-footer')
 {{ HTML::script('js/select2.min.js') }}
+{{ HTML::script('js/bootbox.min.js') }}
 <script type="text/javascript">
 	$(function(){
 		$('.agregar-curso').click(function(e){
@@ -159,6 +160,12 @@
 				  $('.delete-item').bind('click', function(e){
 				  	e.preventDefault();
 				  	console.log($(this).attr('data-id'));
+				  	var loc = $(this).attr('href');
+					bootbox.confirm("Está seguro de eliminar el producto de la lista?.", function(result){
+		                if(result){
+		                	location.href = loc;
+		                }
+		            });
 				  });
 			   },
 			});
@@ -233,6 +240,17 @@
 			});
 			
 		});
+		
+		$('.delete-curso').click(function(e){
+		  	e.preventDefault();
+		  	console.log($(this).attr('data-id'));
+		  	var loc = $(this).attr('href');
+			bootbox.confirm("Está seguro de eliminar la lista?", function(result){
+                if(result){
+                	location.href = loc;
+                }
+            });
+		  });
 	});
 </script>
 @endsection
