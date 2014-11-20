@@ -28,6 +28,8 @@
     	<div class="col-md-5 col-sm-5">
 			@if($colegio->imagen)
 				<img class="croppedImg" src="{{ URL::asset('img/colegios/'.$colegio->imagen) }}" width="200" />
+			@else
+				<img class="croppedImg" src="{{ URL::asset('img/colegios/default/default.png') }}" />
 			@endif
     	</div>
     	<div class="col-md-7 col-sm-7">
@@ -41,7 +43,7 @@
 	  			<div class="col-md-6 col-sm-6">
 		  			<div class="panel panel-default">
 					  <!-- Default panel contents -->
-					  <div class="panel-heading"><strong>Cursos</strong><a class="pull-right text-success agregar-curso btn btn-link btn-xs" href="#"><i class="fa fa-plus"></i>&nbsp;Agregar Lista</a></div>
+					  <div class="panel-heading"><strong>Cursos</strong><a class="pull-right text-success agregar-curso btn btn-link btn-xs" href="#"><i class="fa fa-plus"></i>&nbsp;Agregar Curso</a></div>
 					  <div class="panel-body">
 					  	<form class="hide form-agregar-curso" role="form" method="post" action="{{ URL::route('admin_colegio_admin_curso') }}">
 					  		<label>Nombre Curso</label>
@@ -58,7 +60,18 @@
 					  <!-- List group -->
 					  <ul class="list-group">
 					    @foreach($colegio->cursos as $c)
-						    <li class="list-group-item" id="{{ $c->id }}"><a href="{{ URL::route('') }}" class="text-danger delete-curso" data-id="{{ $c->id }}"><i class="fa fa-minus-circle"></i></a>&nbsp;<a class="item-curso" data-name="{{ $c->nombre }}" data-id="{{ $c->id }}" href="#">{{ $c->nombre }}</a></li>
+						    <li class="list-group-item" id="{{ $c->id }}">
+					    		<form class="form-inline" role="form" action="{{ URL::route('admin_colegio_curso_eliminar', $c->id) }}" method="post">
+						    		<div class="form-group">
+						    			<input type="hidden" name="colegio_id" value="{{ $colegio->id }}" />
+						    			<input type="hidden" name="curso_id" value="{{ $c->id }}" />
+							    		<button class="delete-curso text-danger btn btn-xs" type="submit" data-url="">
+							    			<i class="fa fa-minus-circle"></i>
+							    		</button>
+							    		&nbsp;<a class="item-curso" data-name="{{ $c->nombre }}" data-id="{{ $c->id }}" href="#">{{ $c->nombre }}</a>
+						    		</div>
+						    	</form>
+						    </li>
 		    			@endforeach
 					  </ul>
 					</div>
@@ -104,6 +117,28 @@
 {{ HTML::script('js/select2.min.js') }}
 {{ HTML::script('js/bootbox.min.js') }}
 <script type="text/javascript">
+	function eliminarProducto(a_elm, id_lista){
+		a_elm = a_elm[0];
+		$.ajax({
+		   url: '{{ URL::route("admin_colegio_curso_eliminar_producto") }}',
+		   type: 'POST',
+		   dataType: 'json',
+		   async: true,
+		   data: {
+		      'id_lista': id_lista,
+		   },
+		   beforeSend: function() {
+		      $(a_elm).html('<i class="fa fa-spinner fa-spin"></i>');
+		   },
+		   error: function() {
+		      $(a_elm).html('<i class="fa fa-minus-circle"></i>');
+		   },
+		   success: function(data) {
+		   	  $(a_elm).closest('li.curso-list').remove();
+		   },
+		});
+	}
+
 	$(function(){
 		$('.agregar-curso').click(function(e){
 			e.preventDefault();
@@ -159,11 +194,11 @@
 				  }
 				  $('.delete-item').bind('click', function(e){
 				  	e.preventDefault();
-				  	console.log($(this).attr('data-id'));
-				  	var loc = $(this).attr('href');
+				  	var id_lista = $(this).attr('data-id');
+				  	var a_elm = $(this);
 					bootbox.confirm("Está seguro de eliminar el producto de la lista?.", function(result){
 		                if(result){
-		                	location.href = loc;
+		                	eliminarProducto(a_elm, id_lista);
 		                }
 		            });
 				  });
@@ -229,13 +264,24 @@
 			   },
 			   success: function(data) {
 			   	  //agrega el producto a la lista
-			      $('#lista-productos-curso').prepend('<li class="list-group-item curso-list"><a href="#" class="text-danger delete-item"><i class="fa fa-minus-circle"></i></a>&nbsp;'+data.prod_name+'</li>');
+			      $('#lista-productos-curso').prepend('<li class="list-group-item curso-list"><a href="#" data-id="'+data.id+'" class="text-danger delete-item"><i class="fa fa-minus-circle"></i></a>&nbsp;'+data.prod_name+'</li>');
 			      //reset de campos de form
 			      $('#lista').select2('val','');
 			      $('#cantidad-prod').val('1');
 			      //reset boton
 			      $('#guardar-producto-lista').prop('disabled', false);
 			      $('#guardar-producto-lista').html('Guardar');
+			      
+			      $('.delete-item').bind('click', function(e){
+				  	e.preventDefault();
+				  	var id_lista = $(this).attr('data-id');
+				  	var a_elm = $(this);
+					bootbox.confirm("Está seguro de eliminar el producto de la lista?.", function(result){
+		                if(result){
+		                	eliminarProducto(a_elm, id_lista);
+		                }
+		            });
+				  });
 			   },
 			});
 			
@@ -244,10 +290,11 @@
 		$('.delete-curso').click(function(e){
 		  	e.preventDefault();
 		  	console.log($(this).attr('data-id'));
-		  	var loc = $(this).attr('href');
+		  	var loc = $(this).attr('data-url');
+		  	var boton = $(this);
 			bootbox.confirm("Está seguro de eliminar la lista?", function(result){
                 if(result){
-                	location.href = loc;
+                	$(boton).closest('form').submit();
                 }
             });
 		  });

@@ -5,19 +5,21 @@ class ShopController extends BaseController {
 	//pagina principal de la tienda
 	public function principal(){
 		$id = '';
+		$paginacion = 39;
 		$categorias = Categoria::all();
 		if(Request::has('categoria')){
-			$productos = Producto::where('categoria_id', Input::get('categoria'))->get();
+			$productos = Producto::where('categoria_id', Input::get('categoria'))->paginate($paginacion);
 			if($productos->count() > 0){
 				$id = Input::get('categoria');
 			}else{
-				$productos = Producto::all();
+				$productos = Producto::paginate($paginacion);
 				$id = '-1';
 			}
 		}else{
-			$productos = Producto::all();
+			$productos = Producto::paginate($paginacion);
 			$id = '-1';
 		}
+		$productos = $productos->appends(Input::except('page'));
 		return View::make('shop.index')
 			->with('title', 'Principal')
 			->with('cat', $id)

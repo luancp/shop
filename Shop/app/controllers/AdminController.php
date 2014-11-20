@@ -11,7 +11,7 @@ class AdminController extends BaseController {
 
 	public function productos(){
 		$empresa = Empresa::find(Session::get('empresa_id'));
-		$productos = Producto::paginate(20);
+		$productos = Producto::paginate(30);
 		return View::make('admin.producto.index')
 			->with('module', 'productos')
 			->with('title', 'Productos')
@@ -314,6 +314,7 @@ class AdminController extends BaseController {
 	}
 	
 	public function sincronizacion(){
+		ini_set('max_execution_time', 0);
 		// Get cURL resource
 		$curl = curl_init();
 		// Set some options - we are passing in a useragent too here
@@ -322,13 +323,13 @@ class AdminController extends BaseController {
 		    CURLOPT_URL => 'http://testcontifico.com:8000/api/producto/',
 		    CURLOPT_POST => 1,
 		    CURLOPT_POSTFIELDS => array(
-		        'api_key' => 'PkSQJaidTstfiyPYsdGMhW50OQLrU40CDom7E02ptIU',
-		        'api_token' => 'bd224dec-d59d-4595-9a89-4ecce9594993'
+		        'api_key' => 'TpmZce8cwQXHQIAFPGc3Gio2Db7q8I7vBrnPPOS4vIA',
+		        'api_token' => '678ac23d-e3df-460f-ade7-1ca650627a51'
 		    )
 		));
 		// Send the request & save response to $resp
 		$resp = curl_exec($curl);
-		// Close request to clear up some resources		
+		// Close request to clear up some resources
 		curl_close($curl);
 		
 		if($resp){
@@ -649,6 +650,23 @@ class AdminController extends BaseController {
 		return Redirect::route('admin_colegios');
 	}
 
+	//elimina un curso con su lista de productos
+	public function colegioCursoEliminar($id){
+		$empresa = Session::get('empresa');
+		$colegio = Input::get('colegio_id');
+		CursoLista::where('curso_id', $id)->delete();
+		$curso = Curso::find($id);
+		$curso->delete();
+		return Redirect::route('admin_colegio_admin_curso', $colegio);
+	}
+	
+	//elimina un curso con su lista de productos
+	public function colegioCursoListaEliminar(){
+		$lista = CursoLista::find(Input::get('id_lista'));
+		$lista->delete();
+		return Response::json("{'ok': 'true'}");
+	}
+	
 	//administrar un colegio
 	public function colegioAdministrar($id){
 		$empresa = Session::get('empresa');

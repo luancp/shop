@@ -86,11 +86,16 @@
 		      	<a href="{{ URL::route('producto_venta', $p->id) }}"><img src="{{ URL::asset('img/productos/default/venta_default.png') }}" alt="{{ $p->nombre }}" /></a>
 		      	@endif
 		      	<div class="caption">
-		        	<a href="{{ URL::route('producto_venta', $p->id) }}"><h5>{{ $p->nombre }}<strong class="pull-right text-success">${{ number_format($p->precio, 2) }}</strong></h5></a>
+		        	<a href="{{ URL::route('producto_venta', $p->id) }}"><h5 title="{{ $p->nombre }}">{{ str_limit($p->nombre, $limit=20, $end='...') }}<strong class="pull-right text-success">${{ number_format($p->precio, 2) }}</strong></h5></a>
 		      	</div>
 		    </div>
 	  	</div>
 	  	@endforeach
+	</div>
+	<div class="row">
+		<div class="col-md-12 text-center">
+			{{ $productos->links() }}
+		</div>
 	</div>
 @endsection
 

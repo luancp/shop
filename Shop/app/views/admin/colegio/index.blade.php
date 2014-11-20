@@ -28,7 +28,11 @@
     				@foreach($colegios as $c)
     				<tr>
     					<td>
-    						<img src="{{ URL::asset('img/colegios/'.$c->imagen) }}" alt="{{ $c->nombre }}" width="60" />
+    						@if($c->imagen)
+    							<img src="{{ URL::asset('img/colegios/'.$c->imagen) }}" alt="{{ $c->nombre }}" width="60" />
+    						@else
+    							<img src="{{ URL::asset('img/colegios/default/default.png') }}" alt="{{ $c->nombre }}" width="60" />
+    						@endif
     					</td>
     					<td>
     						<a href="{{ URL::route('admin_colegio_consultar', $c->id) }}">{{ $c->nombre }}</a>
