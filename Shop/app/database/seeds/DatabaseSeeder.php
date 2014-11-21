@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder {
 		$this->call('EmpresaTableSeeder');
 		$this->call('UsuariosTableSeeder');
 		//$this->call('ProductosTableSeeder');
+		$this->call('ColegiosTableSeeder');
 	}
 
 }
