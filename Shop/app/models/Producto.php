@@ -83,5 +83,11 @@ class Producto extends Eloquent {
 			return -1;
 		}
 	}
+	
+	//verifica si el producto tiene tallas
+	public function tieneTallas(){
+		
+		return $this->nombre;
+	}
 
 }

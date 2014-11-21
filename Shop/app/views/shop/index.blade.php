@@ -47,9 +47,11 @@
 				<form class="clearfix col-md-5 col-sm-5 form-filtros" action="" role="form">
 					<div class="form-group col-md-12 col-sm-12">
 						<label>Seleccionar Colegio</label>
-					    <select id="select-colegios" class="form-control input-sm">
-					    	<option value="-">Todos</option>
-					    </select>
+					    <input id="select-colegios" name="colegio" class="form-control input-sm" />
+					</div>
+					<div class="form-group col-md-12 col-sm-12 hide cursos-seleccion">
+						<label>Seleccionar Curso</label>
+					    <input id="select-cursos" name="curso" class="form-control input-sm" />
 					</div>
 				</form>
 			</div>
@@ -78,18 +80,18 @@
 	</div>
 	<div class="row">
 		@foreach($productos as $p)
-		<div class="col-sm-6 col-md-4">
-		    <div class="thumbnail">
-		    	@if($p->imagen)
-		      	<a href="{{ URL::route('producto_venta', $p->id) }}"><img src="{{ URL::asset('img/productos/'.$p->imagen) }}" alt="{{ $p->nombre }}" /></a>
-		      	@else
-		      	<a href="{{ URL::route('producto_venta', $p->id) }}"><img src="{{ URL::asset('img/productos/default/venta_default.png') }}" alt="{{ $p->nombre }}" /></a>
-		      	@endif
-		      	<div class="caption">
-		        	<a href="{{ URL::route('producto_venta', $p->id) }}"><h5 title="{{ $p->nombre }}">{{ str_limit($p->nombre, $limit=20, $end='...') }}<strong class="pull-right text-success">${{ number_format($p->precio, 2) }}</strong></h5></a>
-		      	</div>
-		    </div>
-	  	</div>
+			<div class="col-sm-6 col-md-4">
+			    <div class="thumbnail">
+			    	@if($p->imagen)
+			      	<a href="{{ URL::route('producto_venta', $p->id) }}"><img src="{{ URL::asset('img/productos/'.$p->imagen) }}" alt="{{ $p->nombre }}" /></a>
+			      	@else
+			      	<a href="{{ URL::route('producto_venta', $p->id) }}"><img src="{{ URL::asset('img/productos/default/venta_default.png') }}" alt="{{ $p->nombre }}" /></a>
+			      	@endif
+			      	<div class="caption">
+			        	<a href="{{ URL::route('producto_venta', $p->id) }}"><h5 title="{{ $p->nombre }}">{{ str_limit($p->nombre, $limit=20, $end='...') }}<strong class="pull-right text-success">${{ number_format($p->precio, 2) }}</strong></h5></a>
+			      	</div>
+			    </div>
+		  	</div>
 	  	@endforeach
 	</div>
 	<div class="row">
@@ -102,6 +104,11 @@
 @section('js-footer')
 {{ HTML::script('js/select2.min.js') }}
 <script type="text/javascript">
+	var colegios = null;
+	var cursos = null;
+	
+	function format(item) { return item.nombre; }
+	
 	$(function(){
 		$("#btn-seleccionar-colegio").click(function(){
 			var img_p = $("#img-principal");
@@ -117,7 +124,65 @@
 			}
 		});
 		
-		$('#select-colegios').select2();
+		var ajaxColegios = $.ajax({
+			   url: '{{ URL::route("get_colegios_principal") }}',
+			   type: 'POST',
+			   dataType: 'json',
+			   async: true,
+			   data: {
+			      
+			   },
+			   beforeSend: function() {
+			      
+			   },
+			   error: function() {
+			      colegios = [];
+			   },
+			   success: function(data) {
+			   	  colegios = data;
+			   },
+		});
+		
+		$.when(ajaxColegios).done(function(){
+			$('#select-colegios').select2({
+				data:{ results: colegios, text: 'nombre' },
+			    formatSelection: format,
+			    formatResult: format
+			});
+		});
+		
+		//para cuando elige el colegio
+		$('#select-colegios').on('change', function(){
+			$('#select-cursos').select2('val','');
+			$('.cursos-seleccion').removeClass('hide');
+			var colegio_id = $(this).val();
+			var ajaxCursos = $.ajax({
+				   url: '{{ URL::route("get_cursos_principal") }}',
+				   type: 'POST',
+				   dataType: 'json',
+				   async: true,
+				   data: {
+				      'colegio_id': colegio_id,
+				   },
+				   beforeSend: function() {
+				      
+				   },
+				   error: function() {
+				      cursos = [];
+				   },
+				   success: function(data) {
+				   	  cursos = data;
+				   },
+			});
+			
+			$.when(ajaxCursos).done(function(){
+				$('#select-cursos').select2({
+					data:{ results: cursos, text: 'nombre' },
+				    formatSelection: format,
+				    formatResult: format
+				});
+			})
+		});
 	});
 </script>
 @endsection

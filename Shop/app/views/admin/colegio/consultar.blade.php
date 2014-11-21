@@ -32,9 +32,15 @@
 					  <div class="panel-heading"><strong>Cursos</strong></div>
 					  <!-- List group -->
 					  <ul class="list-group">
-					    @foreach($colegio->cursos as $c)
-						    <li class="list-group-item" id="{{ $c->id }}"><a class="item-curso" data-name="{{ $c->nombre }}" data-id="{{ $c->id }}" href="#">{{ $c->nombre }}</a></li>
-		    			@endforeach
+					  	@if(count($colegio->cursos) > 0)
+						    @foreach($colegio->cursos as $c)
+							    <li class="list-group-item" id="{{ $c->id }}"><a class="item-curso" data-name="{{ $c->nombre }}" data-id="{{ $c->id }}" href="#">{{ $c->nombre }}</a></li>
+			    			@endforeach
+			    		@else
+						    <li class="list-group-item text-center" id="">No hay cursos creados<br />
+						    	<a class="btn btn-default btn-xs btn-link" href="{{ URL::route('admin_colegio_admin_curso', $colegio->id) }}"><i class="fa fa-plus-circle"></i>&nbsp;Crear un Curso Ahora</a>
+						    </li>
+			    		@endif
 					  </ul>
 					</div>
 		  		</div>

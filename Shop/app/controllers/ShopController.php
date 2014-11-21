@@ -146,4 +146,17 @@ class ShopController extends BaseController {
 			->withCookie($cookie_cantidad);
 	}
 
+	//obtiene todos los colegios para la pagina principal
+	public function getColegios(){
+		$empresa = Session::get('empresa');
+		$colegios = Colegio::where('empresa_id', $empresa->id)->select(array('id', 'nombre'))->get();
+		return Response::json($colegios);
+	}
+
+	//obtiene todos los cursos dado el colegio
+	public function getCursos(){
+		$cursos = Curso::where('colegio_id', Input::get('colegio_id'))->select(array('id', 'nombre'))->get();
+		return Response::json($cursos);
+	}
+
 }

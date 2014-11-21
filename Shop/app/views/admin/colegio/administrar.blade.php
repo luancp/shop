@@ -49,7 +49,7 @@
 					  		<label>Nombre Curso</label>
 					  		<div>
 					  			<input type="hidden" name="id-colegio" value="{{ $colegio->id }}" />
-					  			<input class="form-control input-sm" type="text" name="nombre" required="required" />
+					  			<input class="form-control input-sm" type="text" id="nombre_curso" name="nombre" required="required" />
 					  			<p>
 					  				<br />
 					  				<button type="submit" class="btn btn-primary btn-xs">Guardar</button>&nbsp;<a class="btn btn-link btn-xs cancelar-curso">Cancelar</a>
@@ -119,24 +119,29 @@
 <script type="text/javascript">
 	function eliminarProducto(a_elm, id_lista){
 		a_elm = a_elm[0];
-		$.ajax({
-		   url: '{{ URL::route("admin_colegio_curso_eliminar_producto") }}',
-		   type: 'POST',
-		   dataType: 'json',
-		   async: true,
-		   data: {
-		      'id_lista': id_lista,
-		   },
-		   beforeSend: function() {
-		      $(a_elm).html('<i class="fa fa-spinner fa-spin"></i>');
-		   },
-		   error: function() {
-		      $(a_elm).html('<i class="fa fa-minus-circle"></i>');
-		   },
-		   success: function(data) {
-		   	  $(a_elm).closest('li.curso-list').remove();
-		   },
-		});
+		$(a_elm).removeClass('delete-item-new').addClass('delete-item');
+		bootbox.confirm("Está seguro de eliminar el producto de la lista?.", function(result){
+            if(result){
+				$.ajax({
+				   url: '{{ URL::route("admin_colegio_curso_eliminar_producto") }}',
+				   type: 'POST',
+				   dataType: 'json',
+				   async: true,
+				   data: {
+				      'id_lista': id_lista,
+				   },
+				   beforeSend: function() {
+				      $(a_elm).html('<i class="fa fa-spinner fa-spin"></i>');
+				   },
+				   error: function() {
+				      $(a_elm).html('<i class="fa fa-minus-circle"></i>');
+				   },
+				   success: function(data) {
+				   	  $(a_elm).closest('li.curso-list').remove();
+				   },
+				});
+            }
+        });
 	}
 
 	$(function(){
@@ -144,6 +149,7 @@
 			e.preventDefault();
 			if($('.form-agregar-curso').hasClass('hide')){
 				$('.form-agregar-curso').removeClass('hide');
+				$('#nombre_curso').focus();
 			}
 		});
 		$('.cancelar-curso').click(function(e){
@@ -166,6 +172,7 @@
 			$('.lista-productos').removeClass('hide');
 			$('.agregar-producto').removeClass('hide');
 			$('#lista-productos-curso').find('li.curso-list').remove();
+			
 			//ajax trae los productos de la lista
 			$.ajax({
 			   url: '{{ URL::route('admin_colegio_get_lista_curso') }}',
@@ -196,11 +203,7 @@
 				  	e.preventDefault();
 				  	var id_lista = $(this).attr('data-id');
 				  	var a_elm = $(this);
-					bootbox.confirm("Está seguro de eliminar el producto de la lista?.", function(result){
-		                if(result){
-		                	eliminarProducto(a_elm, id_lista);
-		                }
-		            });
+                	eliminarProducto(a_elm, id_lista);
 				  });
 			   },
 			});
@@ -264,7 +267,7 @@
 			   },
 			   success: function(data) {
 			   	  //agrega el producto a la lista
-			      $('#lista-productos-curso').prepend('<li class="list-group-item curso-list"><a href="#" data-id="'+data.id+'" class="text-danger delete-item"><i class="fa fa-minus-circle"></i></a>&nbsp;'+data.prod_name+'</li>');
+			      $('#lista-productos-curso').prepend('<li class="list-group-item curso-list"><a href="#" data-id="'+data.id+'" class="text-danger delete-item-new"><i class="fa fa-minus-circle"></i></a>&nbsp;'+data.prod_name+'</li>');
 			      //reset de campos de form
 			      $('#lista').select2('val','');
 			      $('#cantidad-prod').val('1');
@@ -272,15 +275,11 @@
 			      $('#guardar-producto-lista').prop('disabled', false);
 			      $('#guardar-producto-lista').html('Guardar');
 			      
-			      $('.delete-item').bind('click', function(e){
+			      $('.delete-item-new').bind('click', function(e){
 				  	e.preventDefault();
 				  	var id_lista = $(this).attr('data-id');
 				  	var a_elm = $(this);
-					bootbox.confirm("Está seguro de eliminar el producto de la lista?.", function(result){
-		                if(result){
-		                	eliminarProducto(a_elm, id_lista);
-		                }
-		            });
+                	eliminarProducto(a_elm, id_lista);
 				  });
 			   },
 			});
