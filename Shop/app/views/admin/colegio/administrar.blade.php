@@ -96,7 +96,7 @@
 									<input id="cantidad-prod" class="form-control input-sm" type="number" min="1" name="cantidad" required="required" value="1" />
 						  			<p>
 						  				<br />
-						  				<button type="submit" class="btn btn-primary btn-xs" id="guardar-producto-lista">Guardar</button>&nbsp;<a class="btn btn-link btn-xs cancelar-producto">Cancelar</a>
+						  				<button type="submit" class="btn btn-success btn-xs" id="guardar-producto-lista">Agregar</button>&nbsp;<a class="btn btn-link btn-xs cancelar-producto">Cancelar</a>
 						  			</p>
 						  		</div>
 						  	  </form>
@@ -193,7 +193,7 @@
 			   	  	  $('.curso-list-load').html('No hay productos en la lista').removeClass('hide');
 			   	  }else{
 				   	  $.each(data, function(k, v){
-					  	$('#lista-productos-curso').append('<li class="list-group-item curso-list"><a href="#" data-id="'+v.id+'" class="text-danger delete-item"><i class="fa fa-minus-circle"></i></a>&nbsp;'+v.producto+'</li>');
+					  	$('#lista-productos-curso').append('<li class="list-group-item curso-list"><button data-id="'+v.id+'" class="text-danger btn btn-xs delete-item"><i class="fa fa-minus-circle"></i></button>&nbsp;'+v.producto+'</li>');
 				   	  });
 				   	  //agrega el producto a la lista
 				      
@@ -263,17 +263,17 @@
 			   },
 			   error: function() {
 			      $('#guardar-producto-lista').prop('disabled', false);
-			      $('#guardar-producto-lista').html('Guardar');
+			      $('#guardar-producto-lista').html('Agregar');
 			   },
 			   success: function(data) {
 			   	  //agrega el producto a la lista
-			      $('#lista-productos-curso').prepend('<li class="list-group-item curso-list"><a href="#" data-id="'+data.id+'" class="text-danger delete-item-new"><i class="fa fa-minus-circle"></i></a>&nbsp;'+data.prod_name+'</li>');
+			      $('#lista-productos-curso').prepend('<li class="list-group-item curso-list"><button data-id="'+data.id+'" class="text-danger btn btn-xs delete-item-new"><i class="fa fa-minus-circle"></i></button>&nbsp;'+data.prod_name+'</li>');
 			      //reset de campos de form
 			      $('#lista').select2('val','');
 			      $('#cantidad-prod').val('1');
 			      //reset boton
 			      $('#guardar-producto-lista').prop('disabled', false);
-			      $('#guardar-producto-lista').html('Guardar');
+			      $('#guardar-producto-lista').html('Agregar');
 			      
 			      $('.delete-item-new').bind('click', function(e){
 				  	e.preventDefault();

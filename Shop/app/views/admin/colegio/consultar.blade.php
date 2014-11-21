@@ -20,7 +20,6 @@
     		<p><hr /></p>
     		<p>
     			<a class="btn btn-default btn-xs" href="{{ URL::route('admin_colegio_modificar', $colegio->id) }}"><i class="fa fa-edit"></i>&nbsp;Editar</a>
-    			<a class="btn btn-default btn-xs" href="{{ URL::route('admin_colegio_admin_curso', $colegio->id) }}"><i class="fa fa-cog"></i>&nbsp;Administrar</a>
     		</p>
     	</div>
 	  	<div class="col-md-12">&nbsp;<hr /><br /></div>
@@ -29,7 +28,7 @@
 	  			<div class="col-md-6 col-sm-6">
 		  			<div class="panel panel-default">
 					  <!-- Default panel contents -->
-					  <div class="panel-heading"><strong>Cursos</strong></div>
+					  <div class="panel-heading"><strong>Cursos</strong><a class="btn btn-default btn-xs pull-right" href="{{ URL::route('admin_colegio_admin_curso', $colegio->id) }}"><i class="fa fa-cog"></i>&nbsp;Administrar</a></div>
 					  <!-- List group -->
 					  <ul class="list-group">
 					  	@if(count($colegio->cursos) > 0)

@@ -15,6 +15,17 @@
 		height: 230px;
 		background: url('{{ URL::asset("/img/bg_banner.png") }}') 0 0 repeat;
 	}
+	#precio-total-curso{
+		font-weight: bold;
+		color: green;
+		font-size: 15px;
+	}
+	.form-group{
+		margin-bottom: 15px;
+	}
+	label{
+		margin-bottom: 0;
+	}
 </style>
 {{ HTML::style('css/select2.css') }}
 {{ HTML::style('css/select2-bootstrap.css') }}
@@ -52,6 +63,10 @@
 					<div class="form-group col-md-12 col-sm-12 hide cursos-seleccion">
 						<label>Seleccionar Curso</label>
 					    <input id="select-cursos" name="curso" class="form-control input-sm" />
+					</div>
+					<div id="total-curso" class="form-group col-md-12 col-sm-12 hide">
+						<label>Precio Estimado de la Lista</label>
+					    <div id="precio-total-curso"></div>
 					</div>
 				</form>
 			</div>
@@ -183,6 +198,35 @@
 				});
 			})
 		});
+		
+		//selecciona el curso
+		$('#select-cursos').on('change', function(e){
+			var ajaxCurso = $.ajax({
+				   url: '{{ URL::route("get_curso_total") }}',
+				   type: 'POST',
+				   dataType: 'json',
+				   async: true,
+				   data: {
+				      'curso_id': $(this).val(),
+				   },
+				   beforeSend: function() {
+				      
+				   },
+				   error: function() {
+				      $('#total-curso').removeClass('hide');
+				   	  $('#precio-total-curso').text("$0.00");
+				   },
+				   success: function(data){
+				   	  $('#total-curso').removeClass('hide');
+				   	  $('#precio-total-curso').text("$"+data.total);
+				   },
+			});
+			
+			$.when(ajaxCurso).done(function(){
+				
+			})
+		});
+		
 	});
 </script>
 @endsection

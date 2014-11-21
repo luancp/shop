@@ -29,7 +29,7 @@ class AdminController extends BaseController {
 
 	public function productosConsultarJson(){
 		$term = Input::get('term');
-		$productos = Producto::where('nombre', 'like', '%'.$term.'%')->select('id', 'nombre')->get();
+		$productos = Producto::where('nombre', 'like', '%'.$term.'%')->select('id', 'nombre')->take(10)->get(10);
 		//return Response::json(array('name' => 'Steve', 'state' => 'CA'));
 		return Response::json($productos);
 	}
@@ -727,4 +727,5 @@ class AdminController extends BaseController {
 		return Response::json($listas);
 	
 	}
+	
 }

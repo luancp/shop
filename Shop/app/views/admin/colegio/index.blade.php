@@ -20,7 +20,6 @@
     					<th width="100"></th>
     					<th>Nombre</th>
     					<th>Cursos</th>
-    					<th>Listas</th>
     					<th>Acciones</th>
     				</tr>
     			</thead>
@@ -39,9 +38,6 @@
     					</td>
     					<td>
     						{{ count($c->cursos) }}
-    					</td>
-    					<td>
-    						{{ $c->id }}
     					</td>
     					<td>
     						<div class="dropdown">

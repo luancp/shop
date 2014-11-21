@@ -158,5 +158,15 @@ class ShopController extends BaseController {
 		$cursos = Curso::where('colegio_id', Input::get('colegio_id'))->select(array('id', 'nombre'))->get();
 		return Response::json($cursos);
 	}
-
+	
+	//retorna el total del curso seleccionado
+	public function getCursoTotal(){
+		$lista = CursoLista::where('curso_id', Input::get('curso_id'))->get();
+		$total = 0;
+		foreach($lista as $l){
+			$p = Producto::find($l->producto_id);
+			$total = $total + $p->precio;
+		}
+		return Response::json(array('total' => $total));
+	}
 }
