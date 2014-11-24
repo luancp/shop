@@ -6,7 +6,7 @@ Route::post('login_user/', array('as' => 'login_user', 'uses' => 'MainController
 Route::get('logout/', array('as' => 'logout', 'uses' => 'MainController@logout'));
 
 //para las paginas principales
-Route::get('/', array('as' => 'principal', 'uses' => 'ShopController@principal'));
+Route::any('/', array('as' => 'principal', 'uses' => 'ShopController@principal'));
 Route::get('/producto/{id}', array('as' => 'producto_venta', 'uses' => 'ShopController@showProducto'));
 Route::post('/colegios/', array('as' => 'get_colegios_principal', 'uses' => 'ShopController@getColegios'));
 Route::post('/cursos/', array('as' => 'get_cursos_principal', 'uses' => 'ShopController@getCursos'));
