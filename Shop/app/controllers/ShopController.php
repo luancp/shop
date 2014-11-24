@@ -7,17 +7,27 @@ class ShopController extends BaseController {
 		$id = '';
 		$paginacion = 39;
 		$categorias = Categoria::all();
-		if(Request::has('categoria')){
-			$productos = Producto::where('categoria_id', Input::get('categoria'))->paginate($paginacion);
-			if($productos->count() > 0){
-				$id = Input::get('categoria');
+		
+		if(Request::isMethod('get')){
+			if(Request::has('categoria')){
+				$productos = Producto::where('categoria_id', Input::get('categoria'))->paginate($paginacion);
+				if($productos->count() > 0){
+					$id = Input::get('categoria');
+				}else{
+					$productos = Producto::paginate($paginacion);
+					$id = '-1';
+				}
 			}else{
-				$productos = Producto::paginate($paginacion);
-				$id = '-1';
+				if(Input::has('curso')){
+					$curso = Curso::find(Input::get('curso'));
+					
+					$productos = $curso->productos()->paginate($paginacion);
+				}else{
+					$productos = Producto::paginate($paginacion);
+					$id = '-1';
+				}
 			}
-		}else{
-			$productos = Producto::paginate($paginacion);
-			$id = '-1';
+			
 		}
 		$productos = $productos->appends(Input::except('page'));
 		return View::make('shop.index')
