@@ -167,6 +167,6 @@ class ShopController extends BaseController {
 			$p = Producto::find($l->producto_id);
 			$total = $total + $p->precio;
 		}
-		return Response::json(array('total' => $total));
+		return Response::json(array('total' => number_format($total, 2)));
 	}
 }

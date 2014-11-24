@@ -24,6 +24,7 @@ class MainController extends BaseController {
 			$empresa = Empresa::find(1);
 			Session::put('empresa_id', $empresa->id);
 			Session::put('empresa', $empresa);
+			return Redirect::intended('/');
             return Redirect::route('principal');
         }else{
             Session::flash('error_login','Usuario o clave incorrectos.');	
