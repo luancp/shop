@@ -14,4 +14,9 @@ class Curso extends Eloquent {
 		return $listas;
 	}
 
+	//retorna todos los productos del curso
+	public function productos(){
+		$productos = $this->belongsToMany('Producto', 'colegio_curso_producto', 'curso_id', 'producto_id');
+        return $productos;
+    }
 }

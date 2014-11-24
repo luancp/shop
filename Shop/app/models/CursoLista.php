@@ -9,9 +9,16 @@ class CursoLista extends Eloquent {
 	 * @var array
 	 */
 	
+	//retorna el producto
 	public function producto(){
 		$p = $this->belongsTo('Producto');
 		return $p;
+	}
+	
+	//retorna el curso
+	public function Curso(){
+		$c = $this->belongsTo('Curso');
+		return $c;
 	}
 	
 }
