@@ -47,7 +47,7 @@
           <a class="navbar-toggle collapsed cart-movil pull-left" id="popoverCartMovil" href="javascript:;" data-placement="bottom" data-toggle="popover" data-content=""><i class="fa fa-shopping-cart fa-2x"></i><span class="badge badge-cart">{{ Cookie::get('carrito_cantidad')?Cookie::get('carrito_cantidad'):0 }}</span></a>
         </div>
         <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
+          {{--<ul class="nav navbar-nav">
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-reorder fa-2x"></span></a>
               <ul class="dropdown-menu" role="menu">
@@ -59,12 +59,12 @@
                 <li><a href="#">One more </a></li>
               </ul>
             </li>
-          </ul>
+          </ul>--}}
           <ul class="nav navbar-nav navbar-right">
 			  <li class="">
 		          <form class="navbar-form text-center" role="form">
 		            <div class="form-group">
-		              <input type="search" placeholder="Buscar..." class="form-control form-rounded"/>
+		              <input type="search" placeholder="Buscar..." class="form-control form-rounded input-sm"/>
 		            </div>
 		          </form>
 			  </li>

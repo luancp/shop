@@ -55,18 +55,21 @@
 	<div id="img-principal" class="row hide">
 		<div class="col-md-12 col-sm-12">
 			<div class="bg-principal">
-				<form class="clearfix col-md-5 col-sm-5 form-filtros" action="" role="form">
+				<form class="clearfix col-md-5 col-sm-5 form-filtros" action="" role="form" method="get">
 					<div class="form-group col-md-12 col-sm-12">
 						<label>Seleccionar Colegio</label>
-					    <input id="select-colegios" name="colegio" class="form-control input-sm" />
+					    <input id="select-colegios" name="colegio" class="form-control input-sm" value="{{Input::has('colegio')?Input::get('colegio'):''}}" />
 					</div>
-					<div class="form-group col-md-12 col-sm-12 hide cursos-seleccion">
+					<div class="form-group col-md-12 col-sm-12">
 						<label>Seleccionar Curso</label>
-					    <input id="select-cursos" name="curso" class="form-control input-sm" />
+					    <input id="select-cursos" name="curso" class="form-control input-sm cursos-seleccion" value="{{Input::has('curso')?Input::get('curso'):''}}" />
 					</div>
 					<div id="total-curso" class="form-group col-md-12 col-sm-12 hide">
 						<label>Precio Estimado de la Lista</label>
 					    <div id="precio-total-curso"></div>
+					</div>
+					<div class="form-group col-md-12 col-sm-12">
+						<button id="btn-curso-consultar" class="btn btn-sm btn-primary" type="submit" disabled="disabled">Consultar</button>
 					</div>
 				</form>
 			</div>
@@ -111,13 +114,14 @@
 	</div>
 	<div class="row">
 		<div class="col-md-12 text-center">
-			{{ $productos->links() }}
+			{{ $productos->appends(array('curso' => Input::get('curso'), 'colegio' => Input::get('colegio')))->links() }}
 		</div>
 	</div>
 @endsection
 
 @section('js-footer')
 {{ HTML::script('js/select2.min.js') }}
+{{ HTML::script('js/jquery.shuffle.min.js') }}
 <script type="text/javascript">
 	var colegios = null;
 	var cursos = null;
@@ -167,8 +171,8 @@
 		});
 		
 		//para cuando elige el colegio
+		$('#select-cursos').select2({data: []});
 		$('#select-colegios').on('change', function(){
-			$('#select-cursos').select2('val','');
 			$('.cursos-seleccion').removeClass('hide');
 			var colegio_id = $(this).val();
 			var ajaxCursos = $.ajax({
@@ -219,13 +223,21 @@
 				   success: function(data){
 				   	  $('#total-curso').removeClass('hide');
 				   	  $('#precio-total-curso').text("$"+data.total);
+					  $('#btn-curso-consultar').attr('disabled', false);
 				   },
 			});
 			
 			$.when(ajaxCurso).done(function(){
-				
 			})
 		});
+		
+		//verifica los campos en el get
+		@if(Input::has('colegio'))
+			$('#select-colegios').trigger('change');
+		@endif
+		@if(Input::has('curso'))
+			$('#select-cursos').trigger('change');
+		@endif
 		
 	});
 </script>
