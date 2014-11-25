@@ -18,6 +18,8 @@ class CreateCategoriaCategoriaTable extends Migration {
             $table->string('nombre', 300);
             $table->string('codigo', 50);
             $table->integer('contifico_id');
+            $table->integer('padre_id')->nullable()->default(null)->unsigned();
+			$table->foreign('padre_id')->references('id')->on('categoria_categoria');
             $table->timestamps();
 		});
 	}

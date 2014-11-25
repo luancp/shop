@@ -19,7 +19,7 @@ class Producto extends Eloquent {
 		$id_categoria = 0;
 		foreach ($json->data as $d){
 			if(!Categoria::existeCategoria($d->categoria->id)){ //no existe categoria
-				$id_categoria = Categoria::crearCategoria($d->categoria->id, $d->categoria->nombre, $d->categoria->codigo);
+				$id_categoria = Categoria::crearCategoria($d->categoria->id, $d->categoria->nombre, $d->categoria->codigo, $d->categoria->padre_id, $d->categoria->padre_nombre, $d->categoria->padre_codigo);
 			}else{
 				$id_categoria = Categoria::setearCategoria($d->categoria->id, $d->categoria->nombre, $d->categoria->codigo);
 			}
