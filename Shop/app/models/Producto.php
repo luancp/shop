@@ -21,7 +21,7 @@ class Producto extends Eloquent {
 			if(!Categoria::existeCategoria($d->categoria->id)){ //no existe categoria
 				$id_categoria = Categoria::crearCategoria($d->categoria->id, $d->categoria->nombre, $d->categoria->codigo, $d->categoria->padre_id, $d->categoria->padre_nombre, $d->categoria->padre_codigo);
 			}else{
-				$id_categoria = Categoria::setearCategoria($d->categoria->id, $d->categoria->nombre, $d->categoria->codigo);
+				$id_categoria = Categoria::setearCategoria($d->categoria->id, $d->categoria->nombre, $d->categoria->codigo, $d->categoria->padre_id, $d->categoria->padre_nombre, $d->categoria->padre_codigo);
 			}
 			if(!self::existeProducto($d->id)){ //no existe producto
 				$id_producto = self::crearProducto($d->id, $d->nombre, $d->codigo, $d->stock, $d->descripcion, $d->tipo_producto, $id_categoria, $d->precio);
@@ -41,6 +41,7 @@ class Producto extends Eloquent {
 				return false;
 			}
 		}catch(ModelNotFoundException $e){
+			//Log::info('Producto Existe: '.$e);
 			return false;
 		}
 	}
@@ -61,6 +62,7 @@ class Producto extends Eloquent {
 			$p->save();
 			return $p->id;
 		}catch(Exception $e){
+			//Log::info('Producto Crear: '.$e);
 			return -1;
 		}
 	}
@@ -80,6 +82,7 @@ class Producto extends Eloquent {
 			$p->save();
 			return $p->id;
 		}catch(Exception $e){
+			//Log::info('Producto Set: '.$e);
 			return -1;
 		}
 	}

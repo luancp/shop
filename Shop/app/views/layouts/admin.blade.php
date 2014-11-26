@@ -47,19 +47,6 @@
           <a class="navbar-brand" href="{{ URL::route('principal') }}"></a>
         </div>
         <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-reorder fa-2x"></span></a>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else </a></li>
-                <li class="divider"></li>
-                <li class="dropdown-header">Nav header</li>
-                <li><a href="#">Separated link</a></li>
-                <li><a href="#">One more </a></li>
-              </ul>
-            </li>
-          </ul>
           <ul class="nav navbar-nav navbar-right">
 			  @if(!Session::has('usuario'))
 			  <li class="">
