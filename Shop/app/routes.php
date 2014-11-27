@@ -18,6 +18,8 @@ Route::post('/carrito/add/', array('as' => 'agregar_carrito', 'uses' => 'ShopCon
 Route::get('carrito/', array('as' => 'carrito', 'uses' => 'ShopController@carrito'));
 Route::post('carrito/actualizar/', array('as' => 'carrito_actualizar_producto', 'uses' => 'ShopController@carritoActualizarProducto'));
 Route::post('carrito/eliminar/', array('as' => 'carrito_eliminar_producto', 'uses' => 'ShopController@carritoEliminarProducto'));
+// -------
+Route::get('/carrito/agregar/todos/', array('as' => 'agregar_carrito_todos', 'uses' => 'ShopController@agregarCarritoTodosLista'));
 
 //registro de usuarios
 Route::get('registro/', array('as' => 'registrar', 'uses' => 'ShopController@showRegistro'));

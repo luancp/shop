@@ -41,7 +41,7 @@ class Producto extends Eloquent {
 				return false;
 			}
 		}catch(ModelNotFoundException $e){
-			//Log::info('Producto Existe: '.$e);
+			Log::info('Producto Existe: '.$e);
 			return false;
 		}
 	}
@@ -54,7 +54,11 @@ class Producto extends Eloquent {
 			$p->codigo = $codigo;
 			$p->descripcion = $descripcion;
 			$p->stock = $stock;
-			$p->precio = $precio;
+			if($precio){
+				$p->precio = $precio;
+			}else{
+				$p->precio = (float)0.00;
+			}
 			$p->tipo_producto = $tipo_producto;
 			$p->categoria_id = $id_categoria;
 			$p->contifico_id = $id;
@@ -62,7 +66,7 @@ class Producto extends Eloquent {
 			$p->save();
 			return $p->id;
 		}catch(Exception $e){
-			//Log::info('Producto Crear: '.$e);
+			Log::info('Producto Crear: '.$e);
 			return -1;
 		}
 	}
@@ -75,14 +79,18 @@ class Producto extends Eloquent {
 			$p->codigo = $codigo;
 			$p->descripcion = $descripcion;
 			$p->stock = $stock;
-			$p->precio = $precio;
+			if($precio){
+				$p->precio = $precio;
+			}else{
+				$p->precio = (float)0.00;
+			}
 			$p->tipo_producto = $tipo_producto;
 			$p->categoria_id = $id_categoria;
 			$p->contifico_id = $id;
 			$p->save();
 			return $p->id;
 		}catch(Exception $e){
-			//Log::info('Producto Set: '.$e);
+			Log::info('Producto Set: '.$e);
 			return -1;
 		}
 	}

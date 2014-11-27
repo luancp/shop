@@ -19,12 +19,22 @@ class ShopController extends BaseController {
 				}
 			}else{
 				if(Input::has('curso')){
+					$colegio = Colegio::find(Input::get('colegio'));
 					$curso = Curso::find(Input::get('curso'));
-					
 					$productos = $curso->productos()->paginate($paginacion);
+					Session::put('colegio', $colegio->nombre);
+					Session::put('curso', $curso->nombre);
+					$id = '-1';
+					return View::make('shop.consultar')
+						->with('title', 'Principal')
+						->with('cat', $id)
+						->with('categorias', $categorias)
+						->with('productos', $productos);
 				}else{
 					$productos = Producto::paginate($paginacion);
 					$id = '-1';
+					Session::set('colegio', null);
+					Session::set('curso', null);
 				}
 			}
 			
@@ -178,5 +188,56 @@ class ShopController extends BaseController {
 			$total = $total + $p->precio;
 		}
 		return Response::json(array('total' => number_format($total, 2)));
+	}
+	
+	//agrega todos los productos del curso en el carrito
+	public function agregarCarritoTodosLista(){
+		$lista = CursoLista::where('curso_id', Input::get('curso'))->get();
+		try{
+			$carrito = Cookie::get('carrito');
+			foreach($lista as $l){
+				$id = $l->producto->id;
+				$cantidad = $l->cantidad;
+				$nombre = $l->producto->nombre;
+				$precio = $l->producto->precio;
+				$imagen = $l->producto->imagen?$l->producto->imagen:null;
+				$cookie_compras = null;
+				$cookie_cantidad = null;
+				//$carrito_cantidad = Cookie::get('carrito_cantidad');
+				if((int)$cantidad <= 0){
+					$cantidad = 1;
+				}
+				if(!is_null($carrito) && count($carrito) > 0){
+					foreach($carrito as $c){
+						$item_id = (int)array_get($c, 'id');
+						if($item_id == (int)$id){
+							$cant = (int)array_get($c, 'cantidad')+(int)$cantidad;
+							$item = array('id'=>$id, 'cantidad'=>(int)$cant, 'nombre'=>$nombre, 'precio'=>$precio, 'imagen'=>$imagen);
+							$carrito = array_set($carrito, $id, $item);
+							$cookie_compras = Cookie::forever('carrito', $carrito);
+							$cookie_cantidad = Cookie::forever('carrito_cantidad', count($carrito));
+							//break;
+						}else{
+							$item = array('id'=>$id, 'cantidad'=>(int)$cantidad, 'nombre'=>$nombre, 'precio'=>$precio, 'imagen'=>$imagen);
+							$carrito = array_add($carrito, $id, $item);
+							$cookie_compras = Cookie::forever('carrito', $carrito);
+							$cookie_cantidad = Cookie::forever('carrito_cantidad', count($carrito));
+						}
+					}
+				}else{
+					$carrito = array();
+					$item = array('id'=>$id, 'cantidad'=>(int)$cantidad, 'nombre'=>$nombre, 'precio'=>$precio, 'imagen'=>$imagen);
+					$carrito = array_add($carrito, $id, $item);
+					$cookie_compras = Cookie::forever('carrito', $carrito);
+					$cookie_cantidad = Cookie::forever('carrito_cantidad', count($carrito));
+				}
+			}
+		}catch(Exception $e){
+			Log::info($e);
+		}
+		//redireccion despues de agregar al carrito
+		return Redirect::route('carrito')
+			->withCookie($cookie_compras)
+			->withCookie($cookie_cantidad);
 	}
 }

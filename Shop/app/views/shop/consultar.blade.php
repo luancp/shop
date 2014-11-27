@@ -35,12 +35,12 @@
 		margin: 0;
 		font-weight: bold;
 	}
-	#btn-curso-agregar-todos, #btn-curso-explorar-lista, #btn-curso-consultar{
+	#btn-curso-agregar-todos, #btn-curso-explorar-lista{
 		color: #288088;
 		font-weight: bold;
 	}
 	.btn-seleccionar-colegio{
-		color: green!important;
+		color: #288088!important;
 		border: none;
 		font-weight: bold;
 		padding-top: 7px;
@@ -51,6 +51,11 @@
 @endsection
 
 @section('sidebar')
+	
+	<ul class="list-group">
+		<a class="list-group-item btn-seleccionar-colegio" href="{{ URL::route('principal') }}"><i class="fa fa-arrow-left"></i>&nbsp;Volver a Seleccionar Colegio</a>
+	</ul>
+	
 	<ul class="list-group">
 		@if($categorias)
 		  	<a class="list-group-item @if($cat == '-1') active @endif" href="{{ URL::route('principal') }}">Todas las Categorias</a>
@@ -71,31 +76,7 @@
 @endsection
 
 @section('bg-ventas')
-<div class="bg-principal">
-	<form class="col-md-5 col-sm-5 form-filtros" action="" role="form" method="get">
-		<div class="form-group col-md-12 col-sm-12">
-			<h3 class="titulo-listas"><i class="fa fa-reorder"></i>&nbsp;Listas por Colegio</h3>
-		</div>
-		<div class="form-group col-md-12 col-sm-12">
-			<label>Seleccionar Colegio</label>
-		    <input id="select-colegios" name="colegio" class="form-control input-sm" value="{{Input::has('colegio')?Input::get('colegio'):''}}" />
-		</div>
-		<div class="form-group col-md-12 col-sm-12">
-			<label>Seleccionar Curso</label>
-		    <input id="select-cursos" name="curso" class="form-control input-sm cursos-seleccion" value="{{Input::has('curso')?Input::get('curso'):''}}" />
-		</div>
-		<div id="total-curso" class="form-group col-md-12 col-sm-12 hide">
-			<label>Precio Estimado de la Lista</label>
-		    <div id="precio-total-curso"></div>
-		</div>
-		<div class="form-group col-md-12 col-sm-12">
-			<button id="btn-curso-consultar" class="btn btn-link" type="submit" disabled="disabled"><i class="fa fa-search"></i>&nbsp;Consultar</button>
-			<button id="btn-curso-agregar-todos" class="btn btn-link hide" type="submit" disabled="disabled"><i class="fa fa-shopping-cart"></i>&nbsp;Agregar Todos</button>
-			<button id="btn-curso-explorar-lista" class="btn btn-link hide" type="submit" disabled="disabled"><i class="fa fa-bars"></i>&nbsp;Explorar Lista</button>
-		</div>
-	</form>
-</div>
-<br />
+
 @endsection
 
 @section('content')
@@ -103,6 +84,15 @@
 		<div class="col-md-12 col-sm-12">
 			
 			<div class="clearfix"><br /></div>
+		</div>
+		<div class="clearfix"><br /></div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<!-- para los filtros -->
+			@if(Session::has('colegio'))
+				<h3 class="titulo-colegio">{{ Session::get('colegio') }}&nbsp;<small>{{ Session::get('curso') }}</small><a id="btn-curso-explorar-lista" class="btn btn-link pull-right" href="{{ URL::route('agregar_carrito_todos') }}?colegio={{ Input::get('colegio') }}&curso={{ Input::get('curso') }}"><i class="fa fa-shopping-cart"></i>&nbsp;Agregar Todos</a></h3>
+			@endif
 		</div>
 		<div class="clearfix"><br /></div>
 	</div>
@@ -235,9 +225,7 @@
 				   	  $('#precio-total-curso').text("$"+data.total);
 					  $('#btn-curso-consultar').attr('disabled', false);
 					  
-					  $('#btn-curso-explorar-lista').removeClass('hide');
 					  $('#btn-curso-explorar-lista').attr('disabled', false);
-					  $('#btn-curso-agregar-todos').removeClass('hide');
 					  $('#btn-curso-agregar-todos').attr('disabled', false);
 				   },
 			});
