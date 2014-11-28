@@ -74,7 +74,7 @@
 <div class="bg-principal">
 	<form class="col-md-5 col-sm-5 form-filtros" action="" role="form" method="get">
 		<div class="form-group col-md-12 col-sm-12">
-			<h3 class="titulo-listas"><i class="fa fa-reorder"></i>&nbsp;Listas por Colegio</h3>
+			<h3 class="titulo-listas"><i class="fa fa-check-square-o"></i>&nbsp;Listas por Colegio</h3>
 		</div>
 		<div class="form-group col-md-12 col-sm-12">
 			<label>Seleccionar Colegio</label>
@@ -88,7 +88,7 @@
 			<label>Precio Estimado de la Lista</label>
 		    <div id="precio-total-curso"></div>
 		</div>
-		<div class="form-group col-md-12 col-sm-12">
+		<div class="form-group">
 			<button id="btn-curso-consultar" class="btn btn-link" type="submit" disabled="disabled"><i class="fa fa-search"></i>&nbsp;Consultar</button>
 			<button id="btn-curso-agregar-todos" class="btn btn-link hide" type="submit" disabled="disabled"><i class="fa fa-shopping-cart"></i>&nbsp;Agregar Todos</button>
 			<button id="btn-curso-explorar-lista" class="btn btn-link hide" type="submit" disabled="disabled"><i class="fa fa-bars"></i>&nbsp;Explorar Lista</button>

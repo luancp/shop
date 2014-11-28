@@ -694,6 +694,7 @@ class AdminController extends BaseController {
 					'id' => $lista->id,
 					'prod_id' => $producto->id,
 					'prod_name' => $producto->nombre,
+					'prod_cant' => $lista->cantidad,
 				));
 			}
 			
