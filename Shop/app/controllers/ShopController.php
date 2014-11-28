@@ -6,7 +6,7 @@ class ShopController extends BaseController {
 	public function principal(){
 		$id = '';
 		$paginacion = 39;
-		$categorias = Categoria::all();
+		$categorias = Categoria::whereNull('padre_id')->orderBy('nombre', 'asc')->get();
 		
 		if(Request::isMethod('get')){
 			if(Request::has('categoria')){
@@ -19,6 +19,9 @@ class ShopController extends BaseController {
 				}
 			}else{
 				if(Input::has('curso')){
+					//solo las categorias del curso
+					//$categorias = Categoria::whereNull('padre_id')->where('')->orderBy('nombre', 'asc')->get();
+					
 					$colegio = Colegio::find(Input::get('colegio'));
 					$curso = Curso::find(Input::get('curso'));
 					$productos = $curso->productos()->paginate($paginacion);
@@ -61,6 +64,8 @@ class ShopController extends BaseController {
 	//para cuando se muestra el carrito
 	public function carrito(){
 		$total = 0.00;
+		$iva = 0.00;
+		$gran_total = 0.00;
 		$compras = Cookie::get('carrito');
 		if(is_null($compras)){
 			$compras = array();
@@ -68,11 +73,16 @@ class ShopController extends BaseController {
 			foreach($compras as $c){
 				$total = $total + (array_get($c, 'precio')*array_get($c, 'cantidad'));
 			}
+			$iva = ($total*0.12);
+			$gran_total = $iva + $total;
 		}
+		
 		return View::make('shop.carrito.index')
 			->with('compras', $compras)
 			->with('items', count($compras))
 			->with('total', $total)
+			->with('iva', $iva)
+			->with('gran_total', $gran_total)
 			->with('title', 'Carrito de Compras');
 	}
 	

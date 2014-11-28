@@ -47,19 +47,6 @@
           <a class="navbar-toggle collapsed cart-movil pull-left" id="popoverCartMovil" href="javascript:;" data-placement="bottom" data-toggle="popover" data-content=""><i class="fa fa-shopping-cart fa-2x"></i><span class="badge badge-cart">{{ Cookie::get('carrito_cantidad')?Cookie::get('carrito_cantidad'):0 }}</span></a>
         </div>
         <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-reorder fa-2x"></span></a>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else </a></li>
-                <li class="divider"></li>
-                <li class="dropdown-header">Nav header</li>
-                <li><a href="#">Separated link</a></li>
-                <li><a href="#">One more </a></li>
-              </ul>
-            </li>
-          </ul>
           <ul class="nav navbar-nav navbar-right">
 			  <li class="">
 		          <form class="navbar-form text-center" role="form">
@@ -120,7 +107,12 @@
     	</div>
     	@endif
     	<div class="row">
-			@yield('content')
+			<div class="col-md-9 col-sm-9">
+				@yield('content')
+			</div>
+    		<div class="col-md-3 col-sm-3">
+				@yield('sidebar-right')
+			</div>
 		</div>
     </div>
 

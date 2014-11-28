@@ -45,6 +45,13 @@
 		font-weight: bold;
 		padding-top: 7px;
 	}
+	.list-group-item-submenu{
+		/*background-color: #F5F5F5;*/
+		padding-left:25px!important;
+	}
+	.list-group-item {
+		padding: 10px 10px;
+	}
 </style>
 {{ HTML::style('css/select2.css') }}
 {{ HTML::style('css/select2-bootstrap.css') }}
@@ -55,7 +62,16 @@
 		@if($categorias)
 		  	<a class="list-group-item @if($cat == '-1') active @endif" href="{{ URL::route('principal') }}">Todas las Categorias</a>
 			@foreach($categorias as $c)
-		  		<a class="list-group-item @if($cat == $c->id) active @endif" href="{{ URL::route('principal') }}?categoria={{ $c->id }}">{{ $c->nombre }}<span class="fa fa-angle-right pull-right"></span></a>
+		  		@if($c->tieneHijos())
+		  		<a class="list-group-item tiene-hijos @if($cat == $c->id) active @endif" data-toggle="collapse" href="#{{ $c->id }}">{{ $c->nombre }}<span class="fa fa-angle-down pull-right"></span></a>
+		  		@else
+		  		<a class="list-group-item @if($cat == $c->id) active @endif" href="{{ URL::route('principal') }}?categoria={{ $c->id }}">{{ $c->nombre }}</a>
+		  		@endif
+	  			<div id="{{ $c->id }}" class="collapse">
+	  				@foreach($c->getHjios as $h)
+			  			<a class="list-group-item list-group-item-success list-group-item-submenu @if($cat == $h->id) active item-desplegado @endif" data-padre="{{ $c->id }}" href="{{ URL::route('principal') }}?categoria={{ $h->id }}">{{ $h->nombre }}</a>
+				  	@endforeach
+	  			</div>
 		  	@endforeach
 	  	@endif
 	</ul>
@@ -90,7 +106,7 @@
 		</div>
 		<div class="form-group">
 			<button id="btn-curso-consultar" class="btn btn-link" type="submit" disabled="disabled"><i class="fa fa-search"></i>&nbsp;Consultar</button>
-			<button id="btn-curso-agregar-todos" class="btn btn-link hide" type="submit" disabled="disabled"><i class="fa fa-shopping-cart"></i>&nbsp;Agregar Todos</button>
+			<button id="btn-curso-agregar-todos" class="btn btn-link hide" data-href="{{ URL::route('agregar_carrito_todos') }}?" disabled="disabled"><i class="fa fa-shopping-cart"></i>&nbsp;Agregar Todos</button>
 			<button id="btn-curso-explorar-lista" class="btn btn-link hide" type="submit" disabled="disabled"><i class="fa fa-bars"></i>&nbsp;Explorar Lista</button>
 		</div>
 	</form>
@@ -239,6 +255,10 @@
 					  $('#btn-curso-explorar-lista').attr('disabled', false);
 					  $('#btn-curso-agregar-todos').removeClass('hide');
 					  $('#btn-curso-agregar-todos').attr('disabled', false);
+					  
+					  var url_href = $("#btn-curso-agregar-todos").attr('data-href');
+					  url_href = url_href + 'colegio=' + $('#select-colegios').val() + '&curso=' + $('#select-cursos').val();
+					  $("#btn-curso-agregar-todos").attr('data-href', url_href);
 				   },
 			});
 			
@@ -254,6 +274,20 @@
 			$('#select-cursos').trigger('change');
 		@endif
 		
+		$("#btn-curso-agregar-todos").click(function(e){
+			e.preventDefault();
+			location.href = $(this).attr('data-href');
+		});
+		
+		$('.tiene-hijos').click(function(e){
+			if($(this).find('span.fa').hasClass('fa-angle-down')){
+				$(this).find('span.fa').removeClass('fa-angle-down').addClass('fa-angle-up');				
+			}else{
+				$(this).find('span.fa').removeClass('fa-angle-up').addClass('fa-angle-down');
+			}
+		});
+		
+		$('a[href="#'+$('.item-desplegado').attr('data-padre')+'"]').trigger('click');
 	});
 </script>
 @endsection

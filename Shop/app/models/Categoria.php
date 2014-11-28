@@ -98,5 +98,17 @@ class Categoria extends Eloquent {
 		$productos = Producto::where('categoria_id', $this->id);
 		return $productos->count();		 
 	}
+	
+	//retorna los hijos de la categoria
+	public function getHjios(){
+		$hijos = $this->hasMany('Categoria', 'padre_id');
+		return $hijos;
+	}
+
+	//retorna los hijos de la categoria
+	public function tieneHijos(){
+		$hijos = self::getHjios()->count();
+		return ($hijos > 0);
+	}
 
 }
