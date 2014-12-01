@@ -20,7 +20,7 @@ html, body{
 	height: 55px;
 }
 /*colores del carrito*/
-.cart-movil{
+.cart-movil, .wish-movil{
 	margin-bottom: 0;
 	margin-right: 2px;
 	padding: 4px;

@@ -6,10 +6,19 @@
 @endsection
 
 @section('content')
+	@if ($errors->has())
+	<div class="alert alert-danger">
+		<ul>
+		@foreach ($errors->all('<li class="text-danger">:message</li>') as $error)
+			{{ $error }}		
+		@endforeach
+		</ul>
+    </div>
+	@endif
 	<div class="col-sm-12 col-md-12 bg-white">
 	    <h4>Contrase&ntilde;a</h4>
 	    <hr /><br />
-	    <form class="form-horizontal" role="form">
+	    <form class="form-horizontal" role="form" action="" method="post">
 		  	<div class="form-group">
 				<label class="col-sm-2 control-label">Contrase&ntilde;a Actual</label>
 				<div class="col-sm-4">

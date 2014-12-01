@@ -44,8 +44,7 @@ Route::group(array('before' => 'auth'), function(){
 	Route::get('cuenta/', array('as' => 'cuenta', 'uses' => 'AjustesController@mostrarCuenta'));
 	Route::get('cuenta/update/', array('as' => 'cuenta_actualizar', 'uses' => 'AjustesController@actualizarCuenta'));
 	//para las paginas de contrasenia	
-	Route::get('password/', array('as' => 'contrasenia', 'uses' => 'AjustesController@mostrarContrasenia'));
-	Route::get('password/update/', array('as' => 'contrasenia_actualizar', 'uses' => 'AjustesController@actualizarContrasenia'));
+	Route::any('contrasena/', array('as' => 'contrasenia', 'uses' => 'AjustesController@actualizarContrasenia'));
 });
 //---------------------------------------------------------------------------------------------------------------
 //urls con seguridad - para el admin

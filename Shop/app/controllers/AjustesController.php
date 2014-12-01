@@ -77,22 +77,39 @@ class AjustesController extends BaseController {
 			->with('usuario', $usuario);
 	}
 
-	//para mostrar la clave del usuario
-	public function mostrarContrasenia()
-	{
-		$usuario = Auth::user();
-		return View::make('ajustes.contrasenia')
-			->with('title', 'Cuenta de Usuario')
-			->with('module', 'contrasenia')
-			->with('usuario', $usuario);
-	}
-	
 	//para actualizar la clave del usuario
 	public function actualizarContrasenia()
 	{
 		$usuario = Auth::user();
-		return View::make('ajustes.perfil')
-			->with('title', 'Perfil de Usuario')
+		if(Request::isMethod('post')){			
+			if(!Hash::check(Input::get('current_password'), $usuario->password)){
+				Session::flash('error_mensaje', 'Las contraseña actual no coincide con la contraseña ingresada.');
+				$response = Redirect::route('contrasenia')
+					->withInput();
+				return $response;
+			}else{
+				if(strlen(Input::get('new_password')) <= 5 && strlen(Input::get('confirm_password')) <= 5){
+					Session::flash('error_mensaje', 'La nueva contraseña debe tener al menos 6 caracteres.');
+					$response = Redirect::route('contrasenia')
+						->withInput();
+					return $response;
+				}else{
+					if(Input::get('new_password') != Input::get('confirm_password')){
+						Session::flash('error_mensaje', 'La nueva contraseña debe coincidir con la contrseña de confirmación.');
+						$response = Redirect::route('contrasenia')
+							->withInput();
+						return $response;
+					}else{
+						$usuario->password = Hash::make(Input::get('new_password'));
+						$usuario->save();
+						Session::flash('success_mensaje', 'Se ha realizado el cambio en su contraseña.');
+					}
+				}
+			}
+		}
+		return View::make('ajustes.contrasenia')
+			->with('title', 'Cambio de Contrase&ntilde;a')
+			->with('module', 'contrasenia')
 			->with('usuario', $usuario);
 	}
 

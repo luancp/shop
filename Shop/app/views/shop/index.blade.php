@@ -12,7 +12,7 @@
 		margin: 10px 20px 10px 10px;
 		padding-top: 10px;
 		padding-bottom: 10px;
-		height: 310px;
+		min-height: 310px;
 		margin-top: 45px;
 		background: url('{{ URL::asset("/img/bg_banner.png") }}') 0 0 repeat;
 	}
@@ -108,6 +108,7 @@
 			<button id="btn-curso-consultar" class="btn btn-link" type="submit" disabled="disabled"><i class="fa fa-search"></i>&nbsp;Consultar</button>
 			<button id="btn-curso-agregar-todos" class="btn btn-link hide" data-href="{{ URL::route('agregar_carrito_todos') }}?" disabled="disabled"><i class="fa fa-shopping-cart"></i>&nbsp;Agregar Todos</button>
 			<button id="btn-curso-explorar-lista" class="btn btn-link hide" type="submit" disabled="disabled"><i class="fa fa-bars"></i>&nbsp;Explorar Lista</button>
+			<div class="clearfix"></div>
 		</div>
 	</form>
 </div>

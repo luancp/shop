@@ -45,6 +45,7 @@
           </button>
           <a class="navbar-brand" href="{{ URL::route('principal') }}"></a>
           <a class="navbar-toggle collapsed cart-movil pull-left" id="popoverCartMovil" href="javascript:;" data-placement="bottom" data-toggle="popover" data-content=""><i class="fa fa-shopping-cart fa-2x"></i><span class="badge badge-cart">{{ Cookie::get('carrito_cantidad')?Cookie::get('carrito_cantidad'):0 }}</span></a>
+          <a class="navbar-toggle collapsed wish-movil pull-left" id="popoverWishMovil" href="javascript:;" data-placement="bottom" data-toggle="popover" data-content=""><i class="fa fa-heart fa-2x"></i><span class="badge badge-cart">{{ Cookie::get('wishlist_cantidad')?Cookie::get('wishlist_cantidad'):0 }}</span></a>
         </div>
         <div class="collapse navbar-collapse">
           {{--<ul class="nav navbar-nav">
@@ -70,6 +71,9 @@
 			  </li>
 			  <li class="hidden-xs">
 	         	<a href="javascript:;" id="popoverCart" data-placement="bottom" data-toggle="popover" data-content="" data-trigger="focus" tabindex="0"><i class="fa fa-shopping-cart fa-2x" ></i><span class="badge badge-cart">{{ Cookie::get('carrito_cantidad')?Cookie::get('carrito_cantidad'):0 }}</span></a>
+	          </li>
+			  <li class="hidden-xs">
+	         	<a href="javascript:;" id="popoverWish" data-placement="bottom" data-toggle="popover" data-content="" data-trigger="focus" tabindex="0"><i class="fa fa-heart fa-2x" ></i><span class="badge badge-cart">{{ Cookie::get('wishlist_cantidad')?Cookie::get('wishlist_cantidad'):0 }}</span></a>
 	          </li>
 			  @if(!Session::has('usuario'))
 			  <li class="">
@@ -138,6 +142,8 @@
         <p class="text-muted">Todos los derechos reservados.</p>
       </div>
     </div> -->
+    
+    <!-- para el carrito de compras -->
     <div id="cart-hover" class="hide">
     	@if(Cookie::get('carrito'))
     	<div id="content-cart-header">
@@ -161,6 +167,30 @@
     	<p class="text-muted" style="width:200px;padding-top:5px;">No has realizado compras aun.</p>
     	@endif
     </div>
+	<!-- para la lista de deseos -->
+    <div id="wish-hover" class="hide">
+    	@if(Cookie::get('wishlist'))
+    	<div id="content-cart-header">
+	    	@foreach(Cookie::get('wishlist') as $c)
+	    	<div class="media">
+			  <div class="pull-left">
+				@if(array_get($c, 'imagen'))
+					{{ HTML::image('img/productos/thumb_'.array_get($c, 'imagen'), '', array('class'=>'img-rounded', 'width'=>'55')) }}
+				@else
+					{{ HTML::image('img/productos/default/thumb_default.png', '', array('class'=>'img-rounded', 'width'=>'55')) }}
+				@endif
+			  </div>
+			  <div class="media-body producto-carrito-header">
+			    {{ str_limit(array_get($c, 'nombre'), $limit = 50, $end = '...') }}<br /><span class="text-mini-cart">Cant. {{ array_get($c, 'cantidad') }}</span>
+			  </div>
+			</div>
+	    	@endforeach
+	    </div>
+    	<div class="text-center" style="padding-top:10px;"><a class="btn btn-info btn-xs" href="{{ URL::route('carrito') }}">Ver Carrito</a></div>
+    	@else
+    	<p class="text-muted" style="width:200px;padding-top:5px;">No has deseado nada aun.</p>
+    	@endif
+    </div>
 
 	<!-- Bootstrap core JavaScript
     ================================================== -->
@@ -171,6 +201,7 @@
     @yield('js-footer')
 	<script type="text/javascript">
 		$(function(){
+			//popover para el carrito de compras
 			$('#popoverCart, #popoverCartMovil').popover({
 				html: true,
 				content: $('#cart-hover').html()
@@ -179,6 +210,18 @@
 				$("body").addClass("modal-open");
 			});
 			$('#popoverCart, #popoverCartMovil').on('hide.bs.popover', function(){
+				$("body").removeClass("modal-open");
+			});
+			
+			//popover para la lista de deseos
+			$('#popoverWish, #popoverWishMovil').popover({
+				html: true,
+				content: $('#wish-hover').html()
+			});
+			$('#popoverWish, #popoverWishMovil').on('show.bs.popover', function(){
+				$("body").addClass("modal-open");
+			});
+			$('#popoverWish, #popoverWishMovil').on('hide.bs.popover', function(){
 				$("body").removeClass("modal-open");
 			});
 		});
