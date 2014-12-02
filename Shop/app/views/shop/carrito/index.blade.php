@@ -15,35 +15,7 @@
 @endsection
 
 @section('sidebar-right')
-	@if($compras)
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<h3 class="panel-title">Subtotal (<strong>{{ $items }}</strong> items):</h3>
-		</div>
-		<div class="panel-body">
-			<form method="post" action="" role="form">
-				<div class="col-md-12">
-					<h4 class="text-right"><small>Subtotal:</small>&nbsp;${{ number_format($total, 2) }}</h4>
-					<input type="hidden" id="subtotal" name="subtotal" value="{{ number_format($total, 2) }}" />
-				</div>
-				<div class="col-md-12">
-					<h4 class="text-right"><small>IVA:</small>&nbsp;${{ number_format($iva, 2) }}</h4>
-					<input type="hidden" id="subtotal" name="subtotal" value="{{ number_format($total, 2) }}" />
-				</div>
-				<div class="col-md-12">
-					<h4 class="text-right"><small>Total:</small>&nbsp;${{ number_format($gran_total, 2) }}</h4>
-					<input type="hidden" id="subtotal" name="subtotal" value="{{ number_format($total, 2) }}" />
-				</div>
-				<div class="col-md-12">
-					<hr />&nbsp;
-				</div>
-				<div class="col-md-12">
-					<button type="submit" class="btn btn-success btn-block"><i class="fa fa-shopping-cart"></i>&nbsp;Comprar</button>
-				</div>
-			</form>
-		</div>
-	</div>
-	@endif
+	
 @endsection
 
 @section('content')
