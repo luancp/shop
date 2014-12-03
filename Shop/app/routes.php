@@ -36,6 +36,11 @@ Route::post('password/reset/token/', array('as' => 'resetear_password_token_post
 Route::group(array('before' => 'auth'), function(){
 	//para el carrito de compras
 	Route::post('carrito/checkout/', array('as' => 'carrito_checkout', 'uses' => 'ShopController@carritoCheckout'));
+	//para manejar la wishlist
+	Route::post('wishlist/agregar/', array('as' => 'agregar_wishlist', 'uses' => 'ShopController@agregarWishlist'));
+	Route::get('wishlist/', array('as' => 'mostrar_wishlist', 'uses' => 'ShopController@mostrarWishlist'));
+	Route::post('wishlist/eliminar/', array('as' => 'wishlist_eliminar_producto', 'uses' => 'ShopController@wishlistEliminarProducto'));
+	Route::post('wishlist/mover/', array('as' => 'wishlist_mover_producto', 'uses' => 'ShopController@wishlistMoverProducto'));
 	
 	//para las paginas del perfil
 	Route::get('perfil/', array('as' => 'perfil', 'uses' => 'AjustesController@mostrarPerfil'));

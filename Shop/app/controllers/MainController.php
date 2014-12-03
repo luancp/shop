@@ -15,12 +15,17 @@ class MainController extends BaseController {
         if(Auth::attempt($usuario)){
             $usuario = Auth::user();
 			Session::put('usuario', $usuario);
+			//setea la imagen del usuario
 			if($usuario->imagen){
 				$imagen = $usuario->imagen;
 			}else{
 				$imagen = 'default.png';
 			}
 			Session::put('imagen_usuario', URL::asset('/img/avatars/'.$imagen));
+			//seteo los productos de su wishlist
+			$lista = $usuario->wishlists();
+			Session::put('wishlist', $lista->get());
+			
 			$empresa = Empresa::find(1);
 			Session::put('empresa_id', $empresa->id);
 			Session::put('empresa', $empresa);
