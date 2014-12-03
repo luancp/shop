@@ -45,7 +45,7 @@
           </button>
           <a class="navbar-brand" href="{{ URL::route('principal') }}"></a>
           <a class="navbar-toggle collapsed cart-movil pull-left" id="popoverCartMovil" href="javascript:;" data-placement="bottom" data-toggle="popover" data-content=""><i class="fa fa-shopping-cart fa-2x"></i><span class="badge badge-cart">{{ Cookie::get('carrito_cantidad')?Cookie::get('carrito_cantidad'):0 }}</span></a>
-          <a class="navbar-toggle collapsed wish-movil pull-left" id="popoverWishMovil" href="javascript:;" data-placement="bottom" data-toggle="popover" data-content=""><i class="fa fa-heart fa-2x"></i><span class="badge badge-cart">{{ Cookie::get('wishlist_cantidad')?Cookie::get('wishlist_cantidad'):0 }}</span></a>
+          <a class="navbar-toggle collapsed wish-movil pull-left" id="" href="{{ URL::route('mostrar_wishlist') }}" data-placement="" data-toggle="" data-content=""><i class="fa fa-heart fa-2x"></i><span class="badge badge-cart">{{ Session::has('wishlist')?count(Session::get('wishlist')):0 }}</span></a>
         </div>
         <div class="collapse navbar-collapse">
           {{--<ul class="nav navbar-nav">
@@ -73,7 +73,7 @@
 	         	<a href="javascript:;" id="popoverCart" data-placement="bottom" data-toggle="popover" data-content="" data-trigger="focus" tabindex="0"><i class="fa fa-shopping-cart fa-2x" ></i><span class="badge badge-cart">{{ Cookie::get('carrito_cantidad')?Cookie::get('carrito_cantidad'):0 }}</span></a>
 	          </li>
 			  <li class="hidden-xs">
-	         	<a href="javascript:;" id="popoverWish" data-placement="bottom" data-toggle="popover" data-content="" data-trigger="focus" tabindex="0"><i class="fa fa-heart fa-2x" ></i><span class="badge badge-cart">{{ Cookie::get('wishlist_cantidad')?Cookie::get('wishlist_cantidad'):0 }}</span></a>
+	         	<a href="{{ URL::route('mostrar_wishlist') }}" id="" data-placement="" data-toggle="" data-content="" data-trigger="" tabindex="0"><i class="fa fa-heart fa-2x" ></i><span class="badge badge-cart">{{ Session::has('wishlist')?count(Session::get('wishlist')):0 }}</span></a>
 	          </li>
 			  @if(!Session::has('usuario'))
 			  <li class="">
