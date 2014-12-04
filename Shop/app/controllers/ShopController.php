@@ -364,4 +364,19 @@ class ShopController extends BaseController {
 		}
 		return Redirect::route('carrito');
 	}
+
+		
+	//para cuando se muestra el carrito
+	public function mostrarOrdenes(){
+		
+		return View::make('ordenes.index')
+			->with('title', 'Ordenes de Compras');
+	}
+		
+	//para cuando se muestra el carrito
+	public function carritoComprar(){
+		$carrito = Cookie::get('carrito');
+		return View::make('ordenes.index')
+			->with('title', 'Ordenes de Compras');
+	}
 }

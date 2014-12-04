@@ -92,7 +92,7 @@
 		</div>
 		@else
 		<div class="text-center">
-			<h3 style="margin-top: 0"><small><i class="fa fa-frown-o text-muted"></i>&nbsp;&nbsp;No has deseado productos aun.</small></h3>
+			<h3 style="margin-top: 0"><small><i class="fa fa-frown-o text-muted"></i>&nbsp;&nbsp;No hay productos en la lista a&uacute;n.</small></h3>
 			<br />
 			<a href="{{ URL::route('principal') }}">Regresar a comprar</a>
 			<br />

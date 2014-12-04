@@ -1,4 +1,4 @@
-@extends('layouts.ajustes')
+@extends('layouts.orden')
 
 @section('css-header')
 {{ HTML::style('css/select2.css') }}
@@ -6,34 +6,49 @@
 @endsection
 
 @section('content')
-	<div class="col-sm-12 col-md-12 bg-white">
-	    <h4>Cuenta</h4>
-	    <hr /><br />
-	    <form class="form-horizontal" role="form" action="" method="post">
-		  	<div class="form-group">
-				<label class="col-sm-2 control-label">Usuario</label>
-				<div class="col-sm-5">
-			  		<input class="form-control" type="text" name="nombres" value="{{ $usuario->usuario }}" />
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-sm-2 control-label">Email</label>
-				<div class="col-sm-5">
-			  		<input class="form-control" type="text" name="email" value="{{ $usuario->email }}" />
-				</div>
-			</div>
-			<br /><hr /><br />
-			<div class="form-group">
-				<div class="col-sm-2">&nbsp;</div>
-				<label class="col-sm-6" for="boletin">
-					<input type="checkbox" id="boletin" name="boletin" />&nbsp;Recibir boletines informativos.
-				</label>
-			</div>
-			<div class="form-group">
-				<div class="col-sm-5 col-sm-offset-2">
-					<button class="btn btn-success" type="submit">Guardar Cambios</button>
-				</div>
-			</div>
-		 </form>
-  	</div>
+	<div class="table-responsive">
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th>Fecha</th>
+					<th># Orden</th>
+					<th>Env&iacute;o</th>
+					<th class="text-center">Total</th>
+					<th class="text-center">Acciones</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>12/12/2014</td>
+					<td><a href="#">000-001</a></td>
+					<td>Contifico(Zukalo S.A.)</td>
+					<td class="text-center"><strong>$67.45</strong></td>
+					<td class="text-center">
+						<a class="btn btn-link btn-xs" href="#"><i class="fa fa-eye"></i></a>
+						<a class="btn btn-link btn-xs" href="#"><i class="fa fa-print"></i></a>
+					</td>
+				</tr>
+				<tr>
+					<td>12/12/2014</td>
+					<td><a href="#">000-001</a></td>
+					<td>Contifico(Zukalo S.A.)</td>
+					<td class="text-center"><strong>$67.45</strong></td>
+					<td class="text-center">
+						<a class="btn btn-link btn-xs" href="#"><i class="fa fa-eye"></i></a>
+						<a class="btn btn-link btn-xs" href="#"><i class="fa fa-print"></i></a>
+					</td>
+				</tr>
+				<tr>
+					<td>12/12/2014</td>
+					<td><a href="#">000-001</a></td>
+					<td>Contifico(Zukalo S.A.)</td>
+					<td class="text-center"><strong>$67.45</strong></td>
+					<td class="text-center">
+						<a class="btn btn-link btn-xs" href="#"><i class="fa fa-eye"></i></a>
+						<a class="btn btn-link btn-xs" href="#"><i class="fa fa-print"></i></a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 @endsection

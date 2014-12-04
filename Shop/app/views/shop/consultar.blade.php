@@ -51,16 +51,20 @@
 @endsection
 
 @section('sidebar')
-	
-	<ul class="list-group">
-		<a class="list-group-item btn-seleccionar-colegio" href="{{ URL::route('principal') }}"><i class="fa fa-arrow-left"></i>&nbsp;Volver a Seleccionar Colegio</a>
-	</ul>
-	
 	<ul class="list-group">
 		@if($categorias)
 		  	<a class="list-group-item @if($cat == '-1') active @endif" href="{{ URL::route('principal') }}">Todas las Categorias</a>
 			@foreach($categorias as $c)
-		  		<a class="list-group-item @if($cat == $c->id) active @endif" href="{{ URL::route('principal') }}?categoria={{ $c->id }}">{{ $c->nombre }}<span class="fa fa-angle-right pull-right"></span></a>
+		  		@if($c->tieneHijos())
+		  		<a class="list-group-item tiene-hijos @if($cat == $c->id) active @endif" data-toggle="collapse" href="#{{ $c->id }}">{{ $c->nombre }}<span class="fa fa-angle-down pull-right"></span></a>
+		  		@else
+		  		<a class="list-group-item @if($cat == $c->id) active @endif" href="{{ URL::route('principal') }}?categoria={{ $c->id }}">{{ $c->nombre }}</a>
+		  		@endif
+	  			<div id="{{ $c->id }}" class="collapse">
+	  				@foreach($c->getHjios as $h)
+			  			<a class="list-group-item list-group-item-success list-group-item-submenu @if($cat == $h->id) active item-desplegado @endif" data-padre="{{ $c->id }}" href="{{ URL::route('principal') }}?categoria={{ $h->id }}">{{ $h->nombre }}</a>
+				  	@endforeach
+	  			</div>
 		  	@endforeach
 	  	@endif
 	</ul>

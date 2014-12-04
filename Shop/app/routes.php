@@ -35,7 +35,7 @@ Route::post('password/reset/token/', array('as' => 'resetear_password_token_post
 //urls con seguridad - para la tienda
 Route::group(array('before' => 'auth'), function(){
 	//para el carrito de compras
-	Route::post('carrito/checkout/', array('as' => 'carrito_checkout', 'uses' => 'ShopController@carritoCheckout'));
+	Route::post('carrito/comprar/', array('as' => 'realizar_compra', 'uses' => 'ShopController@carritoComprar'));
 	//para manejar la wishlist
 	Route::post('wishlist/agregar/', array('as' => 'agregar_wishlist', 'uses' => 'ShopController@agregarWishlist'));
 	Route::get('wishlist/', array('as' => 'mostrar_wishlist', 'uses' => 'ShopController@mostrarWishlist'));
@@ -50,6 +50,9 @@ Route::group(array('before' => 'auth'), function(){
 	Route::get('cuenta/update/', array('as' => 'cuenta_actualizar', 'uses' => 'AjustesController@actualizarCuenta'));
 	//para las paginas de contrasenia	
 	Route::any('contrasena/', array('as' => 'contrasenia', 'uses' => 'AjustesController@actualizarContrasenia'));
+
+	//muestra las paginas de ordenes	
+	Route::any('ordenes/', array('as' => 'ordenes', 'uses' => 'ShopController@mostrarOrdenes'));
 });
 //---------------------------------------------------------------------------------------------------------------
 //urls con seguridad - para el admin
