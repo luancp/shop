@@ -31,12 +31,12 @@
 					  	@endif
 					  </div>
 					  <div>
-					    <span class="btn btn-info btn-file">
+					    <span class="btn btn-info btn-xs btn-file">
 					    	<span class="fileinput-new">Seleccionar Imagen</span>
 					    	<span class="fileinput-exists">Cambiar</span>
 					    	<input type="file" name="imagen">
 					    </span>
-					    <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Quitar</a>
+					    <a href="#" class="btn btn-default btn-xs fileinput-exists" data-dismiss="fileinput">Quitar</a>
 					  </div>
 					</div>
 				</div>
