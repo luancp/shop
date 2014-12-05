@@ -9,7 +9,7 @@
 	<div class="col-sm-12 col-md-12 bg-white">
 	    <h4>Cuenta</h4>
 	    <hr /><br />
-	    <form class="form-horizontal" role="form" action="" method="post">
+	    <form class="form-horizontal" role="form" action="{{ URL::route('cuenta_actualizar') }}" method="post">
 		  	<div class="form-group">
 				<label class="col-sm-2 control-label">Usuario</label>
 				<div class="col-sm-5">

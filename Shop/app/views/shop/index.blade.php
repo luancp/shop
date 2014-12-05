@@ -52,6 +52,9 @@
 	.list-group-item {
 		padding: 10px 10px;
 	}
+	.bg-filter{
+		background-color: #f0f1f2;
+	}
 </style>
 {{ HTML::style('css/select2.css') }}
 {{ HTML::style('css/select2-bootstrap.css') }}
@@ -122,6 +125,24 @@
 			<div class="clearfix"><br /></div>
 		</div>
 		<div class="clearfix"><br /></div>
+	</div>
+	<div class="col-md-12 col-sm-12 bg-filter">
+		<div class="">
+			<h5 class="pull-left">
+				Mostrando desde: <strong>{{ $productos->getFrom() }}</strong>&nbsp;
+				hasta: <strong>{{ $productos->getTo() }}</strong> de un total <strong>{{ $productos->getTotal() }}</strong>
+			</h5>
+			<span class="pull-right" style="margin-top:3px;">
+				<select class="form-control input-sm">
+					<option value="-"></option>
+					<option value="N">Nombre</option>
+					<option value="P">Precio</option>
+				</select>
+			</span>			
+		</div>
+	</div>
+	<div class="col-md-12 col-sm-12">
+		<br />
 	</div>
 	<div class="row">
 		@foreach($productos as $p)
@@ -232,13 +253,20 @@
 		
 		//selecciona el curso
 		$('#select-cursos').on('change', function(e){
+			
+			$('#btn-curso-consultar').attr('disabled', false);
+			
+		});
+		
+		$('#btn-curso-consultar').click(function(e){
+			e.preventDefault();
 			var ajaxCurso = $.ajax({
 				   url: '{{ URL::route("get_curso_total") }}',
 				   type: 'POST',
 				   dataType: 'json',
 				   async: true,
 				   data: {
-				      'curso_id': $(this).val(),
+				      'curso_id': $('#select-cursos').val(),
 				   },
 				   beforeSend: function() {
 				      
@@ -250,19 +278,24 @@
 				   success: function(data){
 				   	  $('#total-curso').removeClass('hide');
 				   	  $('#precio-total-curso').text("$"+data.total);
-					  $('#btn-curso-consultar').attr('disabled', false);
 					  
-					  $('#btn-curso-explorar-lista').removeClass('hide');
-					  $('#btn-curso-explorar-lista').attr('disabled', false);
-					  $('#btn-curso-agregar-todos').removeClass('hide');
-					  $('#btn-curso-agregar-todos').attr('disabled', false);
-					  
-					  var url_href = $("#btn-curso-agregar-todos").attr('data-href');
-					  url_href = url_href + 'colegio=' + $('#select-colegios').val() + '&curso=' + $('#select-cursos').val();
-					  $("#btn-curso-agregar-todos").attr('data-href', url_href);
+					  if(data.total > 0){
+						  $('#btn-curso-explorar-lista').removeClass('hide');
+						  $('#btn-curso-explorar-lista').attr('disabled', false);
+						  $('#btn-curso-agregar-todos').removeClass('hide');
+						  $('#btn-curso-agregar-todos').attr('disabled', false);
+						  
+						  var url_href = $("#btn-curso-agregar-todos").attr('data-href');
+						  url_href = url_href + 'colegio=' + $('#select-colegios').val() + '&curso=' + $('#select-cursos').val();
+						  $("#btn-curso-agregar-todos").attr('data-href', url_href);
+				      }else{
+				      	  $('#btn-curso-explorar-lista').addClass('hide');
+						  $('#btn-curso-explorar-lista').attr('disabled', true);
+						  $('#btn-curso-agregar-todos').addClass('hide');
+						  $('#btn-curso-agregar-todos').attr('disabled', true);
+				      }
 				   },
 			});
-			
 			$.when(ajaxCurso).done(function(){
 			})
 		});

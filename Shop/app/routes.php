@@ -47,12 +47,13 @@ Route::group(array('before' => 'auth'), function(){
 	Route::post('perfil/update/', array('as' => 'perfil_actualizar', 'uses' => 'AjustesController@actualizarPerfil'));
 	//para las paginas de cuenta	
 	Route::get('cuenta/', array('as' => 'cuenta', 'uses' => 'AjustesController@mostrarCuenta'));
-	Route::get('cuenta/update/', array('as' => 'cuenta_actualizar', 'uses' => 'AjustesController@actualizarCuenta'));
+	Route::post('cuenta/update/', array('as' => 'cuenta_actualizar', 'uses' => 'AjustesController@actualizarCuenta'));
 	//para las paginas de contrasenia	
 	Route::any('contrasena/', array('as' => 'contrasenia', 'uses' => 'AjustesController@actualizarContrasenia'));
 
 	//muestra las paginas de ordenes	
-	Route::any('ordenes/', array('as' => 'ordenes', 'uses' => 'ShopController@mostrarOrdenes'));
+	Route::get('orden/', array('as' => 'ordenes', 'uses' => 'ShopController@mostrarOrdenes'));
+	Route::get('orden/{id}/consultar', array('as' => 'orden_consultar', 'uses' => 'ShopController@mostrarOrdenConsultar'));
 });
 //---------------------------------------------------------------------------------------------------------------
 //urls con seguridad - para el admin

@@ -52,6 +52,9 @@
 
 @section('sidebar')
 	<ul class="list-group">
+		<a class="list-group-item btn-seleccionar-colegio" href="{{ URL::route('principal') }}"><i class="fa fa-arrow-left"></i>&nbsp;Volver a Seleccionar Colegio</a>
+	</ul>
+	<ul class="list-group">
 		@if($categorias)
 		  	<a class="list-group-item @if($cat == '-1') active @endif" href="{{ URL::route('principal') }}">Todas las Categorias</a>
 			@foreach($categorias as $c)

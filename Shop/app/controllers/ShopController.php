@@ -21,10 +21,10 @@ class ShopController extends BaseController {
 				if(Input::has('curso')){
 					//solo las categorias del curso
 					//$categorias = Categoria::whereNull('padre_id')->where('')->orderBy('nombre', 'asc')->get();
-					
 					$colegio = Colegio::find(Input::get('colegio'));
 					$curso = Curso::find(Input::get('curso'));
 					$productos = $curso->productos()->paginate($paginacion);
+					$categorias = $curso->categorias();
 					Session::put('colegio', $colegio->nombre);
 					Session::put('curso', $curso->nombre);
 					$id = '-1';
@@ -53,11 +53,11 @@ class ShopController extends BaseController {
 	//para cuando se muestra el carrito
 	public function showProducto($id){
 		$producto = Producto::findOrFail($id);
-		$categorias = Categoria::all();
+		$categorias = Categoria::whereNull('padre_id')->orderBy('nombre', 'asc')->get();
 		return View::make('shop.producto')
 			->with('producto', $producto)
 			->with('categorias', $categorias)
-			->with('cat', '')
+			->with('cat', '-1')
 			->with('title', 'Carrito de Compras');
 	}
 	
@@ -365,11 +365,17 @@ class ShopController extends BaseController {
 		return Redirect::route('carrito');
 	}
 
-		
-	//para cuando se muestra el carrito
+	//muestra todas las ordenes de compra
 	public function mostrarOrdenes(){
 		
 		return View::make('ordenes.index')
+			->with('title', 'Ordenes de Compras');
+	}
+		
+	//muestra una orden de compra
+	public function mostrarOrdenConsultar(){
+		
+		return View::make('ordenes.consultar')
 			->with('title', 'Ordenes de Compras');
 	}
 		

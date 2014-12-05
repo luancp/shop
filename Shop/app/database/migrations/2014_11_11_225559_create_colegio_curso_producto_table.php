@@ -16,6 +16,7 @@ class CreateColegioCursoProductoTable extends Migration {
 		{
 			$table->increments('id');
 			$table->string('nombre', 300);
+			$table->enum('tipo', array('NOR', 'COM'));
 			$table->integer('cantidad');
 			$table->integer('curso_id')->unsigned();
 			$table->foreign('curso_id')->references('id')->on('colegio_curso');

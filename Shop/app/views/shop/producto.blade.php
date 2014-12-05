@@ -5,14 +5,32 @@
 @endsection
 
 @section('sidebar')
-<ul class="list-group">
-	@if($categorias)
-	  	<a class="list-group-item @if($cat == '-1') active @endif" href="{{ URL::route('principal') }}">Todas las Categorias</a>
-		@foreach($categorias as $c)
-	  		<a class="list-group-item @if($cat == $c->id) active @endif" href="{{ URL::route('principal') }}?categoria={{ $c->id }}">{{ $c->nombre }}<span class="fa fa-angle-right pull-right"></span></a>
-	  	@endforeach
-  	@endif
-</ul>
+	<ul class="list-group">
+		@if($categorias)
+		  	<a class="list-group-item @if($cat == '-1') active @endif" href="{{ URL::route('principal') }}">Todas las Categorias</a>
+			@foreach($categorias as $c)
+		  		@if($c->tieneHijos())
+		  		<a class="list-group-item tiene-hijos @if($cat == $c->id) active @endif" data-toggle="collapse" href="#{{ $c->id }}">{{ $c->nombre }}<span class="fa fa-angle-down pull-right"></span></a>
+		  		@else
+		  		<a class="list-group-item @if($cat == $c->id) active @endif" href="{{ URL::route('principal') }}?categoria={{ $c->id }}">{{ $c->nombre }}</a>
+		  		@endif
+	  			<div id="{{ $c->id }}" class="collapse">
+	  				@foreach($c->getHjios as $h)
+			  			<a class="list-group-item list-group-item-success list-group-item-submenu @if($cat == $h->id) active item-desplegado @endif" data-padre="{{ $c->id }}" href="{{ URL::route('principal') }}?categoria={{ $h->id }}">{{ $h->nombre }}</a>
+				  	@endforeach
+	  			</div>
+		  	@endforeach
+	  	@endif
+	</ul>
+	@if(Session::has('empresa'))
+		<hr />
+		<br />
+		<div class="text-center">
+		@if(Session::get('empresa')->facebook_plugin_activo)
+			{{ Session::get('empresa')->facebook_plugin_script }}
+		@endif
+		</div>
+	@endif
 @endsection
 
 @section('content')
@@ -30,6 +48,8 @@
     		<h4>{{ $producto->nombre }}</h4>
     		<p><hr /></p>
     		<p>{{ $producto->descripcion }}</p>
+    		<p><hr /></p>
+    		<p><h4><small>Stock: </small>{{ $producto->stock }}</h4></p>
     		<p><hr /></p>
     		<p><h4><small>precio: </small>${{ number_format($producto->precio, 2) }}</h4></p>
     		<p><hr /></p>

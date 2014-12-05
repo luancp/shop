@@ -72,8 +72,10 @@ class AjustesController extends BaseController {
 	public function actualizarCuenta()
 	{
 		$usuario = Auth::user();
-		return View::make('ajustes.perfil')
+		Session::flash('success_mensaje', 'Se han realizado los cambios en la cuenta.');
+		return Redirect::route('cuenta')
 			->with('title', 'Perfil de Usuario')
+			->with('module', 'cuenta')
 			->with('usuario', $usuario);
 	}
 

@@ -20,31 +20,31 @@
 			<tbody>
 				<tr>
 					<td>12/12/2014</td>
-					<td><a href="#">000-001</a></td>
+					<td><a href="{{ URL::route('orden_consultar',1) }}">000-001</a></td>
 					<td>Contifico(Zukalo S.A.)</td>
 					<td class="text-center"><strong>$67.45</strong></td>
 					<td class="text-center">
-						<a class="btn btn-link btn-xs" href="#"><i class="fa fa-eye"></i></a>
+						<a class="btn btn-link btn-xs" href="{{ URL::route('orden_consultar',1) }}"><i class="fa fa-eye"></i></a>
 						<a class="btn btn-link btn-xs" href="#"><i class="fa fa-print"></i></a>
 					</td>
 				</tr>
 				<tr>
 					<td>12/12/2014</td>
-					<td><a href="#">000-001</a></td>
+					<td><a href="{{ URL::route('orden_consultar',2) }}">000-001</a></td>
 					<td>Contifico(Zukalo S.A.)</td>
 					<td class="text-center"><strong>$67.45</strong></td>
 					<td class="text-center">
-						<a class="btn btn-link btn-xs" href="#"><i class="fa fa-eye"></i></a>
+						<a class="btn btn-link btn-xs" href="{{ URL::route('orden_consultar', 2) }}"><i class="fa fa-eye"></i></a>
 						<a class="btn btn-link btn-xs" href="#"><i class="fa fa-print"></i></a>
 					</td>
 				</tr>
 				<tr>
 					<td>12/12/2014</td>
-					<td><a href="#">000-001</a></td>
+					<td><a href="{{ URL::route('orden_consultar',3) }}">000-001</a></td>
 					<td>Contifico(Zukalo S.A.)</td>
 					<td class="text-center"><strong>$67.45</strong></td>
 					<td class="text-center">
-						<a class="btn btn-link btn-xs" href="#"><i class="fa fa-eye"></i></a>
+						<a class="btn btn-link btn-xs" href="{{ URL::route('orden_consultar', 3) }}"><i class="fa fa-eye"></i></a>
 						<a class="btn btn-link btn-xs" href="#"><i class="fa fa-print"></i></a>
 					</td>
 				</tr>
