@@ -67,11 +67,12 @@ class ShopController extends BaseController {
 		$iva = 0.00;
 		$gran_total = 0.00;
 		$compras = Cookie::get('carrito');
-		$lista = array();
+		$lista = null;
 		
 		if(Session::has('usuario')){	
 			$usuario = Session::get('usuario');
 			$lista = $usuario->wishlists();
+			$lista = $lista->get();
 		}
 		
 		if(is_null($compras)){
@@ -90,8 +91,8 @@ class ShopController extends BaseController {
 			->with('total', $total)
 			->with('iva', $iva)
 			->with('gran_total', $gran_total)
-			->with('lista', $lista->get())
-			->with('items_wish', count($lista->get()))
+			->with('lista', $lista)
+			->with('items_wish', count($lista))
 			->with('title', 'Carrito de Compras');
 	}
 	
@@ -158,6 +159,9 @@ class ShopController extends BaseController {
 	
 	//agregar los productos a wishlist
 	public function agregarWishlist(){
+		if(Request::isMethod('get')){
+			return Redirect::route('carrito');
+		}
 		$producto_id = Input::get('producto_id');
 		//consulta lo que tiene en su lista actual
 		$usuario = Session::get('usuario');
