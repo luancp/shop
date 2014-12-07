@@ -1,6 +1,9 @@
 @extends('layouts.default')
 
 @section('css-header')
+{{ HTML::style('css/shop.css') }}
+{{ HTML::style('css/select2.css') }}
+{{ HTML::style('css/select2-bootstrap.css') }}
 <style type="text/css">
 	.bg-principal{
 		height: 400px;
@@ -9,55 +12,13 @@
 		background-color: whitesmoke;
 	}
 	.form-filtros{
-		margin: 10px 20px 10px 10px;
+		margin: 10px 10px 10px 10px;
 		padding-top: 10px;
 		padding-bottom: 10px;
-		min-height: 310px;
-		margin-top: 45px;
+		min-height: 380px;
 		background: url('{{ URL::asset("/img/bg_banner.png") }}') 0 0 repeat;
 	}
-	#precio-total-curso{
-		font-weight: bold;
-		color: green;
-		font-size: 15px;
-	}
-	.form-group{
-		margin-bottom: 15px;
-	}
-	label{
-		margin-bottom: 0;
-	}
-	.titulo-listas{
-		color: green;
-		font-weight: bold;
-	}
-	.titulo-colegio{
-		margin: 0;
-		font-weight: bold;
-	}
-	#btn-curso-agregar-todos, #btn-curso-explorar-lista, #btn-curso-consultar{
-		color: #288088;
-		font-weight: bold;
-	}
-	.btn-seleccionar-colegio{
-		color: green!important;
-		border: none;
-		font-weight: bold;
-		padding-top: 7px;
-	}
-	.list-group-item-submenu{
-		/*background-color: #F5F5F5;*/
-		padding-left:25px!important;
-	}
-	.list-group-item {
-		padding: 10px 10px;
-	}
-	.bg-filter{
-		background-color: #f0f1f2;
-	}
 </style>
-{{ HTML::style('css/select2.css') }}
-{{ HTML::style('css/select2-bootstrap.css') }}
 @endsection
 
 @section('sidebar')
@@ -107,6 +68,10 @@
 			<label>Precio Estimado de la Lista</label>
 		    <div id="precio-total-curso"></div>
 		</div>
+		<div id="total-comp" class="form-group col-md-12 col-sm-12 hide">
+			<label>Precio Estimado de los Complementos</label>
+		    <div id="precio-total-comp"></div>
+		</div>
 		<div class="form-group">
 			<button id="btn-curso-consultar" class="btn btn-link" type="submit" disabled="disabled"><i class="fa fa-search"></i>&nbsp;Consultar</button>
 			<button id="btn-curso-agregar-todos" class="btn btn-link hide" data-href="{{ URL::route('agregar_carrito_todos') }}?" disabled="disabled"><i class="fa fa-shopping-cart"></i>&nbsp;Agregar Todos</button>
@@ -134,7 +99,7 @@
 			</h5>
 			<span class="pull-right" style="margin-top:3px;">
 				<select class="form-control input-sm">
-					<option value="-"></option>
+					<option value="-">Filtro</option>
 					<option value="N">Nombre</option>
 					<option value="P">Precio</option>
 				</select>
@@ -170,26 +135,16 @@
 @section('js-footer')
 {{ HTML::script('js/select2.min.js') }}
 {{ HTML::script('js/jquery.shuffle.min.js') }}
+{{ HTML::script('js/shop.js') }}
 <script type="text/javascript">
-	var colegios = null;
-	var cursos = null;
-	
-	function format(item) { return item.nombre; }
-	
 	$(function(){
-		$("#btn-seleccionar-colegio").click(function(){
-			var img_p = $("#img-principal");
-			var img_button = $(this).find('i.fa');
-			if(img_p.hasClass('hide')){
-				img_p.removeClass('hide');
-				img_button.removeClass('fa-angle-down');
-				img_button.addClass('fa-angle-up');
-			}else{
-				img_p.addClass('hide');
-				img_button.removeClass('fa-angle-up');
-				img_button.addClass('fa-angle-down');
-			}
-		});
+		//verifica los campos en el get
+		@if(Input::has('colegio'))
+			$('#select-colegios').trigger('change');
+		@endif
+		@if(Input::has('curso'))
+			$('#select-cursos').trigger('change');
+		@endif
 		
 		var ajaxColegios = $.ajax({
 			   url: '{{ URL::route("get_colegios_principal") }}',
@@ -248,7 +203,7 @@
 				    formatSelection: format,
 				    formatResult: format
 				});
-			})
+			});
 		});
 		
 		//selecciona el curso
@@ -274,12 +229,17 @@
 				   error: function() {
 				      $('#total-curso').removeClass('hide');
 				   	  $('#precio-total-curso').text("$0.00");
+				      
+				      $('#total-comp').removeClass('hide');
+				   	  $('#precio-total-comp').text("$0.00");
 				   },
 				   success: function(data){
 				   	  $('#total-curso').removeClass('hide');
-				   	  $('#precio-total-curso').text("$"+data.total);
+				   	  $('#precio-total-curso').text("$"+data.total_prod);
+				   	  $('#total-comp').removeClass('hide');
+				   	  $('#precio-total-comp').text("$"+data.total_comp);
 					  
-					  if(data.total > 0){
+					  if(data.total_prod > 0){
 						  $('#btn-curso-explorar-lista').removeClass('hide');
 						  $('#btn-curso-explorar-lista').attr('disabled', false);
 						  $('#btn-curso-agregar-todos').removeClass('hide');
@@ -297,31 +257,8 @@
 				   },
 			});
 			$.when(ajaxCurso).done(function(){
-			})
+			});
 		});
-		
-		//verifica los campos en el get
-		@if(Input::has('colegio'))
-			$('#select-colegios').trigger('change');
-		@endif
-		@if(Input::has('curso'))
-			$('#select-cursos').trigger('change');
-		@endif
-		
-		$("#btn-curso-agregar-todos").click(function(e){
-			e.preventDefault();
-			location.href = $(this).attr('data-href');
-		});
-		
-		$('.tiene-hijos').click(function(e){
-			if($(this).find('span.fa').hasClass('fa-angle-down')){
-				$(this).find('span.fa').removeClass('fa-angle-down').addClass('fa-angle-up');				
-			}else{
-				$(this).find('span.fa').removeClass('fa-angle-up').addClass('fa-angle-down');
-			}
-		});
-		
-		$('a[href="#'+$('.item-desplegado').attr('data-padre')+'"]').trigger('click');
 	});
 </script>
 @endsection

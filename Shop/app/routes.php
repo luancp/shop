@@ -20,6 +20,7 @@ Route::post('carrito/actualizar/', array('as' => 'carrito_actualizar_producto', 
 Route::post('carrito/eliminar/', array('as' => 'carrito_eliminar_producto', 'uses' => 'ShopController@carritoEliminarProducto'));
 // -------
 Route::get('/carrito/agregar/todos/', array('as' => 'agregar_carrito_todos', 'uses' => 'ShopController@agregarCarritoTodosLista'));
+Route::get('/carrito/vaciar/', array('as' => 'carrito_vaciar_todo', 'uses' => 'ShopController@carritoEliminarTodos'));
 
 //registro de usuarios
 Route::get('registro/', array('as' => 'registrar', 'uses' => 'ShopController@showRegistro'));

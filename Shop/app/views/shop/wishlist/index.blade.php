@@ -45,7 +45,7 @@
 							@if($w->producto->imagen)
 							{{ HTML::image('img/productos/thumb_'.$w->producto->imagen, '', array('class'=>'img-rounded', 'width'=>'70')) }}
 							@else
-							{{ HTML::image('img/productos/thumb_default.png', '', array('class'=>'img-rounded', 'width'=>'70')) }}
+							{{ HTML::image('img/productos/default/thumb_default.png', '', array('class'=>'img-rounded', 'width'=>'70')) }}
 							@endif
 						</p></td>
 						<td>

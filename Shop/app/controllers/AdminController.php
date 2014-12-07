@@ -682,11 +682,13 @@ class AdminController extends BaseController {
 				$producto = Producto::find($producto);
 				$nombre = Input::get('id-curso');
 				$cantidad = Input::get('cantidad');
+				$tipo = Input::get('tipo');
 				
 				$lista = new CursoLista;
 				$lista->curso_id = $id_curso;
 				$lista->producto_id = $producto->id;
 				$lista->nombre = $nombre;
+				$lista->tipo = $tipo;
 				$lista->cantidad = $cantidad;
 				$lista->save();
 				
@@ -694,6 +696,7 @@ class AdminController extends BaseController {
 					'id' => $lista->id,
 					'prod_id' => $producto->id,
 					'prod_name' => $producto->nombre,
+					'tipo' => $lista->tipo,
 					'prod_cant' => $lista->cantidad,
 				));
 			}
@@ -717,15 +720,24 @@ class AdminController extends BaseController {
 	public function colegioCursoListas(){
 		$empresa = Session::get('empresa');
 		$listas = array();
+		$comp = array();
+		$json_obj = array();
 		
 		$nombre = Input::get('nombre');
 		$id_curso = Input::get('id-curso');
 		
 		$curso = Curso::find($id_curso);
-		foreach($curso->listas as $l){
+		foreach($curso->productoslista as $l){
 			$listas = array_add($listas, 'data_'.$l->id, array('id' => $l->id, 'producto_id' => $l->producto->id, 'producto' => $l->producto->nombre, 'cantidad' => $l->cantidad));
 		}
-		return Response::json($listas);
+		foreach($curso->complementoslista as $l){
+			$comp = array_add($comp, 'data_'.$l->id, array('id' => $l->id, 'producto_id' => $l->producto->id, 'producto' => $l->producto->nombre, 'cantidad' => $l->cantidad));
+		}
+		
+		$json_obj = array_add($json_obj, 'productos', $listas);
+		$json_obj = array_add($json_obj, 'complementos', $comp);
+		
+		return Response::json($json_obj);
 	
 	}
 	

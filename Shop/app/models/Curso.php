@@ -13,6 +13,18 @@ class Curso extends Eloquent {
 		$listas = $this->hasMany('CursoLista')->orderBy('id', 'DESC');
 		return $listas;
 	}
+	
+	//obtiene los productos de tipo lista
+	public function productoslista(){
+		$listas = $this->hasMany('CursoLista')->where('tipo', 'NOR')->orderBy('id', 'DESC');
+		return $listas;
+	}
+	
+	//obtiene los productos de tipo complemento
+	public function complementoslista(){
+		$listas = $this->hasMany('CursoLista')->where('tipo', 'COM')->orderBy('id', 'DESC');
+		return $listas;
+	}
 
 	//retorna todos los productos del curso
 	public function productos(){

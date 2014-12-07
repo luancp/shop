@@ -24,7 +24,7 @@ class ShopController extends BaseController {
 					$colegio = Colegio::find(Input::get('colegio'));
 					$curso = Curso::find(Input::get('curso'));
 					$productos = $curso->productos()->paginate($paginacion);
-					$categorias = $curso->categorias();
+					//$categorias = $curso->categorias();
 					Session::put('colegio', $colegio->nombre);
 					Session::put('curso', $curso->nombre);
 					$id = '-1';
@@ -50,7 +50,7 @@ class ShopController extends BaseController {
 			->with('productos', $productos);
 	}
 	
-	//para cuando se muestra el carrito
+	//para cuando se muestra un producto
 	public function showProducto($id){
 		$producto = Producto::findOrFail($id);
 		$categorias = Categoria::whereNull('padre_id')->orderBy('nombre', 'asc')->get();
@@ -67,6 +67,13 @@ class ShopController extends BaseController {
 		$iva = 0.00;
 		$gran_total = 0.00;
 		$compras = Cookie::get('carrito');
+		$lista = array();
+		
+		if(Session::has('usuario')){	
+			$usuario = Session::get('usuario');
+			$lista = $usuario->wishlists();
+		}
+		
 		if(is_null($compras)){
 			$compras = array();
 		}else{
@@ -83,6 +90,8 @@ class ShopController extends BaseController {
 			->with('total', $total)
 			->with('iva', $iva)
 			->with('gran_total', $gran_total)
+			->with('lista', $lista->get())
+			->with('items_wish', count($lista->get()))
 			->with('title', 'Carrito de Compras');
 	}
 	
@@ -286,6 +295,16 @@ class ShopController extends BaseController {
 			->withCookie($cookie_compras)
 			->withCookie($cookie_cantidad);
 	}
+	//para cuando se vacia el carrito
+	public function carritoEliminarTodos(){
+		$compras = array();
+		
+		$cookie_compras = Cookie::forever('carrito', $compras);
+		$cookie_cantidad = Cookie::forever('carrito_cantidad', count($compras));
+		return Redirect::route('carrito')
+			->withCookie($cookie_compras)
+			->withCookie($cookie_cantidad);
+	}
 
 	//obtiene todos los colegios para la pagina principal
 	public function getColegios(){
@@ -303,12 +322,17 @@ class ShopController extends BaseController {
 	//retorna el total del curso seleccionado
 	public function getCursoTotal(){
 		$lista = CursoLista::where('curso_id', Input::get('curso_id'))->get();
-		$total = 0;
+		$total_prod = 0;
+		$total_comp = 0;
 		foreach($lista as $l){
 			$p = Producto::find($l->producto_id);
-			$total = $total + $p->precio;
+			if($l->tipo == 'NOR'){
+				$total_prod = $total_prod + $p->precio;
+			}else{
+				$total_comp = $total_comp + $p->precio;				
+			}
 		}
-		return Response::json(array('total' => number_format($total, 2)));
+		return Response::json(array('total_prod' => number_format($total_prod, 2), 'total_comp' => number_format($total_comp, 2)));
 	}
 	
 	//agrega todos los productos del curso en el carrito

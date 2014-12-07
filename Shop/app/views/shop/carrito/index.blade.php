@@ -49,7 +49,15 @@
 @section('content')
 <div class="bg-white">
 	<div class="col-md-12">
-		<h4><i class="fa fa-shopping-cart"></i>&nbsp;&nbsp;Mis Compras</h4>
+		<h4>
+			<i class="fa fa-shopping-cart"></i>&nbsp;&nbsp;Mis Compras
+			@if(count($compras) > 0)
+			<a id="btn-vaciar-carrito" href="{{ URL::route('carrito_vaciar_todo') }}" class="btn btn-danger btn-xs pull-right">
+				<i class="fa fa-trash"></i>&nbsp;&nbsp;
+				Vaciar el Carrito
+			</a>
+			@endif
+		</h4>
 		<hr />
 		<br />
 	</div>
@@ -75,12 +83,12 @@
 							@if(array_get($c, 'imagen'))
 							{{ HTML::image('img/productos/thumb_'.array_get($c, 'imagen'), '', array('class'=>'img-rounded', 'width'=>'70')) }}
 							@else
-							{{ HTML::image('img/productos/thumb_default.png', '', array('class'=>'img-rounded', 'width'=>'70')) }}
+							{{ HTML::image('img/productos/default/thumb_default.png', '', array('class'=>'img-rounded', 'width'=>'70')) }}
 							@endif
 						</p></td>
 						<td>
 						<p class="espacio-arriba">
-							<strong>{{ array_get($c, 'nombre') }}</strong>
+							<a href="{{ URL::route('producto_venta', array_get($c, 'id')) }}"><strong>{{ array_get($c, 'nombre') }}</strong></a>
 						</p></td>
 						<td class="text-center">
 						<p class="espacio-arriba">
@@ -89,8 +97,8 @@
 						<td class="text-center">
 						<form class="espacio-arriba" role="form" name="elminarProducto_{{ array_get($c, 'id') }}" action="{{ URL::route('carrito_actualizar_producto') }}" method="post">
 							<input type="hidden" name="id_prod" value="{{ array_get($c, 'id') }}" />
-							<input class="form-control input-sm" type="number" name="cantidad" value="{{ array_get($c, 'cantidad') }}" min="1" />
-							<button class="text-mini btn-link" type="submit">
+							<input class="form-control input-sm cantidad-carrito" type="number" name="cantidad" value="{{ array_get($c, 'cantidad') }}" min="1" />
+							<button class="text-mini btn-link hide" type="submit">
 								<span class="fa fa-refresh"></span>&nbsp;Actualizar
 							</button>
 						</form></td>
@@ -103,7 +111,7 @@
 							<input type="hidden" name="eliminar" value="1" />
 							<input type="hidden" name="id_prod" value="{{ array_get($c, 'id') }}" />
 							<button class="text-mini btn-link btn-eliminar" type="submit" data-toggle="tooltip" data-placement="top" title="Eliminar" data-id="{{ array_get($c, 'id') }}">
-								<i class="fa fa-times-circle text-danger"></i>
+								<i class="fa fa-times text-danger"></i>
 							</button>
 						</form></td>
 					</tr>
@@ -139,6 +147,89 @@
 		<br />
 	</div>
 </div>
+<!-- para la lista de deseos -->
+@if(isset($lista))
+<br />
+<div class="bg-white">
+	<div class="col-md-12">
+		<h4><i class="fa fa-heart"></i>&nbsp;&nbsp;Lista de Deseos</h4>
+		<hr />
+		<br />
+	</div>
+	<div class="col-md-12 col-sm-12">
+		@if(count($lista) > 0)
+		<div class="table-responsive">
+			<table class="table table-condensed">
+				<thead>
+					<tr>
+						<th width="90"></th>
+						<th>Productos</th>
+						<th width="90"></th>
+						<th width="90"></th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach($lista as $w)
+					<tr>
+						<td>
+						<p class="espacio-arriba">
+							@if($w->producto->imagen)
+							{{ HTML::image('img/productos/thumb_'.$w->producto->imagen, '', array('class'=>'img-rounded', 'width'=>'70')) }}
+							@else
+							{{ HTML::image('img/productos/default/thumb_default.png', '', array('class'=>'img-rounded', 'width'=>'70')) }}
+							@endif
+						</p></td>
+						<td>
+						<p class="espacio-arriba">
+							<a href="{{ URL::route('producto_venta', $w->producto->id) }}"><strong>{{ $w->producto->nombre }}</strong></a><br><span class="text-mini-cart">stock: {{ $w->producto->stock }}</span>
+						</p></td>
+						<td class="text-center">
+							<form class="espacio-arriba form-horizontal" role="form" name="elminarProducto_{{ $w->id }}" action="{{ URL::route('wishlist_eliminar_producto') }}" method="post">
+								<input type="hidden" name="eliminar" value="1" />
+								<input type="hidden" name="id_prod" value="{{ $w->id }}" />
+								<button class="text-mini btn btn-default btn-eliminar" type="submit" data-id="{{ $w->id }}">
+									<i class="fa fa-trash"></i> Eliminar
+								</button>
+							</form>
+						</td>
+						<td class="text-center">
+							<form class="espacio-arriba form-horizontal" role="form" name="moverProducto_{{ $w->id }}" action="{{ URL::route('wishlist_mover_producto') }}" method="post">
+								<input type="hidden" name="mover" value="1" />
+								<input type="hidden" name="id_wish" value="{{ $w->id }}" />
+								<input type="hidden" name="id" value="{{ $w->producto->id }}" />
+								<input type="hidden" name="prod_nombre" value="{{ $w->producto->nombre }}" />
+								<input type="hidden" name="prod_imagen" value="{{ $w->producto->imagen }}" />
+								<input type="hidden" name="prod_precio" value="{{ $w->producto->precio }}" />
+								<button class="text-mini btn btn-default btn-mover" type="submit">
+									<i class="fa fa-shopping-cart"></i> Mover al Carrito
+								</button>
+							</form>
+						</td>
+					</tr>
+					@endforeach
+				</tbody>
+				<tfoot style="border-top:3px solid #ddd;">
+					<tr>
+						<td colspan="3">Total items: <strong>{{ count($lista) }}</strong></td>
+						<td></td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+		@else
+		<div class="text-center">
+			<h3 style="margin-top: 0"><small>No hay productos en la lista a&uacute;n.</small></h3>
+			<br />
+		</div>
+		<br />
+		@endif
+	</div>
+	<div class="clearfix">
+		<br />
+	</div>
+</div>
+<br />
+@endif
 @endsection
 
 @section('js-footer')
@@ -155,6 +246,20 @@
 					$(boton).closest('form').submit();
 				}
 			});
+		});
+		//para vaciar el carrito
+		$('#btn-vaciar-carrito').click(function(e) {
+			e.preventDefault();
+			var boton = $(this);
+			bootbox.confirm("Está seguro de vaciar todo el carrito?", function(result) {
+				if (result) {
+					location.href = $(boton).attr('href');
+				}
+			});
+		});
+		//para cuando cambia la cantidad
+		$('.cantidad-carrito').change(function(e){
+			$(this).next('button').removeClass('hide');
 		});
 	}); 
 </script>

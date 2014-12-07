@@ -1,6 +1,9 @@
 @extends('layouts.default')
 
 @section('css-header')
+{{ HTML::style('css/shop.css') }}
+{{ HTML::style('css/select2.css') }}
+{{ HTML::style('css/select2-bootstrap.css') }}
 <style type="text/css">
 	.bg-principal{
 		height: 400px;
@@ -9,45 +12,13 @@
 		background-color: whitesmoke;
 	}
 	.form-filtros{
-		margin: 10px 20px 10px 10px;
+		margin: 10px 10px 10px 10px;
 		padding-top: 10px;
 		padding-bottom: 10px;
-		height: 310px;
-		margin-top: 45px;
+		min-height: 380px;
 		background: url('{{ URL::asset("/img/bg_banner.png") }}') 0 0 repeat;
 	}
-	#precio-total-curso{
-		font-weight: bold;
-		color: green;
-		font-size: 15px;
-	}
-	.form-group{
-		margin-bottom: 15px;
-	}
-	label{
-		margin-bottom: 0;
-	}
-	.titulo-listas{
-		color: green;
-		font-weight: bold;
-	}
-	.titulo-colegio{
-		margin: 0;
-		font-weight: bold;
-	}
-	#btn-curso-agregar-todos, #btn-curso-explorar-lista{
-		color: #288088;
-		font-weight: bold;
-	}
-	.btn-seleccionar-colegio{
-		color: #288088!important;
-		border: none;
-		font-weight: bold;
-		padding-top: 7px;
-	}
 </style>
-{{ HTML::style('css/select2.css') }}
-{{ HTML::style('css/select2-bootstrap.css') }}
 @endsection
 
 @section('sidebar')
@@ -98,10 +69,28 @@
 		<div class="col-md-12">
 			<!-- para los filtros -->
 			@if(Session::has('colegio'))
-				<h3 class="titulo-colegio">{{ Session::get('colegio') }}&nbsp;<small>{{ Session::get('curso') }}</small><a id="btn-curso-explorar-lista" class="btn btn-link pull-right" href="{{ URL::route('agregar_carrito_todos') }}?colegio={{ Input::get('colegio') }}&curso={{ Input::get('curso') }}"><i class="fa fa-shopping-cart"></i>&nbsp;Agregar Todos</a></h3>
+				<h3 class="titulo-colegio">{{ Session::get('colegio') }}&nbsp;<small>{{ Session::get('curso') }}</small><a id="btn-curso-explorar-lista" class="btn btn-link pull-right" href="{{ URL::route('agregar_carrito_todos') }}?colegio={{ Input::get('colegio') }}&curso={{ Input::get('curso') }}"><i class="fa fa-shopping-cart"></i>&nbsp;Comprar Lista</a></h3>
 			@endif
 		</div>
 		<div class="clearfix"><br /></div>
+	</div>
+	<div class="col-md-12 col-sm-12 bg-filter">
+		<div class="">
+			<h5 class="pull-left">
+				Mostrando desde: <strong>{{ $productos->getFrom() }}</strong>&nbsp;
+				hasta: <strong>{{ $productos->getTo() }}</strong> de un total <strong>{{ $productos->getTotal() }}</strong>
+			</h5>
+			<span class="pull-right" style="margin-top:3px;">
+				<select class="form-control input-sm">
+					<option value="-">Filtro</option>
+					<option value="N">Nombre</option>
+					<option value="P">Precio</option>
+				</select>
+			</span>			
+		</div>
+	</div>
+	<div class="col-md-12 col-sm-12">
+		<br />
 	</div>
 	<div class="row">
 		@foreach($productos as $p)
@@ -129,26 +118,16 @@
 @section('js-footer')
 {{ HTML::script('js/select2.min.js') }}
 {{ HTML::script('js/jquery.shuffle.min.js') }}
+{{ HTML::script('js/shop.js') }}
 <script type="text/javascript">
-	var colegios = null;
-	var cursos = null;
-	
-	function format(item) { return item.nombre; }
-	
 	$(function(){
-		$("#btn-seleccionar-colegio").click(function(){
-			var img_p = $("#img-principal");
-			var img_button = $(this).find('i.fa');
-			if(img_p.hasClass('hide')){
-				img_p.removeClass('hide');
-				img_button.removeClass('fa-angle-down');
-				img_button.addClass('fa-angle-up');
-			}else{
-				img_p.addClass('hide');
-				img_button.removeClass('fa-angle-up');
-				img_button.addClass('fa-angle-down');
-			}
-		});
+		//verifica los campos en el get
+		@if(Input::has('colegio'))
+			$('#select-colegios').trigger('change');
+		@endif
+		@if(Input::has('curso'))
+			$('#select-cursos').trigger('change');
+		@endif
 		
 		var ajaxColegios = $.ajax({
 			   url: '{{ URL::route("get_colegios_principal") }}',
@@ -207,18 +186,25 @@
 				    formatSelection: format,
 				    formatResult: format
 				});
-			})
+			});
 		});
 		
 		//selecciona el curso
 		$('#select-cursos').on('change', function(e){
+			
+			$('#btn-curso-consultar').attr('disabled', false);
+			
+		});
+		
+		$('#btn-curso-consultar').click(function(e){
+			e.preventDefault();
 			var ajaxCurso = $.ajax({
 				   url: '{{ URL::route("get_curso_total") }}',
 				   type: 'POST',
 				   dataType: 'json',
 				   async: true,
 				   data: {
-				      'curso_id': $(this).val(),
+				      'curso_id': $('#select-cursos').val(),
 				   },
 				   beforeSend: function() {
 				      
@@ -226,29 +212,36 @@
 				   error: function() {
 				      $('#total-curso').removeClass('hide');
 				   	  $('#precio-total-curso').text("$0.00");
+				      
+				      $('#total-comp').removeClass('hide');
+				   	  $('#precio-total-comp').text("$0.00");
 				   },
 				   success: function(data){
 				   	  $('#total-curso').removeClass('hide');
-				   	  $('#precio-total-curso').text("$"+data.total);
-					  $('#btn-curso-consultar').attr('disabled', false);
+				   	  $('#precio-total-curso').text("$"+data.total_prod);
+				   	  $('#total-comp').removeClass('hide');
+				   	  $('#precio-total-comp').text("$"+data.total_comp);
 					  
-					  $('#btn-curso-explorar-lista').attr('disabled', false);
-					  $('#btn-curso-agregar-todos').attr('disabled', false);
+					  if(data.total_prod > 0){
+						  $('#btn-curso-explorar-lista').removeClass('hide');
+						  $('#btn-curso-explorar-lista').attr('disabled', false);
+						  $('#btn-curso-agregar-todos').removeClass('hide');
+						  $('#btn-curso-agregar-todos').attr('disabled', false);
+						  
+						  var url_href = $("#btn-curso-agregar-todos").attr('data-href');
+						  url_href = url_href + 'colegio=' + $('#select-colegios').val() + '&curso=' + $('#select-cursos').val();
+						  $("#btn-curso-agregar-todos").attr('data-href', url_href);
+				      }else{
+				      	  $('#btn-curso-explorar-lista').addClass('hide');
+						  $('#btn-curso-explorar-lista').attr('disabled', true);
+						  $('#btn-curso-agregar-todos').addClass('hide');
+						  $('#btn-curso-agregar-todos').attr('disabled', true);
+				      }
 				   },
 			});
-			
 			$.when(ajaxCurso).done(function(){
-			})
+			});
 		});
-		
-		//verifica los campos en el get
-		@if(Input::has('colegio'))
-			$('#select-colegios').trigger('change');
-		@endif
-		@if(Input::has('curso'))
-			$('#select-cursos').trigger('change');
-		@endif
-		
 	});
 </script>
 @endsection

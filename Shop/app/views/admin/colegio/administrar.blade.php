@@ -17,7 +17,7 @@
 		padding: 15px;
 	}
 	.text-mini-cart {
-		color: #AAAAAA;
+		/*color: #AAAAAA;*/
 		font-size: 12px;
 	}
 	.bg-selected {
@@ -97,6 +97,7 @@
 			</div>
 			<div class="col-md-6 col-sm-6">
 				@if(count($colegio->cursos)>0)
+				<!-- para los productos -->
 				<div class="panel panel-default">
 					<!-- Default panel contents -->
 					<div class="panel-heading" id="head-list">
@@ -109,8 +110,9 @@
 								<label>Producto</label>
 								<input type="hidden" id="id-colegio" name="id-colegio" value="{{ $colegio->id }}" />
 								<input type="hidden" name="agregar-producto" value="true" />
+								<input type="hidden" name="tipo" value="NOR" />
 								<input type="hidden" id="id-curso" name="id-curso" value="" />
-								<input id="lista" class="form-control col-sm-9" name="producto" />
+								<input id="lista-producto" class="form-control col-sm-9" name="producto" />
 							</div>
 							<div class="form-group">
 								<label>Cantidad</label>
@@ -128,6 +130,43 @@
 					<!-- List group -->
 					<ul class="list-group" id="lista-productos-curso">
 						<li class="list-group-item text-center curso-list-load">
+							Seleccione un curso
+						</li>
+					</ul>
+				</div>
+				<!-- para los complementos -->
+				<div class="panel panel-default">
+					<!-- Default panel contents -->
+					<div class="panel-heading" id="head-list">
+						<strong>Lista de Complementos</strong>
+					</div>
+					<div class="panel-body">
+						<a class="hide btn btn-link btn-xs agregar-complemento pull-right" href="#"><i class="fa fa-plus"></i>&nbsp;Agregar Complemento</a>
+						<form id="form-agregar-complemento" class="hide" role="form" method="post" action="{{ URL::route('admin_colegio_admin_curso') }}">
+							<div class="form-group">
+								<label>Producto</label>
+								<input type="hidden" id="id-colegio" name="id-colegio" value="{{ $colegio->id }}" />
+								<input type="hidden" name="agregar-producto" value="true" />
+								<input type="hidden" name="tipo" value="COM" />
+								<input type="hidden" id="id-curso" name="id-curso" value="" />
+								<input id="lista-complemento" class="form-control col-sm-9" name="producto" />
+							</div>
+							<div class="form-group">
+								<label>Cantidad</label>
+								<input id="cantidad-comp" class="form-control input-sm" type="number" min="1" name="cantidad" required="required" value="1" />
+								<p>
+									<br />
+									<button type="submit" class="btn btn-success btn-xs" id="guardar-complemento-lista">
+										Agregar Complemento
+									</button>
+									&nbsp;<a class="btn btn-link btn-xs cancelar-complemento">Cancelar</a>
+								</p>
+							</div>
+						</form>
+					</div>
+					<!-- List group -->
+					<ul class="list-group" id="lista-complementos-curso">
+						<li class="list-group-item text-center curso-comp-load">
 							Seleccione un curso
 						</li>
 					</ul>
@@ -171,6 +210,7 @@
 	}
 
 	$(function() {
+		//para agregar cursos
 		$('.agregar-curso').click(function(e) {
 			e.preventDefault();
 			if ($('.form-agregar-curso').hasClass('hide')) {
@@ -184,6 +224,7 @@
 				$('.form-agregar-curso').addClass('hide');
 			}
 		});
+		//cancelar producto
 		$('.cancelar-producto').click(function(e) {
 			e.preventDefault();
 			if (!$('#form-agregar-producto').hasClass('hide')) {
@@ -191,13 +232,27 @@
 				$('.agregar-producto').removeClass('hide');
 			}
 		});
+		//cancelar complemento
+		$('.cancelar-complemento').click(function(e) {
+			e.preventDefault();
+			if (!$('#form-agregar-complemento').hasClass('hide')) {
+				$('#form-agregar-complemento').addClass('hide');
+				$('.agregar-complemento').removeClass('hide');
+			}
+		});
 		//----------------------
 		$('.item-curso').click(function(e) {
 			e.preventDefault();
 			$('#head-list').html("<strong>" + $(this).attr('data-name') + "</strong>");
+			
 			$('.lista-productos').removeClass('hide');
+			$('.lista-complementos').removeClass('hide');
+			
 			$('.agregar-producto').removeClass('hide');
+			$('.agregar-complemento').removeClass('hide');
+			
 			$('#lista-productos-curso').find('li.curso-list').remove();
+			$('#lista-complementos-curso').find('li.curso-list').remove();
 
 			//le quita y le agrega la clase con color de fondo a los items
 			$('li.list-group-item').removeClass('bg-selected');
@@ -214,18 +269,32 @@
 				},
 				beforeSend: function() {
 					$('.curso-list-load').html('<span class="fa fa-spinner fa-spin"></span>&nbsp;');
+					$('.curso-comp-load').html('<span class="fa fa-spinner fa-spin"></span>&nbsp;');
 				}, error: function() {
 					$('.curso-list-load').html('A ocurrido un error.');
+					$('.curso-comp-load').html('A ocurrido un error.');
 				}, success: function(data) {
-					if (data.length == 0) {
+					//para los productos
+					if (data.productos.length == 0) {
 						$('.curso-list-load').html('No hay productos en la lista').removeClass('hide');
 					} else {
-						$.each(data, function(k, v) {
-							$('#lista-productos-curso').append('<li class="list-group-item curso-list"><button data-id="' + v.id + '" class="text-danger btn btn-xs delete-item"><i class="fa fa-minus-circle"></i></button>&nbsp;' + v.producto + '<span class="text-mini-cart">(' + v.cantidad + ')</span></li>');
+						$.each(data.productos, function(k, v) {
+							$('#lista-productos-curso').append('<li class="list-group-item curso-list"><button data-id="' + v.id + '" class="text-danger btn btn-xs delete-item"><i class="fa fa-minus-circle"></i></button>&nbsp;' + v.producto + '<span class="text-mini-cart badge">' + v.cantidad + '</span></li>');
 						});
 						//agrega el producto a la lista
 	
 						$('.curso-list-load').html('').addClass('hide');
+					}
+					//para los complementos
+					if (data.complementos.length == 0) {
+						$('.curso-comp-load').html('No hay complemento en la lista').removeClass('hide');
+					} else {
+						$.each(data.complementos, function(k, v) {
+							$('#lista-complementos-curso').append('<li class="list-group-item curso-list"><button data-id="' + v.id + '" class="text-danger btn btn-xs delete-item"><i class="fa fa-minus-circle"></i></button>&nbsp;' + v.producto + '<span class="text-mini-cart badge">' + v.cantidad + '</span></li>');
+						});
+						//agrega el producto a la lista
+	
+						$('.curso-comp-load').html('').addClass('hide');
 					}
 					$('.delete-item').bind('click', function(e) {
 						e.preventDefault();
@@ -239,13 +308,20 @@
 			$('#id-curso').val($(this).attr('data-id'));
 	
 		});
+		//para agregar productos
 		$('.agregar-producto').click(function(e) {
 			e.preventDefault();
 			$(this).addClass('hide');
 			$('#form-agregar-producto').removeClass('hide');
 		});
+		//para agregar complementos
+		$('.agregar-complemento').click(function(e) {
+			e.preventDefault();
+			$(this).addClass('hide');
+			$('#form-agregar-complemento').removeClass('hide');
+		});
 	
-		$('#lista').select2({
+		$('#lista-producto, #lista-complemento').select2({
 			minimumInputLength : 2,
 			allowClear : true,
 			ajax : {
@@ -285,8 +361,9 @@
 				data: {
 				'id-curso': $('#id-curso').val(),
 				'id-colegio': $('#id-colegio').val(),
-				'producto': $('#lista').val(),
+				'producto': $('#lista-producto').val(),
 				'cantidad': $('#cantidad-prod').val(),
+				'tipo': 'NOR',
 				'agregar-producto': 'true',
 				},
 				error: function() {
@@ -294,9 +371,9 @@
 					$('#guardar-producto-lista').html('Agregar');
 				}, success: function(data) {
 					//agrega el producto a la lista
-					$('#lista-productos-curso').prepend('<li class="list-group-item curso-list"><button data-id="' + data.id + '" class="text-danger btn btn-xs delete-item-new"><i class="fa fa-minus-circle"></i></button>&nbsp;' + data.prod_name + '<span class="text-mini-cart">(' + data.prod_cant + ')</span></li>');
+					$('#lista-productos-curso').prepend('<li class="list-group-item curso-list"><button data-id="' + data.id + '" class="text-danger btn btn-xs delete-item-new"><i class="fa fa-minus-circle"></i></button>&nbsp;' + data.prod_name + '<span class="text-mini-cart badge">' + data.prod_cant + '</span></li>');
 					//reset de campos de form
-					$('#lista').select2('val', '');
+					$('#lista-producto').select2('val', '');
 					$('#cantidad-prod').val('1');
 					//reset boton
 					$('#guardar-producto-lista').prop('disabled', false);
@@ -304,6 +381,51 @@
 			
 					//elimina el item que esta vacio
 					$('.curso-list-load').addClass('hide');
+			
+					$('.delete-item-new').bind('click', function(e) {
+						e.preventDefault();
+						var id_lista = $(this).attr('data-id');
+						var a_elm = $(this);
+						eliminarProducto(a_elm, id_lista);
+					});
+				},
+			});
+	
+		});
+
+		//para guarda el complemento en la lista
+		$('#guardar-complemento-lista').click(function(e){
+			e.preventDefault();
+			$(this).prop('disabled', true);
+			$(this).html('Guardando...');
+	
+			$.ajax({
+				url: '{{ URL::route('admin_colegio_admin_curso') }}',
+				type: 'POST',
+				dataType: 'json',
+				data: {
+				'id-curso': $('#id-curso').val(),
+				'id-colegio': $('#id-colegio').val(),
+				'producto': $('#lista-complemento').val(),
+				'cantidad': $('#cantidad-prod').val(),
+				'tipo': 'COM',
+				'agregar-producto': 'true',
+				},
+				error: function() {
+					$('#guardar-complemento-lista').prop('disabled', false);
+					$('#guardar-complemento-lista').html('Agregar Complemento');
+				}, success: function(data) {
+					//agrega el producto a la lista
+					$('#lista-complementos-curso').prepend('<li class="list-group-item curso-list"><button data-id="' + data.id + '" class="text-danger btn btn-xs delete-item-new"><i class="fa fa-minus-circle"></i></button>&nbsp;' + data.prod_name + '<span class="text-mini-cart badge">' + data.prod_cant + '</span></li>');
+					//reset de campos de form
+					$('#lista-complemento').select2('val', '');
+					$('#cantidad-comp').val('1');
+					//reset boton
+					$('#guardar-complemento-lista').prop('disabled', false);
+					$('#guardar-complemento-lista').html('Agregar Complemento');
+			
+					//elimina el item que esta vacio
+					$('.curso-comp-load').addClass('hide');
 			
 					$('.delete-item-new').bind('click', function(e) {
 						e.preventDefault();

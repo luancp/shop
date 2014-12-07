@@ -1,0 +1,45 @@
+#precio-total-curso, #precio-total-comp{
+	font-weight: bold;
+	color: green;
+	font-size: 15px;
+}
+.form-group{
+	margin-bottom: 15px;
+}
+label{
+	margin-bottom: 0;
+}
+.titulo-listas{
+	color: green;
+	font-weight: bold;
+}
+.titulo-colegio{
+	margin: 0;
+	font-weight: bold;
+}
+#btn-curso-agregar-todos, #btn-curso-explorar-lista, #btn-curso-consultar{
+	color: #288088;
+	font-weight: bold;
+}
+.btn-seleccionar-colegio{
+	color: green!important;
+	border: none;
+	font-weight: bold;
+	padding-top: 7px;
+}
+.list-group-item-submenu{
+	/*background-color: #F5F5F5;*/
+	padding-left:25px!important;
+}
+.list-group-item {
+	padding: 10px 10px;
+}
+.bg-filter{
+	background-color: #f0f1f2;
+}
+.btn-seleccionar-colegio{
+	color: #288088!important;
+	border: none;
+	font-weight: bold;
+	padding-top: 7px;
+}
