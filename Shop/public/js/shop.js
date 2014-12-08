@@ -32,4 +32,12 @@ $(function(){
 	});
 	
 	$('a[href="#'+$('.item-desplegado').attr('data-padre')+'"]').trigger('click');
+	
+	//se cierran las demas categorias
+	$('a.tiene-hijos').click(function(e){
+		e.preventDefault();
+		var id = $(this).attr('data-id');
+		$('a.tiene-hijos[data-id!='+id+']').find('span.icon-padre').removeClass('fa-angle-up').addClass('fa-angle-down');
+		$('a.tiene-hijos[data-id!='+id+']').next('div.hijo-tiene-hijos').removeClass('in');
+	});
 });

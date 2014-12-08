@@ -98,7 +98,7 @@ class ShopController extends BaseController {
 	
 	//agregar los productos al carrito de compras
 	public function agregarCarrito(){
-		$id = Input::get('id');
+		$id = Input::get('id');//id del producto
 		$cantidad = Input::get('cantidad');
 		$nombre = Input::get('nombre');
 		$precio = Input::get('precio');
@@ -110,29 +110,49 @@ class ShopController extends BaseController {
 		if((int)$cantidad <= 0){
 			$cantidad = 1;
 		}
-		if(!is_null($carrito) && count($carrito) > 0){
-			foreach($carrito as $c){
-				$item_id = (int)array_get($c, 'id');
-				if($item_id == (int)$id){
-					$cant = (int)array_get($c, 'cantidad')+(int)$cantidad;
-					$item = array('id'=>$id, 'cantidad'=>(int)$cant, 'nombre'=>$nombre, 'precio'=>$precio, 'imagen'=>$imagen);
-					$carrito = array_set($carrito, $id, $item);
-					$cookie_compras = Cookie::forever('carrito', $carrito);
-					$cookie_cantidad = Cookie::forever('carrito_cantidad', count($carrito));
-					break;
-				}else{
-					$item = array('id'=>$id, 'cantidad'=>(int)$cantidad, 'nombre'=>$nombre, 'precio'=>$precio, 'imagen'=>$imagen);
-					$carrito = array_add($carrito, $id, $item);
-					$cookie_compras = Cookie::forever('carrito', $carrito);
-					$cookie_cantidad = Cookie::forever('carrito_cantidad', count($carrito));
+		$producto = Producto::find($id);
+		if($producto->stock <= 0){
+			if(Session::has('usuario')){
+				$usuario = Session::get('usuario');
+				//verifica si existe el pproduto en la lista
+				if(!Wishlist::existeProducto($usuario->id, $id)){
+					$w = new Wishlist;
+					$w->usuario_id = $usuario->id;
+					$w->producto_id = $id;
+					$w->cantidad = 1;
+					$w->save();
 				}
+				$wishlist = $usuario->wishlists();
+				Session::put('wishlist', $wishlist->get());
+				Session::flash('error_mensaje', 'No se han agregado todos los productos al carrito pero si a la lista de deseos.');
 			}
-		}else{
-			$carrito = array();
-			$item = array('id'=>$id, 'cantidad'=>(int)$cantidad, 'nombre'=>$nombre, 'precio'=>$precio, 'imagen'=>$imagen);
-			$carrito = array_add($carrito, $id, $item);
 			$cookie_compras = Cookie::forever('carrito', $carrito);
 			$cookie_cantidad = Cookie::forever('carrito_cantidad', count($carrito));
+		}else{
+			if(!is_null($carrito) && count($carrito) > 0){
+				foreach($carrito as $c){
+					$item_id = (int)array_get($c, 'id');
+					if($item_id == (int)$id){
+						$cant = (int)array_get($c, 'cantidad')+(int)$cantidad;
+						$item = array('id'=>$id, 'cantidad'=>(int)$cant, 'nombre'=>$nombre, 'precio'=>$precio, 'imagen'=>$imagen);
+						$carrito = array_set($carrito, $id, $item);
+						$cookie_compras = Cookie::forever('carrito', $carrito);
+						$cookie_cantidad = Cookie::forever('carrito_cantidad', count($carrito));
+						break;
+					}else{
+						$item = array('id'=>$id, 'cantidad'=>(int)$cantidad, 'nombre'=>$nombre, 'precio'=>$precio, 'imagen'=>$imagen);
+						$carrito = array_add($carrito, $id, $item);
+						$cookie_compras = Cookie::forever('carrito', $carrito);
+						$cookie_cantidad = Cookie::forever('carrito_cantidad', count($carrito));
+					}
+				}
+			}else{
+				$carrito = array();
+				$item = array('id'=>$id, 'cantidad'=>(int)$cantidad, 'nombre'=>$nombre, 'precio'=>$precio, 'imagen'=>$imagen);
+				$carrito = array_add($carrito, $id, $item);
+				$cookie_compras = Cookie::forever('carrito', $carrito);
+				$cookie_cantidad = Cookie::forever('carrito_cantidad', count($carrito));
+			}
 		}
 		//redireccion despues de agregar al carrito
 		return Redirect::route('carrito')
@@ -160,7 +180,7 @@ class ShopController extends BaseController {
 	//agregar los productos a wishlist
 	public function agregarWishlist(){
 		if(Request::isMethod('get')){
-			return Redirect::route('carrito');
+			return Redirect::route('wishlist');
 		}
 		$producto_id = Input::get('producto_id');
 		//consulta lo que tiene en su lista actual
@@ -216,34 +236,54 @@ class ShopController extends BaseController {
 		$cookie_compras = null;
 		$cookie_cantidad = null;
 		
-		if(!is_null($carrito) && count($carrito) > 0){
-			foreach($carrito as $c){
-				$item_id = (int)array_get($c, 'id');
-				if($item_id == (int)$id){
-					$cant = (int)array_get($c, 'cantidad')+(int)$cantidad;
-					$item = array('id'=>$id, 'cantidad'=>(int)$cant, 'nombre'=>$nombre, 'precio'=>$precio, 'imagen'=>$imagen);
-					$carrito = array_set($carrito, $id, $item);
-					$cookie_compras = Cookie::forever('carrito', $carrito);
-					$cookie_cantidad = Cookie::forever('carrito_cantidad', count($carrito));
-					break;
-				}else{
-					$item = array('id'=>$id, 'cantidad'=>(int)$cantidad, 'nombre'=>$nombre, 'precio'=>$precio, 'imagen'=>$imagen);
-					$carrito = array_add($carrito, $id, $item);
-					$cookie_compras = Cookie::forever('carrito', $carrito);
-					$cookie_cantidad = Cookie::forever('carrito_cantidad', count($carrito));
+		$producto = Producto::find($id);
+		if($producto->stock <= 0){
+			if(Session::has('usuario')){
+				$usuario = Session::get('usuario');
+				//verifica si existe el pproduto en la lista
+				if(!Wishlist::existeProducto($usuario->id, $id)){
+					$w = new Wishlist;
+					$w->usuario_id = $usuario->id;
+					$w->producto_id = $id;
+					$w->cantidad = 1;
+					$w->save();
 				}
+				$wishlist = $usuario->wishlists();
+				Session::put('wishlist', $wishlist->get());
+				Session::flash('error_mensaje', 'No se han agregado todos los productos al carrito pero si a la lista de deseos.');
 			}
-		}else{
-			$carrito = array();
-			$item = array('id'=>$id, 'cantidad'=>(int)$cantidad, 'nombre'=>$nombre, 'precio'=>$precio, 'imagen'=>$imagen);
-			$carrito = array_add($carrito, $id, $item);
 			$cookie_compras = Cookie::forever('carrito', $carrito);
 			$cookie_cantidad = Cookie::forever('carrito_cantidad', count($carrito));
-		}
-		//se elimina del wishlist despues de agregado al carrito
-		$wl = Wishlist::find($id_wish);
-		if($wl){
-			$wl->delete();
+		}else{
+			if(!is_null($carrito) && count($carrito) > 0){
+				foreach($carrito as $c){
+					$item_id = (int)array_get($c, 'id');
+					if($item_id == (int)$id){
+						$cant = (int)array_get($c, 'cantidad')+(int)$cantidad;
+						$item = array('id'=>$id, 'cantidad'=>(int)$cant, 'nombre'=>$nombre, 'precio'=>$precio, 'imagen'=>$imagen);
+						$carrito = array_set($carrito, $id, $item);
+						$cookie_compras = Cookie::forever('carrito', $carrito);
+						$cookie_cantidad = Cookie::forever('carrito_cantidad', count($carrito));
+						break;
+					}else{
+						$item = array('id'=>$id, 'cantidad'=>(int)$cantidad, 'nombre'=>$nombre, 'precio'=>$precio, 'imagen'=>$imagen);
+						$carrito = array_add($carrito, $id, $item);
+						$cookie_compras = Cookie::forever('carrito', $carrito);
+						$cookie_cantidad = Cookie::forever('carrito_cantidad', count($carrito));
+					}
+				}
+			}else{
+				$carrito = array();
+				$item = array('id'=>$id, 'cantidad'=>(int)$cantidad, 'nombre'=>$nombre, 'precio'=>$precio, 'imagen'=>$imagen);
+				$carrito = array_add($carrito, $id, $item);
+				$cookie_compras = Cookie::forever('carrito', $carrito);
+				$cookie_cantidad = Cookie::forever('carrito_cantidad', count($carrito));
+			}
+			//se elimina del wishlist despues de agregado al carrito
+			$wl = Wishlist::find($id_wish);
+			if($wl){
+				$wl->delete();
+			}
 		}
 				
 		$wishlist = $usuario->wishlists();

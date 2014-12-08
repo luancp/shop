@@ -30,15 +30,15 @@
 		  	<a class="list-group-item @if($cat == '-1') active @endif" href="{{ URL::route('principal') }}">Todas las Categorias</a>
 			@foreach($categorias as $c)
 		  		@if($c->tieneHijos())
-		  		<a class="list-group-item tiene-hijos @if($cat == $c->id) active @endif" data-toggle="collapse" href="#{{ $c->id }}">{{ $c->nombre }}<span class="fa fa-angle-down pull-right"></span></a>
-		  		@else
-		  		<a class="list-group-item @if($cat == $c->id) active @endif" href="{{ URL::route('principal') }}?categoria={{ $c->id }}">{{ $c->nombre }}</a>
-		  		@endif
-	  			<div id="{{ $c->id }}" class="collapse">
+		  		<a class="list-group-item tiene-hijos @if($cat == $c->id) active @endif" data-toggle="collapse" href="#{{ $c->id }}" data-id="{{ $c->id }}">{{ $c->nombre }}<span class="icon-padre fa fa-angle-down pull-right"></span></a>
+	  			<div id="{{ $c->id }}" class="hijo-tiene-hijos collapse">
 	  				@foreach($c->getHjios as $h)
 			  			<a class="list-group-item list-group-item-success list-group-item-submenu @if($cat == $h->id) active item-desplegado @endif" data-padre="{{ $c->id }}" href="{{ URL::route('principal') }}?categoria={{ $h->id }}">{{ $h->nombre }}</a>
 				  	@endforeach
 	  			</div>
+		  		@else
+		  		<a class="list-group-item @if($cat == $c->id) active @endif" href="{{ URL::route('principal') }}?categoria={{ $c->id }}">{{ $c->nombre }}</a>
+		  		@endif
 		  	@endforeach
 	  	@endif
 	</ul>
@@ -78,7 +78,7 @@
 		<div class="">
 			<h5 class="pull-left">
 				Mostrando desde: <strong>{{ $productos->getFrom() }}</strong>&nbsp;
-				hasta: <strong>{{ $productos->getTo() }}</strong> de un total <strong>{{ $productos->getTotal() }}</strong>
+				hasta: <strong>{{ $productos->getTo() }}</strong> de un Total: <strong>{{ $productos->getTotal() }}</strong>
 			</h5>
 			<span class="pull-right" style="margin-top:3px;">
 				<select class="form-control input-sm">

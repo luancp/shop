@@ -46,6 +46,8 @@
     			<div>
 	    			<p class="titulo-producto"><a href="{{ URL::route('admin_producto_consultar', $p->id) }}"><strong>{{ $p->nombre }}</strong></a></p>
 	    			<p class="descripcion-producto">{{ $p->descripcion }}</p>
+	    			<p class="">Stock: {{ $p->stock }}</p>
+	    			<p class="">Precio: ${{ $p->precio }}</p>
 	    		</div>
     		</div>
 		</div>

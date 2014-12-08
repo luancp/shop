@@ -89,6 +89,7 @@
 			<hr />
 			<br />
 			<a class="pull-left" style="margin-top:8px;" href="{{ URL::route('principal') }}">Seguir comprando</a>
+			<a class="pull-left" style="margin-top:8px;margin-left:5px;" href="{{ URL::route('carrito') }}">Mostrar con Carrito</a>
 		</div>
 		@else
 		<div class="text-center">

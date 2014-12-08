@@ -683,22 +683,28 @@ class AdminController extends BaseController {
 				$nombre = Input::get('id-curso');
 				$cantidad = Input::get('cantidad');
 				$tipo = Input::get('tipo');
+				$lista = null;
+				if($producto){	
+					$lista = new CursoLista;
+					$lista->curso_id = $id_curso;
+					$lista->producto_id = $producto->id;
+					$lista->nombre = $nombre;
+					$lista->tipo = $tipo;
+					$lista->cantidad = $cantidad;
+					$lista->save();
 				
-				$lista = new CursoLista;
-				$lista->curso_id = $id_curso;
-				$lista->producto_id = $producto->id;
-				$lista->nombre = $nombre;
-				$lista->tipo = $tipo;
-				$lista->cantidad = $cantidad;
-				$lista->save();
-				
-				return Response::json(array(
-					'id' => $lista->id,
-					'prod_id' => $producto->id,
-					'prod_name' => $producto->nombre,
-					'tipo' => $lista->tipo,
-					'prod_cant' => $lista->cantidad,
-				));
+					return Response::json(array(
+						'id' => $lista->id,
+						'prod_id' => $producto->id,
+						'prod_name' => $producto->nombre,
+						'tipo' => $lista->tipo,
+						'prod_cant' => $lista->cantidad,
+					));
+				}else{
+					return Response::json(array(
+						'id' => 0,
+					));
+				}
 			}
 			
 			$curso = new Curso;

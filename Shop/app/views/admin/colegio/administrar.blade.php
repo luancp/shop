@@ -370,24 +370,29 @@
 					$('#guardar-producto-lista').prop('disabled', false);
 					$('#guardar-producto-lista').html('Agregar');
 				}, success: function(data) {
-					//agrega el producto a la lista
-					$('#lista-productos-curso').prepend('<li class="list-group-item curso-list"><button data-id="' + data.id + '" class="text-danger btn btn-xs delete-item-new"><i class="fa fa-minus-circle"></i></button>&nbsp;' + data.prod_name + '<span class="text-mini-cart badge">' + data.prod_cant + '</span></li>');
-					//reset de campos de form
-					$('#lista-producto').select2('val', '');
-					$('#cantidad-prod').val('1');
-					//reset boton
-					$('#guardar-producto-lista').prop('disabled', false);
-					$('#guardar-producto-lista').html('Agregar');
-			
-					//elimina el item que esta vacio
-					$('.curso-list-load').addClass('hide');
-			
-					$('.delete-item-new').bind('click', function(e) {
-						e.preventDefault();
-						var id_lista = $(this).attr('data-id');
-						var a_elm = $(this);
-						eliminarProducto(a_elm, id_lista);
-					});
+					if(data.id != 0){
+						//agrega el producto a la lista
+						$('#lista-productos-curso').prepend('<li class="list-group-item curso-list"><button data-id="' + data.id + '" class="text-danger btn btn-xs delete-item-new"><i class="fa fa-minus-circle"></i></button>&nbsp;' + data.prod_name + '<span class="text-mini-cart badge">' + data.prod_cant + '</span></li>');
+						//reset de campos de form
+						$('#lista-producto').select2('val', '');
+						$('#cantidad-prod').val('1');
+						//reset boton
+						$('#guardar-producto-lista').prop('disabled', false);
+						$('#guardar-producto-lista').html('Agregar');
+				
+						//elimina el item que esta vacio
+						$('.curso-list-load').addClass('hide');
+				
+						$('.delete-item-new').bind('click', function(e) {
+							e.preventDefault();
+							var id_lista = $(this).attr('data-id');
+							var a_elm = $(this);
+							eliminarProducto(a_elm, id_lista);
+						});
+					}else{
+						$('#guardar-producto-lista').prop('disabled', false);
+						$('#guardar-producto-lista').html('Agregar');
+					}
 				},
 			});
 	
@@ -415,24 +420,29 @@
 					$('#guardar-complemento-lista').prop('disabled', false);
 					$('#guardar-complemento-lista').html('Agregar Complemento');
 				}, success: function(data) {
-					//agrega el producto a la lista
-					$('#lista-complementos-curso').prepend('<li class="list-group-item curso-list"><button data-id="' + data.id + '" class="text-danger btn btn-xs delete-item-new"><i class="fa fa-minus-circle"></i></button>&nbsp;' + data.prod_name + '<span class="text-mini-cart badge">' + data.prod_cant + '</span></li>');
-					//reset de campos de form
-					$('#lista-complemento').select2('val', '');
-					$('#cantidad-comp').val('1');
-					//reset boton
-					$('#guardar-complemento-lista').prop('disabled', false);
-					$('#guardar-complemento-lista').html('Agregar Complemento');
-			
-					//elimina el item que esta vacio
-					$('.curso-comp-load').addClass('hide');
-			
-					$('.delete-item-new').bind('click', function(e) {
-						e.preventDefault();
-						var id_lista = $(this).attr('data-id');
-						var a_elm = $(this);
-						eliminarProducto(a_elm, id_lista);
-					});
+					if(data.id != 0){
+						//agrega el producto a la lista
+						$('#lista-complementos-curso').prepend('<li class="list-group-item curso-list"><button data-id="' + data.id + '" class="text-danger btn btn-xs delete-item-new"><i class="fa fa-minus-circle"></i></button>&nbsp;' + data.prod_name + '<span class="text-mini-cart badge">' + data.prod_cant + '</span></li>');
+						//reset de campos de form
+						$('#lista-complemento').select2('val', '');
+						$('#cantidad-comp').val('1');
+						//reset boton
+						$('#guardar-complemento-lista').prop('disabled', false);
+						$('#guardar-complemento-lista').html('Agregar Complemento');
+				
+						//elimina el item que esta vacio
+						$('.curso-comp-load').addClass('hide');
+				
+						$('.delete-item-new').bind('click', function(e) {
+							e.preventDefault();
+							var id_lista = $(this).attr('data-id');
+							var a_elm = $(this);
+							eliminarProducto(a_elm, id_lista);
+						});
+					}else{
+						$('#guardar-complemento-lista').prop('disabled', false);
+						$('#guardar-complemento-lista').html('Agregar Complemento');
+					}
 				},
 			});
 	
