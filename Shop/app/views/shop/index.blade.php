@@ -98,12 +98,15 @@
 				hasta: <strong>{{ $productos->getTo() }}</strong> de un Total: <strong>{{ $productos->getTotal() }}</strong>
 			</h5>
 			<span class="pull-right" style="margin-top:3px;">
-				<select class="form-control input-sm">
-					<option value="-">Filtro</option>
-					<option value="N">Nombre</option>
-					<option value="P">Precio</option>
-				</select>
-			</span>			
+				<form class="" action="" method="get">
+					<input type="hidden" name="categoria" value="{{ $cat }}" />
+					<select class="form-control input-sm" id="filtro-lista">
+						<option value="-">Filtro</option>
+						<option value="N">Nombre</option>
+						<option value="P">Precio</option>
+					</select>
+				</form>
+			</span>
 		</div>
 	</div>
 	<div class="col-md-12 col-sm-12">
@@ -258,6 +261,10 @@
 			});
 			$.when(ajaxCurso).done(function(){
 			});
+		});
+		
+		$('#filtro-lista').change(function(e){
+			
 		});
 	});
 </script>
