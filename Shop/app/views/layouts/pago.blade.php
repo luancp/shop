@@ -120,11 +120,11 @@
 				            <p class="hidden-xs">Productos</p>
 				        </div>
 				        <div class="stepwizard-step">
-				            <a href="{{ URL::route('compra_direccion') }}" type="button" class="btn @if($step == '2' || $step == '3' || $step == '4') btn-success @else btn-default @endif btn-circle">2</a>
+				            <a href="{{ URL::route('compra_direccion') }}?direccion_id={{Input::get('direccion_id')}}" type="button" class="btn @if($step == '2' || $step == '3' || $step == '4') btn-success @else btn-default @endif btn-circle">2</a>
 				            <p class="hidden-xs">Env&iacute;o</p>
 				        </div>
 				        <div class="stepwizard-step">
-				            <a href="#step-3" type="button" class="btn @if($step == '3' || $step == '4') btn-success @else btn-default @endif btn-circle" @if($step != '3' && $step != '4')disabled="disabled"@endif>3</a>
+				            <a href="{{ URL::route('compra_resumen') }}?direccion_id={{Input::get('direccion_id')}}" type="button" class="btn @if($step == '3' || $step == '4') btn-success @else btn-default @endif btn-circle" @if($step != '3' && $step != '4')disabled="disabled"@endif>3</a>
 				            <p class="hidden-xs">Res&uacute;men</p>
 				        </div>
 				        <div class="stepwizard-step">
