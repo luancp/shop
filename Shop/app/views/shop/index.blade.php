@@ -52,7 +52,7 @@
 
 @section('bg-ventas')
 <div class="bg-principal">
-	<form class="col-md-5 col-sm-5 form-filtros" action="" role="form" method="get">
+	<form class="col-md-5 col-sm-5 form-filtros" action="" role="form" method="get" name="form_colegios">
 		<div class="form-group col-md-12 col-sm-12">
 			<h3 class="titulo-listas"><i class="fa fa-check-square-o"></i>&nbsp;Listas por Colegio</h3>
 		</div>
@@ -73,6 +73,7 @@
 		    <div id="precio-total-comp"></div>
 		</div>
 		<div class="form-group">
+			<input type="hidden" name="categoria" value="-1" />
 			<button id="btn-curso-consultar" class="btn btn-link" type="submit" disabled="disabled"><i class="fa fa-search"></i>&nbsp;Consultar</button>
 			<button id="btn-curso-agregar-todos" class="btn btn-link hide" data-href="{{ URL::route('agregar_carrito_todos') }}?" disabled="disabled"><i class="fa fa-shopping-cart"></i>&nbsp;Agregar Todos</button>
 			<button id="btn-curso-explorar-lista" class="btn btn-link hide" type="submit" disabled="disabled"><i class="fa fa-bars"></i>&nbsp;Explorar Lista</button>
@@ -98,12 +99,15 @@
 				hasta: <strong>{{ $productos->getTo() }}</strong> de un Total: <strong>{{ $productos->getTotal() }}</strong>
 			</h5>
 			<span class="pull-right" style="margin-top:3px;">
-				<form class="" action="" method="get">
+				<form class="" name="form_filtros" action="{{ URL::route('principal') }}" method="get">
 					<input type="hidden" name="categoria" value="{{ $cat }}" />
-					<select class="form-control input-sm" id="filtro-lista">
+					<input type="hidden" name="colegio" value="{{ Input::get('colegio') }}" />
+					<input type="hidden" name="curso" value="{{ Input::get('curso') }}" />
+					<input type="hidden" name="page" value="{{ Input::get('page') }}" />
+					<select class="form-control input-sm" id="select-filtros" name="filtro">
 						<option value="-">Filtro</option>
-						<option value="N">Nombre</option>
-						<option value="P">Precio</option>
+						<option value="N" @if(Input::get('filtro')=='N')selected="true"@endif>Nombre</option>
+						<option value="P" @if(Input::get('filtro')=='P')selected="true"@endif>Precio</option>
 					</select>
 				</form>
 			</span>
@@ -117,12 +121,12 @@
 			<div class="col-sm-6 col-md-4">
 			    <div class="thumbnail">
 			    	@if($p->imagen)
-			      	<a href="{{ URL::route('producto_venta', $p->id) }}"><img src="{{ URL::asset('img/productos/'.$p->imagen) }}" alt="{{ $p->nombre }}" /></a>
+			      	<a href="{{ URL::route('producto_venta', $p->id) }}@if(Input::has('categoria'))?categoria={{Input::get('categoria')}}@endif"><img src="{{ URL::asset('img/productos/'.$p->imagen) }}" alt="{{ $p->nombre }}" /></a>
 			      	@else
-			      	<a href="{{ URL::route('producto_venta', $p->id) }}"><img src="{{ URL::asset('img/productos/default/venta_default.png') }}" alt="{{ $p->nombre }}" /></a>
+			      	<a href="{{ URL::route('producto_venta', $p->id) }}@if(Input::has('categoria'))?categoria={{Input::get('categoria')}}@endif"><img src="{{ URL::asset('img/productos/default/venta_default.png') }}" alt="{{ $p->nombre }}" /></a>
 			      	@endif
 			      	<div class="caption">
-			        	<a href="{{ URL::route('producto_venta', $p->id) }}"><h5 title="{{ $p->nombre }}">{{ str_limit($p->nombre, $limit=20, $end='...') }}<strong class="pull-right text-success">${{ number_format($p->precio, 2) }}</strong></h5></a>
+			        	<a href="{{ URL::route('producto_venta', $p->id) }}@if(Input::has('categoria'))?categoria={{Input::get('categoria')}}@endif"><h5 title="{{ $p->nombre }}">{{ str_limit($p->nombre, $limit=20, $end='...') }}<strong class="pull-right text-success">${{ number_format($p->precio, 2) }}</strong></h5></a>
 			      	</div>
 			    </div>
 		  	</div>
@@ -263,8 +267,11 @@
 			});
 		});
 		
-		$('#filtro-lista').change(function(e){
-			
+		$('#btn-curso-explorar-lista').click(function(e){
+			e.preventDefault();
+			var url_form = '{{ URL::route("consultar_colegio") }}';
+			document.forms.form_colegios.action = url_form;
+			document.forms.form_colegios.submit();
 		});
 	});
 </script>

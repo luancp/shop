@@ -110,5 +110,10 @@ class Categoria extends Eloquent {
 		$hijos = self::getHjios()->count();
 		return ($hijos > 0);
 	}
+	
+	//retorna el producto
+	public function producto(){
+		return $this->hasMany('Producto');
+	}
 
 }

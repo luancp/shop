@@ -40,4 +40,9 @@ $(function(){
 		$('a.tiene-hijos[data-id!='+id+']').find('span.icon-padre').removeClass('fa-angle-up').addClass('fa-angle-down');
 		$('a.tiene-hijos[data-id!='+id+']').next('div.hijo-tiene-hijos').removeClass('in');
 	});
+	
+	//para los filtros de precio y nombre
+	$('#select-filtros').change(function(){
+		document.forms.form_filtros.submit()
+	});
 });

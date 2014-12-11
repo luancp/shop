@@ -95,10 +95,9 @@ class Producto extends Eloquent {
 		}
 	}
 	
-	//verifica si el producto tiene tallas
-	public function tieneTallas(){
-		
-		return $this->nombre;
+	//retorna la categoria del producto
+	public function categoria(){
+		return $this->belongsTo('Categoria');
 	}
 
 }

@@ -7,14 +7,15 @@ Route::get('logout/', array('as' => 'logout', 'uses' => 'MainController@logout')
 
 //para las paginas principales
 Route::any('/', array('as' => 'principal', 'uses' => 'ShopController@principal'));
-Route::get('/producto/{id}', array('as' => 'producto_venta', 'uses' => 'ShopController@showProducto'));
-Route::post('/colegios/', array('as' => 'get_colegios_principal', 'uses' => 'ShopController@getColegios'));
-Route::post('/cursos/', array('as' => 'get_cursos_principal', 'uses' => 'ShopController@getCursos'));
-Route::post('/curso/total/', array('as' => 'get_curso_total', 'uses' => 'ShopController@getCursoTotal'));
+Route::any('consultar/', array('as' => 'consultar_colegio', 'uses' => 'ShopController@consultarProductosColegio'));
+Route::get('producto/{id}', array('as' => 'producto_venta', 'uses' => 'ShopController@showProducto'));
+Route::post('colegios/', array('as' => 'get_colegios_principal', 'uses' => 'ShopController@getColegios'));
+Route::post('cursos/', array('as' => 'get_cursos_principal', 'uses' => 'ShopController@getCursos'));
+Route::post('curso/total/', array('as' => 'get_curso_total', 'uses' => 'ShopController@getCursoTotal'));
 
 
-//para el carrito sin login - como Amazon.com
-Route::post('/carrito/add/', array('as' => 'agregar_carrito', 'uses' => 'ShopController@agregarCarrito'));
+//para el carrito sin login
+Route::post('carrito/add/', array('as' => 'agregar_carrito', 'uses' => 'ShopController@agregarCarrito'));
 Route::get('carrito/', array('as' => 'carrito', 'uses' => 'ShopController@carrito'));
 Route::post('carrito/actualizar/', array('as' => 'carrito_actualizar_producto', 'uses' => 'ShopController@carritoActualizarProducto'));
 Route::post('carrito/eliminar/', array('as' => 'carrito_eliminar_producto', 'uses' => 'ShopController@carritoEliminarProducto'));
@@ -36,7 +37,14 @@ Route::post('password/reset/token/', array('as' => 'resetear_password_token_post
 //urls con seguridad - para la tienda
 Route::group(array('before' => 'auth'), function(){
 	//para el carrito de compras
-	Route::post('carrito/comprar/', array('as' => 'realizar_compra', 'uses' => 'ShopController@carritoComprar'));
+	Route::get('compra/direccion/', array('as' => 'compra_direccion', 'uses' => 'ShopController@compraDireccion'));
+	Route::get('compra/resumen/', array('as' => 'compra_resumen', 'uses' => 'ShopController@compraResumen'));
+	Route::any('compra/pago/', array('as' => 'compra_pago', 'uses' => 'ShopController@compraPago'));
+	Route::any('compra/status/', array('as' => 'realizar_pago', 'uses' => 'ShopController@compraStatus'));
+	
+	//para las direcciones del usuario
+	Route::any('usuario/direccion/', array('as' => 'guardar_direccion', 'uses' => 'ShopController@usuarioDireccion'));	
+	
 	//para manejar la wishlist
 	Route::any('wishlist/agregar/', array('as' => 'agregar_wishlist', 'uses' => 'ShopController@agregarWishlist'));
 	Route::get('wishlist/', array('as' => 'mostrar_wishlist', 'uses' => 'ShopController@mostrarWishlist'));

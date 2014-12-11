@@ -27,17 +27,17 @@
 	</ul>
 	<ul class="list-group">
 		@if($categorias)
-		  	<a class="list-group-item @if($cat == '-1') active @endif" href="{{ URL::route('principal') }}">Todas las Categorias</a>
+		  	<a class="list-group-item @if($cat == '-1') active @endif" href="?colegio={{Input::get('colegio')}}&curso={{Input::get('curso')}}&categoria=-1">Todas las Categorias</a>
 			@foreach($categorias as $c)
 		  		@if($c->tieneHijos())
 		  		<a class="list-group-item tiene-hijos @if($cat == $c->id) active @endif" data-toggle="collapse" href="#{{ $c->id }}" data-id="{{ $c->id }}">{{ $c->nombre }}<span class="icon-padre fa fa-angle-down pull-right"></span></a>
 	  			<div id="{{ $c->id }}" class="hijo-tiene-hijos collapse">
 	  				@foreach($c->getHjios as $h)
-			  			<a class="list-group-item list-group-item-success list-group-item-submenu @if($cat == $h->id) active item-desplegado @endif" data-padre="{{ $c->id }}" href="{{ URL::route('principal') }}?categoria={{ $h->id }}">{{ $h->nombre }}</a>
+			  			<a class="list-group-item list-group-item-success list-group-item-submenu @if($cat == $h->id) active item-desplegado @endif" data-padre="{{ $c->id }}" href="?categoria={{ $h->id }}&colegio={{Input::get('colegio')}}&curso={{Input::get('curso')}}">{{ $h->nombre }}</a>
 				  	@endforeach
 	  			</div>
 		  		@else
-		  		<a class="list-group-item @if($cat == $c->id) active @endif" href="{{ URL::route('principal') }}?categoria={{ $c->id }}">{{ $c->nombre }}</a>
+		  		<a class="list-group-item @if($cat == $c->id) active @endif" href="?categoria={{ $c->id }}&colegio={{Input::get('colegio')}}&curso={{Input::get('curso')}}">{{ $c->nombre }}</a>
 		  		@endif
 		  	@endforeach
 	  	@endif
@@ -81,14 +81,15 @@
 				hasta: <strong>{{ $productos->getTo() }}</strong> de un Total: <strong>{{ $productos->getTotal() }}</strong>
 			</h5>
 			<span class="pull-right" style="margin-top:3px;">
-				<form class="" action="" method="get">
+				<form class="" name="form_filtros" action="{{ URL::route('principal') }}" method="get">
 					<input type="hidden" name="categoria" value="{{ $cat }}" />
 					<input type="hidden" name="colegio" value="{{ Input::get('colegio') }}" />
 					<input type="hidden" name="curso" value="{{ Input::get('curso') }}" />
-					<select class="form-control input-sm">
+					<input type="hidden" name="page" value="{{ Input::get('page') }}" />
+					<select class="form-control input-sm" id="select-filtros" name="filtro">
 						<option value="-">Filtro</option>
-						<option value="N">Nombre</option>
-						<option value="P">Precio</option>
+						<option value="N" @if(Input::get('filtro')=='N')selected="true"@endif>Nombre</option>
+						<option value="P" @if(Input::get('filtro')=='P')selected="true"@endif>Precio</option>
 					</select>
 				</form>
 			</span>
@@ -102,12 +103,12 @@
 			<div class="col-sm-6 col-md-4">
 			    <div class="thumbnail">
 			    	@if($p->imagen)
-			      	<a href="{{ URL::route('producto_venta', $p->id) }}"><img src="{{ URL::asset('img/productos/'.$p->imagen) }}" alt="{{ $p->nombre }}" /></a>
+			      	<a href="{{ URL::route('producto_venta', $p->id) }}?categoria={{Input::get('categoria')}}&colegio={{Input::get('colegio')}}&curso={{Input::get('curso')}}"><img src="{{ URL::asset('img/productos/'.$p->imagen) }}" alt="{{ $p->nombre }}" /></a>
 			      	@else
-			      	<a href="{{ URL::route('producto_venta', $p->id) }}"><img src="{{ URL::asset('img/productos/default/venta_default.png') }}" alt="{{ $p->nombre }}" /></a>
+			      	<a href="{{ URL::route('producto_venta', $p->id) }}?categoria={{Input::get('categoria')}}&colegio={{Input::get('colegio')}}&curso={{Input::get('curso')}}"><img src="{{ URL::asset('img/productos/default/venta_default.png') }}" alt="{{ $p->nombre }}" /></a>
 			      	@endif
 			      	<div class="caption">
-			        	<a href="{{ URL::route('producto_venta', $p->id) }}"><h5 title="{{ $p->nombre }}">{{ str_limit($p->nombre, $limit=20, $end='...') }}<strong class="pull-right text-success">${{ number_format($p->precio, 2) }}</strong></h5></a>
+			        	<a href="{{ URL::route('producto_venta', $p->id) }}?categoria={{Input::get('categoria')}}&colegio={{Input::get('colegio')}}&curso={{Input::get('curso')}}"><h5 title="{{ $p->nombre }}">{{ str_limit($p->nombre, $limit=20, $end='...') }}<strong class="pull-right text-success">${{ number_format($p->precio, 2) }}</strong></h5></a>
 			      	</div>
 			    </div>
 		  	</div>
@@ -115,7 +116,7 @@
 	</div>
 	<div class="row">
 		<div class="col-md-12 text-center">
-			{{ $productos->appends(array('curso' => Input::get('curso'), 'colegio' => Input::get('colegio')))->links() }}
+			{{ $productos->links() }}
 		</div>
 	</div>
 @endsection

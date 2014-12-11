@@ -72,8 +72,14 @@ class Usuario extends Eloquent implements UserInterface, RemindableInterface {
 		return $this->nombres.' '.$this->apellidos;
 	}
 	
+	//retorna la lista de productos en su lista
 	public function wishlists(){
 		return $this->hasMany('Wishlist', 'usuario_id');
+	}
+
+	//retorna la lista de direcciones asociadas
+	public function direcciones(){
+		return $this->hasMany('UsuarioDireccion', 'usuario_id');
 	}
 
 }

@@ -7,17 +7,17 @@
 @section('sidebar')
 	<ul class="list-group">
 		@if($categorias)
-		  	<a class="list-group-item @if($cat == '-1') active @endif" href="{{ URL::route('principal') }}">Todas las Categorias</a>
+		  	<a class="list-group-item @if($cat == '-1') active @endif" href="{{ URL::route('principal') }}?@if(Input::has('categoria'))&categoria={{Input::get('categoria')}}@endif @if(Input::has('colegio'))&colegio={{Input::get('colegio')}}@endif @if(Input::has('curso'))&curso={{Input::get('curso')}}@endif">Todas las Categorias</a>
 			@foreach($categorias as $c)
 		  		@if($c->tieneHijos())
 		  		<a class="list-group-item tiene-hijos @if($cat == $c->id) active @endif" data-toggle="collapse" href="#{{ $c->id }}" data-id="{{ $c->id }}">{{ $c->nombre }}<span class="icon-padre fa fa-angle-down pull-right"></span></a>
 	  			<div id="{{ $c->id }}" class="hijo-tiene-hijos collapse">
 	  				@foreach($c->getHjios as $h)
-			  			<a class="list-group-item list-group-item-success list-group-item-submenu @if($cat == $h->id) active item-desplegado @endif" data-padre="{{ $c->id }}" href="{{ URL::route('principal') }}?categoria={{ $h->id }}">{{ $h->nombre }}</a>
+			  			<a class="list-group-item list-group-item-success list-group-item-submenu @if($cat == $h->id) active item-desplegado @endif" data-padre="{{ $c->id }}" href="{{ URL::route('principal') }}?categoria={{ $h->id }}@if(Input::has('colegio'))&colegio={{Input::get('colegio')}}@endif @if(Input::has('curso'))&curso={{Input::get('curso')}}@endif">{{ $h->nombre }}</a>
 				  	@endforeach
 	  			</div>
 		  		@else
-		  		<a class="list-group-item @if($cat == $c->id) active @endif" href="{{ URL::route('principal') }}?categoria={{ $c->id }}">{{ $c->nombre }}</a>
+		  		<a class="list-group-item @if($cat == $c->id) active @endif" href="{{ URL::route('principal') }}?categoria={{ $c->id }}@if(Input::has('colegio'))&colegio={{Input::get('colegio')}}@endif @if(Input::has('curso'))&curso={{Input::get('curso')}}@endif">{{ $c->nombre }}</a>
 		  		@endif
 		  	@endforeach
 	  	@endif
@@ -48,6 +48,8 @@
     		<h4>{{ $producto->nombre }}</h4>
     		<p><hr /></p>
     		<p>{{ $producto->descripcion }}</p>
+    		<p><hr /></p>
+    		<p><h4><small><span class="fa fa-tag"></span>&nbsp;{{ $producto->categoria->nombre }}</small></h4></p>
     		<p><hr /></p>
     		<p><h4><small>Stock: </small>{{ $producto->stock }}</h4></p>
     		<p><hr /></p>

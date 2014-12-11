@@ -9,31 +9,68 @@ class ShopController extends BaseController {
 		$categorias = Categoria::whereNull('padre_id')->orderBy('nombre', 'asc')->get();
 		
 		if(Request::isMethod('get')){
-			if(Request::has('categoria')){
-				$productos = Producto::where('categoria_id', Input::get('categoria'))->paginate($paginacion);
-				if($productos->count() > 0){
-					$id = Input::get('categoria');
-				}else{
-					$productos = Producto::paginate($paginacion);
-					$id = '-1';
-				}
-			}else{
-				if(Input::has('curso')){
+			
+			if(Input::has('curso') && Input::has('colegio') && Input::has('categoria')){
 					//solo las categorias del curso
-					//$categorias = Categoria::whereNull('padre_id')->where('')->orderBy('nombre', 'asc')->get();
+					$categoria = Input::get('categoria');
 					$colegio = Colegio::find(Input::get('colegio'));
 					$curso = Curso::find(Input::get('curso'));
-					$productos = $curso->productos()->paginate($paginacion);
+					$productos = $curso->productos();
+					$filtro = Input::get('filtro');
+					
+					if($filtro == 'N'){
+						$productos = $productos->orderBy('nombre', 'asc');
+					}
+					if($filtro == 'P'){
+						$productos = $productos->orderBy('precio', 'asc');
+					}
 					//$categorias = $curso->categorias();
 					Session::put('colegio', $colegio->nombre);
 					Session::put('curso', $curso->nombre);
 					$id = '-1';
+					
+					//filtro de productos
+					if(Input::has('categoria') && Input::get('categoria')!='-1'){
+						$productos = $productos->where('categoria_id', Input::get('categoria'));
+					}					
+					$productos = $productos->paginate($paginacion);
+					
+					//filtro de categorias
+					if(!Session::has('categoria_colegio_'.$curso->id)){
+						$categorias = array();
+						foreach($productos as $p){
+							$categorias = array_add($categorias, $p->categoria_id, Categoria::find($p->categoria_id));
+						}
+						Session::put('categoria_colegio_'.$curso->id, $categorias);
+					}else{
+						$categorias = Session::get('categoria_colegio_'.$curso->id);
+					}
 					return View::make('shop.consultar')
 						->with('title', 'Principal')
-						->with('cat', $id)
+						->with('cat', $categoria)
 						->with('categorias', $categorias)
 						->with('productos', $productos);
-				}else{
+				}
+			
+			else{
+				if(Input::has('categoria') && Input::get('categoria')!='-1'){
+					$filtro = Input::get('filtro');
+					$productos = Producto::where('categoria_id', Input::get('categoria'));
+					if($filtro == 'N'){
+						$productos = $productos->orderBy('nombre', 'asc');
+					}
+					if($filtro == 'P'){
+						$productos = $productos->orderBy('precio', 'asc');
+					}
+					$productos = $productos->paginate($paginacion);
+					if($productos->count() > 0){
+						$id = Input::get('categoria');
+					}else{
+						$productos = Producto::paginate($paginacion);
+						$id = '-1';
+					}
+				}
+				else{
 					$productos = Producto::paginate($paginacion);
 					$id = '-1';
 					Session::set('colegio', null);
@@ -49,15 +86,85 @@ class ShopController extends BaseController {
 			->with('categorias', $categorias)
 			->with('productos', $productos);
 	}
+
+	//cuando el cliente explora la lista de un colegio
+	public function consultarProductosColegio(){
+		$id = '';
+		$paginacion = 39;
+				
+		if(Request::isMethod('get')){			
+			$colegio = Colegio::find(Input::get('colegio'));
+			$curso = Curso::find(Input::get('curso'));
+			//$categorias = $curso->categorias();
+			Session::put('colegio', $colegio->nombre);
+			Session::put('curso', $curso->nombre);
+			$filtro = Input::get('filtro');
+			$categoria = Input::get('categoria');
+			
+			$productos = $curso->productos();
+			
+			if($filtro == 'N'){
+				$productos = $productos->orderBy('nombre', 'asc');
+			}
+			if($filtro == 'P'){
+				$productos = $productos->orderBy('precio', 'asc');
+			}
+						
+			//filtro de productos
+			if(Input::has('categoria') && Input::get('categoria')!='-1'){
+				$productos = $productos->where('categoria_id', Input::get('categoria'));
+			}					
+			$productos = $productos->paginate($paginacion);
+			
+			//filtro de categorias
+			if(!Session::has('categoria_colegio_'.$curso->id)){
+				$categorias = array();
+				foreach($productos as $p){
+					$categorias = array_add($categorias, $p->categoria_id, Categoria::find($p->categoria_id));
+				}
+				Session::put('categoria_colegio_'.$curso->id, $categorias);
+			}else{
+				$categorias = Session::get('categoria_colegio_'.$curso->id);
+			}
+			
+			return View::make('shop.consultar')
+				->with('title', 'Principal')
+				->with('cat', $categoria)
+				->with('categorias', $categorias)
+				->with('productos', $productos);
+
+		}
+		$productos = $productos->appends(Input::except('page'));
+		return View::make('shop.index')
+			->with('title', 'Principal')
+			->with('cat', $categoria)
+			->with('categorias', $categorias)
+			->with('productos', $productos);
+	}
 	
 	//para cuando se muestra un producto
 	public function showProducto($id){
 		$producto = Producto::findOrFail($id);
-		$categorias = Categoria::whereNull('padre_id')->orderBy('nombre', 'asc')->get();
+		if(Input::has('colegio') && Input::has('curso')){
+			$curso = Input::get('curso');
+			//filtro de categorias
+			if(!Session::has('categoria_colegio_'.$curso)){
+				$categorias = array();
+				foreach($productos as $p){
+					$categorias = array_add($categorias, $p->categoria_id, Categoria::find($p->categoria_id));
+				}
+				Session::put('categoria_colegio_'.$curso);
+			}else{
+				$categorias = Session::get('categoria_colegio_'.$curso);
+			}
+		}else{
+			$categorias = Categoria::whereNull('padre_id')->orderBy('nombre', 'asc')->get();
+		}
+		
 		return View::make('shop.producto')
 			->with('producto', $producto)
 			->with('categorias', $categorias)
-			->with('cat', '-1')
+			->with('cat', Input::get('categoria'))
 			->with('title', 'Carrito de Compras');
 	}
 	
@@ -447,10 +554,120 @@ class ShopController extends BaseController {
 			->with('title', 'Ordenes de Compras');
 	}
 		
-	//para cuando se muestra el carrito
-	public function carritoComprar(){
+	//para cuando se pide la direccion
+	public function compraDireccion(){
+		$direccion_id = Input::get('direccion_id');
+		$usuario = Session::get('usuario');
+		$direcciones = $usuario->direcciones()->get();
 		$carrito = Cookie::get('carrito');
-		return View::make('ordenes.index')
-			->with('title', 'Ordenes de Compras');
+		return View::make('shop.carrito.direccion')
+			->with('direcciones', $direcciones)
+			->with('step', '2')
+			->with('direccion_id', $direccion_id)
+			->with('title', 'Direccion de Envío')
+			->withCookie($carrito);
+	}
+		
+	//para cuando muestra el resumen de la compra
+	public function compraResumen(){
+		$usuario = Session::get('usuario');
+		$direccion_id = Input::get('direccion_id');
+		try{
+			$direccion = UsuarioDireccion::findOrFail($direccion_id);
+			$compras = Cookie::get('carrito');
+			
+			$total = 0.00;
+			$iva = 0.00;
+			$gran_total = 0.00;
+			$lista = null;
+			
+			foreach($compras as $c){
+				$total = $total + (array_get($c, 'precio')*array_get($c, 'cantidad'));
+			}
+			$iva = ($total*0.12);
+			$gran_total = $iva + $total;
+		
+			
+			return View::make('shop.carrito.resumen')
+				->with('direccion', $direccion)
+				->with('step', '3')
+				->with('title', 'Direccion de Envío')
+				->with('compras', $compras)
+				->with('iva', $iva)
+				->with('subtotal', $total)
+				->with('total', $gran_total)
+				->withCookie($compras);
+		}catch(Exception $e){
+			Session::flash('error_mensaje', 'Debe seleccionar una direcci&oacute;n de envio v&aacute;lida.');
+			Log::error($e);
+			return Redirect::route('compra_direccion');
+		}
+	}
+
+	//para cuando se pide la direccion
+	public function compraPago(){
+		$carrito = Cookie::get('carrito');
+		try{
+			$direccion = UsuarioDireccion::findOrFail(Input::get('direccion_id'));
+			
+			$compras = Cookie::get('carrito');
+			
+			$total = 0.00;
+			$iva = 0.00;
+			$gran_total = 0.00;
+			$lista = null;
+			
+			foreach($compras as $c){
+				$total = $total + (array_get($c, 'precio')*array_get($c, 'cantidad'));
+			}
+			$iva = ($total*0.12);
+			$gran_total = $iva + $total;
+			
+			
+			return View::make('shop.carrito.pago')
+				->with('step', '4')
+				->with('direccion', $direccion)
+				->with('gran_total', $gran_total)
+				->with('title', 'Ordenes de Compras');
+		}catch(Exception $e){
+			Session::flash('error_mensaje', 'Debe seleccionar una direcci&oacute;n de envio v&aacute;lida.');
+			return Redirect::route('compra_direccion');
+		}
+	}
+
+	//para las direcciones del usuario
+	public function usuarioDireccion(){
+		$usuario = Session::get('usuario');
+		if(Request::isMethod('get')){
+			return Redirect::route('carrito');
+		}
+		if(Request::isMethod('post')){
+			$nombre = Input::get('nombre');
+			$direccion = Input::get('direccion');
+			$referencia = Input::get('referencia');
+			$telefono = Input::get('telefono');
+			
+			$validator = UsuarioDireccion::validar(Input::all());
+			if(!$validator->fails()){
+				$usuario_direccion = new UsuarioDireccion;
+				$usuario_direccion->usuario_id = $usuario->id;
+				$usuario_direccion->nombre = $nombre;
+				$usuario_direccion->direccion = $direccion;
+				$usuario_direccion->referencia = $referencia;
+				$usuario_direccion->telefono = $telefono;
+				$usuario_direccion->save();
+				
+				Session::flash('success_mensaje', 'Se ha ingresado la nueva direcci&oacute;n correctamente.');
+				$response = Redirect::route('compra_direccion');
+				return $response;
+			}else{
+				Session::flash('error_mensaje', 'Por favor corregir los campos con errores.');
+				$response = Redirect::route('compra_direccion')
+					->withErrors($validator)
+					->with('messages', $validator->messages())
+					->withInput();
+				return $response;
+			}
+		}
 	}
 }
