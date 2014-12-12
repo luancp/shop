@@ -28,6 +28,7 @@
 		<br />
 	</div>
 	<div class="col-md-12 col-sm-12">
+		<strong>Direcci&oacute;n de Env&iacute;o</strong>
 		<div class="well well-sm">
 			<p>
 				<strong>{{ $direccion->nombre }}</strong><br />
